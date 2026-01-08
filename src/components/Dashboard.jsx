@@ -7,14 +7,14 @@ export default function Dashboard() {
                 <div>
                     <label>Main</label>
                     <ul>
-                        <Link to='/'>Home</Link>
-                        <Link to='dashboard/logout'>Logout</Link>
+                        <Link to='home'>Home</Link>
+                        <Link to='logout'>Logout</Link>
                     </ul>
                 </div>
                 <div>
                     <label htmlFor="">Affiliation</label>
                     <ul>
-                        <Link to='dashboard/profile'>Member Profile</Link>
+                        <Link to='profile'>Member Profile</Link>
                     </ul>
                 </div>
             </nav>

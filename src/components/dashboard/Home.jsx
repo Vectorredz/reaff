@@ -1,7 +1,12 @@
+import { UserAuth } from '../context/AuthContext.jsx'
+
 export default function Home() {
+    const { session, signUpNewUser, signInUser, signOutUser  } = UserAuth()
     return (
-        <p>
-            home
-        </p>
+        <div>
+            <div>
+                <h1>Member Homepage for {session?.user?.email}</h1>
+            </div>
+        </div>
     )
 }
