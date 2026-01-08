@@ -2,19 +2,16 @@ import '../styles/index.css'
 import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react'
 import { Link, useNavigate  } from 'react-router'
-import { supabase } from '../supabaseClient.jsx'
 import { UserAuth } from './context/AuthContext';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState('')
-    const {session, signUpNewUser, signInUser, signOutUser } = UserAuth();
+    const {session, initialized, signInUser, signInUserWithGoogle } = UserAuth();
     const Navigate = useNavigate();
     
     const handleLogin = async (e) => {
         e.preventDefault()
-        setLoading(true)
         try {
             const result = await signInUser(email, password);
             if (result.success) { 
@@ -22,24 +19,45 @@ function Login() {
                 setTimeout(() => {
                     Navigate('/dashboard/home');
                 }, 1000);
-                
             }
             if (result.error) {
                 toast.dismiss();
-                toast.error(result.error.message)
-                
+                toast.error(result.error.message)   
             }
         }
         catch (err) {
             console.error('Login error:', err);
             toast.error('An unexpected error occurred during login.');
         }
-        finally {
-            setLoading(false);
+    }
+
+    const handleGoogleLogin = async (e) => {
+        e.preventDefault()
+        try {
+            await signInUserWithGoogle()
+        }
+        catch (err) {
+            console.error('login error', err)
         }
     }
 
- 
+    useEffect(() => {
+        if (session) {
+            setTimeout(() => {
+                Navigate('/dashboard/home');
+            }, 1000)
+        }
+    }, [session]);
+
+    useEffect(() => {
+        if (!initialized) {
+            toast.loading('loading...', { toastId: 'auth' });
+        } 
+        else {
+            toast.dismiss('auth');
+        }
+    }, [initialized]);
+    
     return (
         <>
         <div className='w-screen h-screen flex justify-center items-center'>
@@ -77,7 +95,9 @@ function Login() {
                     Not yet affiliated with ACM? <Link to='/signup'>Signup</Link>
                 </p>
                 <hr className='w-full my-4'/>     
-                <button className='border border-black'>continue with google </button>   
+                <button 
+                    onClick={handleGoogleLogin}
+                    className='border border-black'>continue with google </button>   
 
             </form>
         </div>

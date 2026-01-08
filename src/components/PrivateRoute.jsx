@@ -1,19 +1,27 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { UserAuth } from './context/AuthContext'
-import Login from './Login';
 import { Navigate } from 'react-router'
+import { toast } from 'react-toastify'
 
-const PrivateRoute = ({children}) => {
-    const { session } = UserAuth();
+const PrivateRoute = ({ children }) => {
+  const { session, initialized } = UserAuth();
 
-    if (session === undefined) {
-        return <></>
+  // show loading ONLY during the auth gap
+  useEffect(() => {
+    if (!initialized) {
+      toast.loading('loading...', { toastId: 'auth' });
+    } else {
+      toast.dismiss('auth');
     }
-    return (
-        <>
-            {session ? children : <Navigate to='/login'></Navigate>}
-        </>
-    )
-}
+  }, [initialized]);
 
-export default PrivateRoute
+  // block redirect while auth is unresolved
+  if (!initialized) {
+    return <p>loading</p>;
+  }
+
+  // auth resolved → now it’s safe to redirect
+  return session ? children : <Navigate to="/login" replace />;
+};
+
+export default PrivateRoute;
