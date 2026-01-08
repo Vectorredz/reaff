@@ -1,31 +1,41 @@
 import '../styles/index.css'
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react'
 import { Link, useNavigate  } from 'react-router'
-import { auth } from './firebase.js'
+import { supabase } from '../supabaseClient.jsx'
+import { UserAuth } from './context/AuthContext';
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate();
-
-    async function handleLogin(e) {
+    const [loading, setLoading] = useState('')
+    const {session, signUpNewUser, signInUser, signOutUser } = UserAuth();
+    const Navigate = useNavigate();
+    
+    const handleLogin = async (e) => {
         e.preventDefault()
-        try { 
-            await signInWithEmailAndPassword(auth, email, password);
-            console.log('signed-in succesfully');
-            navigate('/dashboard');
-            toast.success('Logged in successfully!', {
-                position: "top-center",
-            });
+        setLoading(true)
+        try {
+            const result = await signInUser(email, password);
+            if (result.success) { 
+                toast.success('Login successful!');
+                setTimeout(() => {
+                    Navigate('/dashboard/home');
+                }, 1000);
+                
+            }
+            if (result.error) {
+                toast.dismiss();
+                toast.error(result.error.message)
+                
+            }
         }
-        catch (error) {
-            console.log(error.message)
-            toast.error(error.message, {
-                position: "top-center"
-            })
-
+        catch (err) {
+            console.error('Login error:', err);
+            toast.error('An unexpected error occurred during login.');
+        }
+        finally {
+            setLoading(false);
         }
     }
 
@@ -36,20 +46,26 @@ function Login() {
             <form onSubmit={(e) => handleLogin(e)} className='card justify-center items-center'>
                 <h2>Hello acmem!</h2>
                 <div className='flex flex-col'>
-                    <label>Student Number</label>
                     <input
                         type="text"
+                        placeholder='email'
                         value={email}
                         className='border-black border'
-                        onChange={((e) => setEmail(e.target.value))}/>
+                        onChange={((e) => {
+                            toast.dismiss();
+                            setEmail(e.target.value)
+                        })}/>
                 </div>
                 <div className='flex flex-col'>
-                    <label>Password</label>
                     <input
                         type="password"
+                        placeholder='password'
                         value={password}
                         className='border-black border'
-                        onChange={(e) => setPassword(e.target.value)}/>
+                        onChange={(e) => {
+                            toast.dismiss();
+                            setPassword(e.target.value)
+                        }}/>
                 </div>
 
                 <button 
