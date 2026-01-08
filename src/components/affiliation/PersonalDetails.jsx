@@ -33,7 +33,6 @@ export default function PersonalDetails() {
             {/* Personal Info */}
             <div>
                 <h1 className="text-lg font-semibold mb-4">Personal Info</h1>
-                <p>{formData.personalInfo.firstName}</p>
                 <div className="flex gap-4">
                     <input name="firstName" className="text-field" placeholder="First Name" value={formData.personalInfo?.firstName} onChange={handleChange}  />
                     <input name="lastName" className="text-field" placeholder="Last Name" value={formData.personalInfo?.lastName} onChange={handleChange}  />
@@ -59,13 +58,13 @@ export default function PersonalDetails() {
                 </div>
 
                 <div className="flex gap-4 mt-4">
+                    <input type="text" className='text-field' placeholder='Gender' name="gender" onChange={handleChange} id="gender" />
                     <input
                         name="birthday"
                         type="date"
                         className="text-field"
                         value={formData.personalInfo?.birthday}
-                        onChange={handleChange}
-                        
+                        onChange={handleChange}  
                     />
                 </div>
             </div>
@@ -127,7 +126,7 @@ export default function PersonalDetails() {
                 onClick={(e)=>{
                     e.preventDefault()
                     console.log(formData)
-                    complete && Navigate('committee-concerns')
+                    !complete && Navigate('committee-concerns')
                         }
                     }>
                     Next

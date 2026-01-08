@@ -25,6 +25,7 @@ function Signup() {
           nickname: '',
           preferredName: false,
           birthday: '',
+          gender: '',
           year: '',
           degreeProgram: '',
           college: '',

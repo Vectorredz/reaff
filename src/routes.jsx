@@ -31,8 +31,8 @@ const routes = [
     children: [
       { index: true, element: <PersonalDetails/> },
       { path: "personal-details/", element: <PersonalDetails /> },
-      { path: "committee-concerns/", element: <CommitteeConcerns /> },
-      { path: "commitments/", element: <Commitments /> },
+      { path: "committee-concerns/", element: <Commitments /> },
+      { path: "commitments/", element: <CommitteeConcerns /> },
       { path: "payment/", element: <Payment /> }
     ]
   },
