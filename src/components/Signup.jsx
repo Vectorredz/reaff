@@ -40,6 +40,18 @@ function Signup() {
           mbti: '',
           discord: '',
           facebook: ''
+        },
+        commitments: {
+          up: [],
+          nonup: [],
+          priorities: '',
+          concerns: {
+            acad: '',
+            health: '',
+            personal:'',
+            other:''
+          }
+
         }
     })
   const Navigate = useNavigate();

@@ -1,7 +1,8 @@
+import App from '../drag-and-drop/App.jsx'
+
 export default function CommitteeConcerns() {
     return (    
-        <div>
-        Committee Concerns
-        </div>
+        <App></App>
     )
 }
+
