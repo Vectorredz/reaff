@@ -1,16 +1,27 @@
 @import "./components.css";
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
+
+@font-face {
+  font-family: Figtree, 'serif';
+  font-style: normal;
+  font-weight: 200 700;
+  font-display: swap;
+  src: url("fonts/Figtree-Regular") format("ttf");
+}
+@theme {
+    --font-figtree: "Figtree", "serif";
+    --color-accent-1: #b4b4b4;
+    --color-light-1: #ffffff;
+    --color-primary-2: #faf9f9;
+    --color-black-1: #323231;
+    --color-gray: #716d6c;
+    --color-blue: #38b6ff;
+    --color-lightblue: #72cdf4;
+    --color-darkblue:#197fba;
+}   
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  background-color: #ffffff;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Figtree;
 }
