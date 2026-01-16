@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react'
 import { toast } from "react-toastify"
-import { supabase } from '../../supabaseClient.jsx'
+import { supabase } from '../supabaseClient.jsx'
 
 const AuthContext = createContext()
 

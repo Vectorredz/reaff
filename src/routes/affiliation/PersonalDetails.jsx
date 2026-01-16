@@ -4,8 +4,9 @@ import { useOutletContext, Link, useNavigate } from "react-router";
 
 export default function PersonalDetails() {
   const { formData, setFormData } = useOutletContext();
-  const [complete, setComplete] = useState(false);
+  const [ complete, setComplete ] = useState(false);
   const Navigate = useNavigate();
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -26,7 +27,7 @@ export default function PersonalDetails() {
   }, [formData.personalInfo]);
 
   return (
-    <div className="border min-w-[48rem] p-6 space-y-8">
+    <div className="form">
       {/* Personal Info */}
       <div>
         <h1 className="text-lg font-semibold mb-4">Personal Info</h1>
@@ -39,16 +40,6 @@ export default function PersonalDetails() {
             onChange={handleChange}
           />
           <input
-            name="lastName"
-            className="text-field"
-            placeholder="Last Name"
-            value={formData.personalInfo?.lastName}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="flex gap-4 mt-4">
-          <input
             name="middleName"
             className="text-field"
             placeholder="Middle Name"
@@ -56,32 +47,32 @@ export default function PersonalDetails() {
             onChange={handleChange}
           />
           <input
-            name="suffix"
+            name="lastName"
             className="text-field"
+            placeholder="Last Name"
+            value={formData.personalInfo?.lastName}
+            onChange={handleChange}
+          />
+          <input
+            name="suffix"
+            className="suffix-field"
             placeholder="Suffix"
             value={formData.personalInfo?.suffix}
             onChange={handleChange}
           />
         </div>
 
+        
         <div className="flex gap-4 mt-4 items-center">
           <input
-            name="nickname"
+            name="currentAddress"
             className="text-field"
-            placeholder="Nickname"
-            value={formData.personalInfo?.nickname}
+            placeholder="Current Address"
+            value={formData.personalInfo?.currentAddress}
             onChange={handleChange}
           />
 
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              name="preferredName"
-              checked={formData.personalInfo?.preferredName}
-              onChange={handleChange}
-            />
-            Preferred name
-          </label>
+          
         </div>
 
         <div className="flex gap-4 mt-4">

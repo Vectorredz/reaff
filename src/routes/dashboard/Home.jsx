@@ -1,4 +1,4 @@
-import { UserAuth } from '../context/AuthContext.jsx'
+import { UserAuth } from '../../contexts/AuthContext.jsx'
 
 export default function Home() {
     const { session, signUpNewUser, signInUser, signOutUser  } = UserAuth()
