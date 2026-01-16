@@ -1,50 +1,30 @@
 import { useOutletContext, useNavigate } from "react-router";
 import { useState, useRef, useEffect } from "react";
 import "../../styles/components.css";
+import Add from "../../components/Add.jsx";
 
 export default function Commitments() {
   const { formData, setFormData } = useOutletContext();
-  const Navigate = useNavigate();
-
   const [complete, setComplete] = useState(false);
   const [organization, setOrganization] = useState({
     up: [],
     nonup: [],
   });
-
   const upRef = useRef(null);
   const nonUpRef = useRef(null);
+  const Navigate = useNavigate();
 
-  /* ------------------ ADD ORGANIZATION ------------------ */
-  const handleAddOrg = (e, elem, ref) => {
-    e.preventDefault();
-
-    const value = ref.current.value.trim();
-    if (!value) return;
-
-    // local state
+  const handleAddOrg = (e, org, ref) => {
+    e.preventDefault()
     setOrganization((prev) => ({
       ...prev,
-      [elem]: [...prev[elem], value],
-    }));
+      [org]: [...prev[org], ref.current.value]
+    }))
+  }
 
-    // global form data
-    setFormData((prev) => ({
-      ...prev,
-      commitments: {
-        ...prev.commitments,
-        [elem]: [...(prev.commitments?.[elem] || []), value],
-      },
-    }));
-
-    ref.current.value = "";
-  };
-
-  /* ------------------ TEXT / TEXTAREA CHANGE ------------------ */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // priorities is NOT a concern
     if (name === "priorities") {
       setFormData((prev) => ({
         ...prev,
@@ -56,7 +36,6 @@ export default function Commitments() {
       return;
     }
 
-    // everything else goes under concerns
     setFormData((prev) => ({
       ...prev,
       commitments: {
@@ -69,7 +48,19 @@ export default function Commitments() {
     }));
   };
 
-  /* ------------------ COMPLETION CHECK ------------------ */
+  useEffect(() => {
+    upRef.current.value = '';
+    nonUpRef.current.value = '';
+    setFormData((prev) => ({
+      ...prev, 
+      commitments: {
+        ...prev.commitments,
+        ...organization
+      }
+    }))
+    console.log(formData.commitments)
+  }, [organization]) 
+
   useEffect(() => {
     if (Object.values(formData?.commitments).every((v) => v != "") && (organization.up.length > 0 && organization.nonup.length > 0) &&
     Object.values(formData?.commitments?.concerns).every((v) => v != "")) {
@@ -80,7 +71,7 @@ export default function Commitments() {
   }, [formData.commitments]);
 
   return (
-    <div className="border min-w-[48rem] p-6 space-y-8">
+    <div className="form">
       {/* Membership type */}
       <div>
         <h2>Type of membership</h2>
@@ -102,9 +93,7 @@ export default function Commitments() {
         {organization.up.map((org, index) => (
           <div key={index}>{org}</div>
         ))}
-
-        <input type="text" className="text-field" ref={upRef} />
-        <button onClick={(e) => handleAddOrg(e, "up", upRef)}>add</button>
+        <Add handler={handleAddOrg} ref={upRef} list='up' />
       </div>
 
       {/* Non-UP organizations */}
@@ -115,8 +104,7 @@ export default function Commitments() {
           <div key={index}>{org}</div>
         ))}
 
-        <input type="text" className="text-field" ref={nonUpRef} />
-        <button onClick={(e) => handleAddOrg(e, "nonup", nonUpRef)}>add</button>
+        <Add handler={handleAddOrg} ref={nonUpRef} list='nonup' />
       </div>
 
       {/* Other priorities */}
@@ -182,7 +170,7 @@ export default function Commitments() {
         onClick={(e) => {
           e.preventDefault();
           console.log(complete, formData);
-          !complete && Navigate("/signup/committee-concerns");
+          !complete && Navigate("/signup/organization-related");
         }}
       >
         Next

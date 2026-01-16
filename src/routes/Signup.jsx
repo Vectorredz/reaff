@@ -1,10 +1,11 @@
 import "../styles/index.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { UserAuth } from "./context/AuthContext.jsx";
+import { UserAuth } from "../contexts/AuthContext.jsx";
 import { toast } from "react-toastify";
-import Modal from "../components/Modal.jsx";
 import { Outlet } from 'react-router'
+import Navbar from '../components/Navbar.jsx'
+import Modal from "../components/Modal.jsx";
 // mock single page for the register form
 
 function Signup() {
@@ -19,11 +20,10 @@ function Signup() {
   const [formData, setFormData] = useState({
         personalInfo: {
           firstName: '',
-          lastName: '',
           middleName: '',
+          lastName: '',
           suffix: '',
-          nickname: '',
-          preferredName: false,
+          currentAddress: '',
           birthday: '',
           gender: '',
           year: '',
@@ -42,6 +42,7 @@ function Signup() {
           facebook: ''
         },
         commitments: {
+          membership: '',
           up: [],
           nonup: [],
           priorities: '',
@@ -79,9 +80,6 @@ function Signup() {
   return (
     <>
       <div className="flex flex-col items-center w-screen h-screen">
-        <div>
-          <h1>ACM Affiliation Form</h1>
-        </div>
         <p>{open ? "You are logged in" : "Please sign up to continue"}</p>
         <Modal open={open} onClose={() => setOpen(false)}>
           {index === 0 && (
@@ -205,14 +203,7 @@ function Signup() {
             </div>
           )}
         </Modal>
-        <div>
-          <ul className="flex gap-5">
-            <li>Personal details</li>
-            <li>Commitments</li>
-            <li>Committee Concerns</li>
-            <li>Payment</li>
-          </ul>
-        </div>
+        <Navbar currentStep={1}/>
         <form onSubmit={handleSignUp}>
           <Outlet context={{formData, setFormData}}/>
           <button disabled={loading} type="submit">

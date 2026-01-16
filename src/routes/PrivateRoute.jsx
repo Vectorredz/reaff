@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { UserAuth } from './context/AuthContext'
+import { UserAuth } from '../contexts/AuthContext'
 import { Navigate } from 'react-router'
 import { toast } from 'react-toastify'
 
