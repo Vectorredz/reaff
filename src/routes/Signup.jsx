@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Outlet } from 'react-router'
 import Navbar from '../components/Navbar.jsx'
 import Modal from "../components/Modal.jsx";
+import formTemplate from "../data/2526B.json"
 // mock single page for the register form
 
 function Signup() {
@@ -17,44 +18,7 @@ function Signup() {
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [consent, setConsent] = useState(false);
-  const [formData, setFormData] = useState({
-        personalInfo: {
-          firstName: '',
-          middleName: '',
-          lastName: '',
-          suffix: '',
-          currentAddress: '',
-          birthday: '',
-          gender: '',
-          year: '',
-          degreeProgram: '',
-          college: '',
-          expectedGradYear: '',
-          primaryEmail: '',
-          upEmail: '',
-          phone: '',
-          telephone: '',
-          emergencyName: '',
-          emergencyRelation: '',
-          emergencyPhone: '',
-          mbti: '',
-          discord: '',
-          facebook: ''
-        },
-        commitments: {
-          membership: '',
-          up: [],
-          nonup: [],
-          priorities: '',
-          concerns: {
-            acad: '',
-            health: '',
-            personal:'',
-            other:''
-          }
-
-        }
-    })
+  const [formData, setFormData] = useState(formTemplate)
   const Navigate = useNavigate();
 
   // useEffect(() => {
@@ -68,7 +32,7 @@ function Signup() {
     setLoading(true);
     try {
       const result = await signUpNewUser(email, password);
-      if (result.success) Navigate("/dashboard/home");
+      if (result.success) Navigate("/");
     } catch (error) {
       setError("an error occured");
       toast(error);
@@ -205,13 +169,10 @@ function Signup() {
         </Modal>
         <Navbar currentStep={1}/>
         <form onSubmit={handleSignUp}>
-          <Outlet context={{formData, setFormData}}/>
-          <button disabled={loading} type="submit">
-            Signup
-          </button>
+          <Outlet context={{formData, setFormData, email, setEmail, password, setPassword}}/>
         </form>
       </div>
-    </>
+    </> 
   );
 }
 

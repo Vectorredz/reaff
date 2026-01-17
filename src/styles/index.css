@@ -24,4 +24,5 @@
 
 :root {
   font-family: Figtree;
+  background-color: var(--color-primary-2);
 }

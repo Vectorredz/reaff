@@ -2,19 +2,54 @@
 
 @layer components {
   /* Inputs */
+  .form-card {
+    @apply bg-white w-[60rem] p-8 rounded-2xl
+           border border-gray-200 space-y-8;
+  }
+
+  .form-section {
+    @apply space-y-4 pt-6 border-t border-gray-300;
+  }
+
+  .section-title {
+    @apply text-lg font-semibold text-gray-800;
+  }
+
+  .text-field {
+    @apply w-full text-sm rounded-md border border-gray-300 p-2
+           focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .suffix-field {
+    @apply w-24 text-sm rounded-md border border-gray-300 p-2
+           focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .btn-primary {
+    @apply rounded-md bg-blue-600 py-2 px-4 text-white
+           hover:bg-blue-500 transition;
+  }
 
   .form {
-    @apply border border-gray-400 min-w-[60rem] max-w-[60rem] p-6 space-y-8 rounded-xl shadow-lg;
+    @apply border border-gray-200 bg-white min-w-[60rem] max-w-[60rem] p-6 space-y-8 rounded-2xl ;
+  }
+
+  .form-frame {
+    @apply min-h-screen flex justify-center bg-gray-50 py-12 mt-[10rem]
   }
   
   .text-field {
     @apply w-full text-sm rounded-md border border-gray-300 p-2
-           focus:outline-none focus:ring-2 focus:ring-(--color-blue);
+           focus:outline-none focus:ring-2 focus:ring-(--color-blue)
+           placeholder:italic
+           
+           ;
   }
 
   .suffix-field {
     @apply w-15 rounded-md border border-gray-300 p-2
-           focus:outline-none focus:ring-2 focus:ring-(--color-blue);
+           focus:outline-none focus:ring-2 focus:ring-(--color-blue)
+            placeholder:italic;
   }
 
   .img-logo {
@@ -23,7 +58,7 @@
 
   /* Main auth card */
   .auth-card {
-    @apply flex w-[900px] h-[520px] bg-white border border-gray-300 rounded-2xl
+    @apply flex w-[900px] h-[520px] bg-white border border-gray-200 rounded-2xl
            shadow-xl overflow-hidden;
   }
 

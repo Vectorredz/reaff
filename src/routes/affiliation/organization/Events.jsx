@@ -65,6 +65,9 @@ export default function Events() {
           questions about the responsibilities involved, feel free to ask
           any council member.
         </p>
+        <input type="radio" name="eap" id="yes" /><label htmlFor="yes">yes</label>
+        <input type="radio" name="eap" id="no" /><label htmlFor="no">no</label>
+        <input type="radio" name="eap" id="maybe" /><label htmlFor="maybe">maybe</label>
       </div>
 
       {/* Algolympics */}
@@ -78,6 +81,9 @@ export default function Events() {
           simply an interest check. If you have questions about the
           responsibilities involved, feel free to ask any council member.
         </p>
+        <input type="radio" name="algo" id="yes" /><label htmlFor="yes">yes</label>
+        <input type="radio" name="algo" id="no" /><label htmlFor="no">no</label>
+        <input type="radio" name="algo" id="maybe" /><label htmlFor="maybe">maybe</label>
       </div>
 
       {/* Web */}
@@ -93,27 +99,56 @@ export default function Events() {
           from heavier event workloads, as their primary responsibility
           will be website-related.
         </p>
+        <input type="radio" name="webdev" id="exp" />Interested with experience<label htmlFor="yes">yes</label>
+        <input type="radio" name="webdev" id="noExp" />Interested with no experience<label htmlFor="no">no</label>
+        <input type="radio" name="webdev" id="no" />Not interested<label htmlFor="maybe">maybe</label>
       </div>
 
-      {/* SIGs */}
+      {/* AWS */}
       <div className="space-y-2">
         <h2 className="text-lg font-semibold">
-          Would you be interested in joining one of the Special Interest
-          Groups (SIGs)?
-        </h2>
-        <p className="text-sm text-gray-500">
-          Tentative topics: Data Analytics, Data Science, Artificial
-          Intelligence
+Do you have experience with Cloud Technologies? (AWS)         </h2>
+        <p>
+         We are looking for people who are up for the challenge of cloud hosting our competition platforms for Algolympics.
+        </p>
+        <input type="radio" name="clouddev" id="exp" />Interested with experience<label htmlFor="yes">yes</label>
+        <input type="radio" name="clouddev" id="noExp" />Interested with no experience<label htmlFor="no">no</label>
+        <input type="radio" name="clouddev" id="no" />Not interested<label htmlFor="maybe">maybe</label>
+      </div>
+
+      {/* Ad hoc */}
+      <div className="space-y-2">
+        <h2 className="text-lg font-semibold">
+Operations Ad Hoc Committee</h2>
+        <p>
+         The operations ad hoc committee is a separate committee designed to give portfolio ready project to work on. Develop tools and applications that help streamline or automate the operations within the organization. 
         </p>
         <p>
-          Special Interest Groups are designed to facilitate structured
-          learning opportunities for our members. Joining a group is a
-          great way to work on a personal project for your coding
-          portfolio. While participation requires commitment, we will
-          ensure that the experience is worthwhile. If you have any
-          questions, feel free to message a member of the council.
+          Note that being a part of the operations ad hoc committee won't exempt you from your regular committee responsibilities. 
         </p>
+        <input type="radio" name="operations" id="yes" /><label htmlFor="yes">Interested</label>
+        <input type="radio" name="operations" id="no" /><label htmlFor="no">Not Interested</label>
       </div>
+
+      {/* teACh Me */}
+      <div>
+                <h2 className="text-lg font-semibold">
+teACh Me</h2>
+        <p>What topics would you be interested in joining for teACh Me</p>
+        <p>*
+teACh Me is a 1–2 day workshop where you get to dive into a topic you’re curious about.  You’ll be working hands-on and walking away with something cool you can show off or keep building on. Since our instructors put a lot of effort into running these workshops, we do ask for commitment for the full duration, but trust us, it’ll be worth it. </p>
+<input type="checkbox" name="teachme" id="pokemon"/><label htmlFor="">Pokemon Showdown</label>
+<input type="checkbox" name="teachme" id="git"/><label htmlFor="">Git/Github</label><input type="checkbox" name="teachme" id="other"/><label htmlFor="other">other:</label>
+<input type="text" className='text-field' name="" id="" />
+
+      <p>What topics would you be enthusiastic to personally teach for a teAChMe session?</p>
+      <input type="text" className="text-field" id="" />
+
+      <p>What topics do you want to see for future teAChMe sessions?
+</p>
+      <input type="text" classNname="text-field" id="" />
+      </div>
+     
       <button
         className='btn-primary'
         onClick={(e) => {

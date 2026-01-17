@@ -12,8 +12,8 @@ import Payment from "./routes/affiliation/Payment.jsx";
 import Events from "./routes/affiliation/organization/Events.jsx"
 import Organization from "./routes/affiliation/organization/Organization.jsx"
 import Preferences from "./routes/affiliation/organization/Preferences.jsx"
-import Concerns from "./routes/affiliation/organization/Concerns.jsx"
-
+import Concerns from "./routes/affiliation/organization/concerns/Concerns.jsx"
+import CreateAccount from "./routes/affiliation/CreateAccount.jsx";
 
 
 
@@ -44,7 +44,8 @@ const routes = [
           { path:"events", element: <Events/>},
           { path:"concerns", element: <Concerns/>}
         ]},
-      { path: "payment/", element: <Payment /> }
+      { path: "payment/", element: <Payment /> },
+      { path: "create-account/", element: <CreateAccount/>}
     ]
   },
   { path: "member-profile/", element: <Profile /> }

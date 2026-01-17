@@ -1,10 +1,7 @@
-export default function Concerns() {
+export default function Membership() {
     return (
-        <div className='form'>
-            <div>
-                <h2>Committee-specific concerns</h2>
-                <p>Membership Committee Concerns</p>
-            </div>
+        <div>
+            <h2>Membership Committee Concerns</h2>
             <div >
                 <p>A buddy will be an applican't point person and hopefully first friend to help them with their app process</p>
                 <input name='buddy' type="radio" id='Yes'/><label htmlFor="yes">Yes</label>

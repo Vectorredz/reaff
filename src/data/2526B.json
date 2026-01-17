@@ -1,0 +1,108 @@
+{
+  "personalInfo": {
+    "firstName": "",
+    "middleName": "",
+    "lastName": "",
+    "suffix": "",
+    "currentAddress": "",
+    "birthday": "",
+    "gender": "",
+    "studentNumber": "",
+    "year": "",
+    "degreeProgram": "",
+    "college": "",
+    "expectedGradYear": "",
+    "highschool": "",
+    "primaryEmail": "",
+    "upEmail": "",
+    "phone": "",
+    "telephone": "",
+    "emergencyName": "",
+    "emergencyRelation": "",
+    "emergencyPhone": "",
+    "mbti": "",
+    "discord": "",
+    "facebook": ""
+  },
+  "commitments": {
+    "membership": "",
+    "up": [],
+    "nonup": [],
+    "priorities": "",
+    "concerns": {
+      "acad": "",
+      "health": "",
+      "personal": "",
+      "other": ""
+    }
+  },
+  "organization": {
+    "preferences": {
+      "committeeRank": [],
+      "top1": {
+        "reason": "",
+        "expectation": ""
+      },
+      "top2": {
+        "reason": "",
+        "expectation": ""
+      },
+      "top3": {
+        "reason": "",
+        "expectation": ""
+      }
+    },
+    "events": {
+      "eap": "",
+      "algolympics": "",
+      "webdev": "",
+      "clouddev": "",
+      "operations": "",
+      "teachme": []
+    },
+    "committee": {
+        "membership": {
+            "buddy": "",
+            "activities": [],
+            "sportsfest": "",
+            "faceToFace": {
+                "answer": "",
+                "comment": ""
+            },
+            "computer": "",
+            "skill": "",
+            "tambay": "",
+            "games": []
+        },
+        "records": {
+            "automaton": "",
+            "form-5": "",
+            "id": ""
+        },
+        "logistics": {
+            "download": "",
+            "upload": "",
+            "gadgets": [],
+            "computer": ""
+        },
+        "education": {
+            "academicLoad": "",
+            "pendingClasses": [],
+            "expectedClasses": []
+        },
+        "publicity": {
+            "picture": "",
+            "birthday": ""
+        },
+        "marketing": {
+            "infoDisclose": "",
+            "resume": "",
+            "faceToFace": ""
+        },
+        "publicRelations": {
+            "partnership": [],
+            "posts": ""
+        }
+    }
+  }
+}
