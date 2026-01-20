@@ -1,11 +1,11 @@
-import Logistics from "./Logistics"
-import Membership from "./Membership"
-import Records from "./Records"
-import Education from "./Educations"
-import PublicRelations from "./PublicRelations"
-import Publicity from "./Publicity" 
-import Marketing from "./Marketing"
-import Submit from "../../../../components/Submit"
+import Logistics from "./concerns-pages/Logistics"
+import Membership from "./concerns-pages/Membership"
+import Records from "./concerns-pages/Records"
+import Education from "./concerns-pages/Educations"
+import PublicRelations from "./concerns-pages/PublicRelations"
+import Publicity from "./concerns-pages/Publicity" 
+import Marketing from "./concerns-pages/Marketing"
+import Submit from "../../../components/Submit"
 import { useNavigate } from 'react-router'
 
 

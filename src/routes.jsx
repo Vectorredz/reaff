@@ -9,10 +9,10 @@ import PrivateRoute from "./routes/PrivateRoute.jsx";
 import PersonalDetails from "./routes/affiliation/PersonalDetails.jsx";
 import Commitments from "./routes/affiliation/Commitments.jsx";
 import Payment from "./routes/affiliation/Payment.jsx";
-import Events from "./routes/affiliation/organization/Events.jsx"
-import Organization from "./routes/affiliation/organization/Organization.jsx"
-import Preferences from "./routes/affiliation/organization/Preferences.jsx"
-import Concerns from "./routes/affiliation/organization/concerns/Concerns.jsx"
+import Events from "./routes/affiliation/organization-pages/Events.jsx"
+import Organization from "./routes/affiliation/Organization.jsx"
+import Preferences from "./routes/affiliation/organization-pages/Preferences.jsx"
+import Concerns from "./routes/affiliation/organization-pages/Concerns.jsx"
 import CreateAccount from "./routes/affiliation/CreateAccount.jsx";
 
 

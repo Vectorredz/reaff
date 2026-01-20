@@ -6,7 +6,7 @@ const steps = [
   "Create Account",
 ];
 
-export default function Navbar({ currentStep }) {
+export default function ProgressBar({ currentStep }) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200">
       <div className="mx-auto min-w-[65rem] max-w-[65rem] px-6 py-4 space-y-5">

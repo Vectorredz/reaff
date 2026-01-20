@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from "./contexts/AuthContext.jsx";
+import { DatabaseContextProvider } from "./contexts/DatabaseContext.jsx";
 import './styles/index.css'
 import routes from "./routes.jsx";
 
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")).render(
       stacked={false}
     />
     <AuthContextProvider>
-      <RouterProvider router={router} />
+      <DatabaseContextProvider>
+        <RouterProvider router={router} />
+      </DatabaseContextProvider>
     </AuthContextProvider>
   </StrictMode>
 );

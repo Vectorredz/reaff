@@ -1,0 +1,26 @@
+members: {
+    id: int PK
+    name: text
+}
+
+submissions: {
+    id: int PK
+    user_id: FK -> members.id
+    form.id: FK -> forms.id
+    answers: json
+}
+
+forms: {
+    id: int PK
+    semester: text
+    template: jsonb   
+}
+
+1 Louise 
+2 Jben
+
+1 1 23 answers 
+2 2 24 answers
+
+23 A template1 
+24 A template2 

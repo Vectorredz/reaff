@@ -22,6 +22,7 @@ export const AuthContextProvider = ({children}) => {
            return { success: false, error }
         }
     };
+    
     const signInUser = async (email, password) => {
         try {
             const { data, error } = await supabase.auth.signInWithPassword( {
