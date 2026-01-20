@@ -58,7 +58,6 @@ export default function Commitments() {
         ...organization
       }
     }))
-    console.log(formData)
   }, [organization]) 
 
   useEffect(() => {
@@ -156,7 +155,6 @@ export default function Commitments() {
           className="px-4 py-2 bg-blue-600 text-white rounded-md"
           onClick={(e) => {
             e.preventDefault();
-            console.log(complete, formData);
             !complete && Navigate("/signup/organization-related");
           }}
         >

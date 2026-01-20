@@ -9,7 +9,6 @@ export default function Logout() {
     const Navigate = useNavigate();
 
     const handleLogout = async () => {
-        console.log('test');
         try {
             const result = await signOutUser()
             if (result.success) {

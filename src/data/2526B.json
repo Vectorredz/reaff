@@ -1,11 +1,15 @@
 {
+  "meta": {
+    "semester": "2526B",
+    "templateName": "UP ACM Reaff Form 2nd Sem AY 25-26"
+  },
   "personalInfo": {
     "firstName": "",
     "middleName": "",
     "lastName": "",
     "suffix": "",
     "currentAddress": "",
-    "birthday": "",
+    "birthday": null,
     "gender": "",
     "studentNumber": "",
     "year": "",

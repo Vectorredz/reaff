@@ -16,7 +16,6 @@ function Login() {
       const result = await signInUser(email, password);
       if (result.success) {
         toast.success("Login successful!");
-        console.log(result.data)
         setTimeout(() => {
           Navigate("/dashboard/home");
         }, 1000);

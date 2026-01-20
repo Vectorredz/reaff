@@ -20,7 +20,6 @@ export default function PersonalDetails() {
   };
 
   useEffect(() => {
-    console.log(formData.personalInfo);
     if (Object.values(formData.personalInfo).every((value) => value !== "")) {
       setComplete(true);
     } else {
@@ -110,7 +109,7 @@ export default function PersonalDetails() {
                 type="date"
                 name="birthday"
                 className="text-field"
-                value={formData.personalInfo?.birthday || ""}
+                value={formData.personalInfo?.birthday}
                 onChange={handleChange}
               />
             </Field>
@@ -311,7 +310,6 @@ export default function PersonalDetails() {
             className="px-4 py-2 bg-blue-600 text-white rounded-md"
             onClick={(e) => {
               e.preventDefault();
-              console.log(complete, formData);
               !complete && Navigate("/signup/commitments");
             }}
           >
