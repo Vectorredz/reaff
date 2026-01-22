@@ -1,0 +1,83 @@
+{
+  "events_page": {
+    "preface": "This upcoming academic year, we have several projects lined up. We would like to know if you are interested in participating in any of them.",
+    "events": [
+      {
+        "title": "UP ACM Fest",
+        "description": "UP ACM's anniversary celebration, usually featuring talks from industry professionals and a game day for members (typically held in March or April)."
+      },
+      {
+        "title": "Algolympics 2026",
+        "description": "Our flagship event and a national coding competition, likely held around February 2026."
+      },
+      {
+        "title": "Easy as Py",
+        "description": "A community-building event where we teach high school students basic Python."
+      },
+      {
+        "title": "UP ACM Elections",
+        "description": "Join an ad hoc committee in charge of organizing the election of officers."
+      },
+      {
+        "title": "teACh Me",
+        "description": "An internal event focused on upskilling and skills transfer between members and invited speakers on topics such as computer science, time management, financial planning, and selected hobbies."
+      },
+      {
+        "title": "SIGs (Special Interest Groups)",
+        "description": "Groups focused on specific topics such as AI and web development, where members work on mini-projects for their portfolio."
+      },
+      {
+        "title": "ACMeets",
+        "description": "Hangout sessions with ACM members, including brown bag sessions, sportsfests, gaming, watch parties, and more."
+      }
+    ],
+    "interests": [
+      {
+        "code": "eap",
+        "question": "Are you interested in being the Easy as Py project head?",
+        "description": "You do not need to be the Education head or a member of the Education committee to participate. If you have a passion for teaching and want to gain leadership experience in handling a smaller event, this is for you. Answering \"yes\" does not serve as a final commitment—it is simply an interest check. If you have questions about the responsibilities involved, feel free to ask any council member."
+      },
+      {
+        "code": "algo",
+        "question": "Are you interested in being the Algolympics project head?",
+        "description": "Do you want to gain experience in handling a large-scale coding event? Answering \"yes\" does not serve as a final commitment—it is simply an interest check. If you have questions about the responsibilities involved, feel free to ask any council member."
+      },
+      {
+        "code": "webdev",
+        "question": "Do you have experience with frontend and/or backend development?",
+        "description": "We are looking for members who would like to help maintain our website. While the website is already live, we may need help with updates for events such as Algolympics and others. This role will serve as the web master, and members in this role may be exempt from heavier event workloads, as their primary responsibility will be website-related."
+      },
+      {
+        "code": "clouddev",
+        "question": "Do you have experience with Cloud Technologies? (AWS)",
+        "description": "We are looking for people who are up for the challenge of cloud hosting our competition platforms for Algolympics."
+      },
+      {
+        "code": "operations",
+        "question": "Operations Ad Hoc Committee",
+        "description": "The operations ad hoc committee is a separate committee designed to give portfolio-ready projects to work on. Develop tools and forms that help streamline or automate operations within the organization. Note that being a part of the operations ad hoc committee won't exempt you from your regular committee responsibilities."
+      }
+    ],
+    "teachMe": {
+        "code": "teachme",
+        "title": "teACh Me",
+        "question": "What topics would you be interested in joining for teACh Me",
+        "description": "* teACh Me is a 1–2 day workshop where you get to dive into a topic you’re curious about. You’ll be working hands-on and walking away with something cool you can show off or keep building on. Since our instructors put a lot of effort into running these workshops, we do ask for commitment for the full duration, but trust us, it’ll be worth it.",
+        "choices": [
+            {
+                "name": "pokemon",
+                "label": "Pokemon Showdown"
+            },
+            {
+                "name": "git",
+                "label": "Git/Github"
+            },
+            {
+                "name": "other",
+                "label": "other"
+            }
+        ]
+
+    }
+  }
+}

@@ -65,48 +65,48 @@
       "teachme": []
     },
     "committee": {
-        "membership": {
-            "buddy": "",
-            "activities": [],
-            "sportsfest": "",
-            "faceToFace": {
-                "answer": "",
-                "comment": ""
-            },
-            "computer": "",
-            "skill": "",
-            "tambay": "",
-            "games": []
+      "membership": {
+        "buddy": "",
+        "activities": [],
+        "sportsfest": "",
+        "faceToFace": {
+          "answer": "",
+          "comment": ""
         },
-        "records": {
-            "automaton": "",
-            "form-5": "",
-            "id": ""
-        },
-        "logistics": {
-            "download": "",
-            "upload": "",
-            "gadgets": [],
-            "computer": ""
-        },
-        "education": {
-            "academicLoad": "",
-            "pendingClasses": [],
-            "expectedClasses": []
-        },
-        "publicity": {
-            "picture": "",
-            "birthday": ""
-        },
-        "marketing": {
-            "infoDisclose": "",
-            "resume": "",
-            "faceToFace": ""
-        },
-        "publicRelations": {
-            "partnership": [],
-            "posts": ""
-        }
+        "computer": "",
+        "skill": "",
+        "tambay": "",
+        "games": []
+      },
+      "records": {
+        "automaton": "",
+        "form-5": "",
+        "id": ""
+      },
+      "logistics": {
+        "download": "",
+        "upload": "",
+        "gadgets": [],
+        "computer": ""
+      },
+      "education": {
+        "academicLoad": "",
+        "pendingClasses": [],
+        "expectedClasses": []
+      },
+      "publicity": {
+        "picture": "",
+        "birthday": ""
+      },
+      "marketing": {
+        "infoDisclose": "",
+        "resume": "",
+        "faceToFace": ""
+      },
+      "publicRelations": {
+        "partnership": [],
+        "posts": ""
+      }
     }
   }
 }

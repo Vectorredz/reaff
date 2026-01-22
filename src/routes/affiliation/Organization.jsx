@@ -1,10 +1,17 @@
-import { Outlet } from 'react-router'
-
+import { Outlet, useOutletContext } from "react-router";
 
 export default function Organization() {
-    return (
-        <div className='form-frame'>
-            <Outlet />
-        </div>
-    )
+  const { formData, setFormData, localStorage, setLocalStorage } =
+    useOutletContext();
+  return (
+    <div className="form-frame">
+      <Outlet 
+        context={{
+            formData,
+            setFormData,
+            localStorage,
+            setLocalStorage
+        }}/>
+    </div>
+  );
 }

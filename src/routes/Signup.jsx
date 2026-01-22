@@ -50,7 +50,7 @@ function Signup() {
 
   useEffect(() => {
     if (formTemplate != null) {
-      setFormData(formTemplate.data[0].template);
+      setFormData(formTemplate?.data[0]?.template);
       setLoading(false);
     }
   }, [formTemplate]);
@@ -65,7 +65,7 @@ function Signup() {
       else if (!userResult.error && (userResult.data && userResult.success)) {
         const user = userResult.data.user;
         const member = await insertMemberData(user, formData)
-        const answers = await insertAnswersData(user, formData, formTemplate.data[0]?.id)
+        const answers = await insertAnswersData(user, formData, formTemplate?.data[0]?.id)
         if (member.error || answers.error) {
           throw member.error ?? answers.error
         } 

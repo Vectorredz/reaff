@@ -1,26 +1,48 @@
-import { useNavigate } from 'react-router'
+import { useNavigate, useOutletContext } from "react-router";
+import { useEffect } from 'react'
 export default function Preferences() {
-  const Navigate = useNavigate()
+  const Navigate = useNavigate();
+  const { formData, setFormData, localStorage, setLocalStorage } =
+    useOutletContext();
   const tops = [1, 2, 3];
+
+  const updateReasons = (prev = formData, value, id, name) => {
+    return {
+      ...prev,
+      organization: {
+        ...prev?.organization,
+        preferences: {
+          ...prev?.organization?.preferences,
+          [id]: {
+            ...prev?.organization?.preferences[id],
+            [name]: value,
+          },
+        },
+      },
+    };
+  };
+
+  const handleChange = (e) => {
+    const { name, value, id } = e.target;
+    setFormData((prev) => updateReasons(prev, value, id, name));
+    setLocalStorage((prev) => updateReasons(prev, value, id, name))
+  };
+
+  useEffect(() => {
+    console.log(formData.organization.preferences)
+  }, [formData])
 
   return (
     <div className="form">
       {/* Page Title */}
-      <h2 className="text-2xl font-semibold">
-        Committee Preference
-      </h2>
+      <h2 className="text-2xl font-semibold">Committee Preference</h2>
 
       {/* Primer Section */}
       <div className="space-y-2 rounded-lg border border-gray-300 p-5">
-        <h3 className="text-lg font-medium">
-          2526 UP ACM Committee Primer
-        </h3>
+        <h3 className="text-lg font-medium">2526 UP ACM Committee Primer</h3>
         <p className="text-sm text-gray-600">
           Check out the Committee Primer to learn more about each committee.
-          <a
-            href="/"
-            className="ml-1 text-blue-600 hover:underline"
-          >
+          <a href="/" className="ml-1 text-blue-600 hover:underline">
             See primer here
           </a>
         </p>
@@ -28,9 +50,7 @@ export default function Preferences() {
 
       {/* Preferences Section */}
       <div className="space-y-8">
-        <h3 className="text-xl font-semibold">
-          Committee Preference
-        </h3>
+        <h3 className="text-xl font-semibold">Committee Preference</h3>
 
         {/* Drag and Drop Placeholder */}
         <div className="rounded-md border border-dashed border-gray-300 p-6 text-center text-gray-400">
@@ -38,9 +58,7 @@ export default function Preferences() {
         </div>
 
         {/* Preference Evaluation */}
-        <p className="text-sm text-gray-500">
-          Preference Evaluation
-        </p>
+        <p className="text-sm text-gray-500">Preference Evaluation</p>
 
         {/* Top Preferences */}
         {tops.map((top) => (
@@ -59,7 +77,11 @@ export default function Preferences() {
               </label>
               <textarea
                 className="text-field min-h-[100px]"
+                name="reason"
+                id={`top${top}`}
                 placeholder="Experience, skills, motivation, or what you can contribute"
+                value={localStorage?.organization?.preferences[`top${top}`]?.reason}
+                onChange={handleChange}
                 required
               />
             </div>
@@ -70,19 +92,25 @@ export default function Preferences() {
                 What you expect from this committee
               </label>
               <textarea
-                className="text-field min-h-[80px]"
-                placeholder="What do you hope to learn or experience?"
+                name="expectation"
+                className="text-field min-h-[100px]"
+                id={`top${top}`}
+                placeholder="Experience, skills, motivation, or what you can contribute"
+                value={localStorage?.organization?.preferences[`top${top}`]?.expectation}
+                onChange={handleChange}
+                required
               />
             </div>
           </div>
         ))}
       </div>
       <button
-        className='btn-primary'
+        className="btn-primary"
         onClick={(e) => {
-          e.preventDefault()
-          Navigate('/signup/organization-related/events')
-        }}>
+          e.preventDefault();
+          Navigate("/signup/organization-related/events");
+        }}
+      >
         Next
       </button>
     </div>
