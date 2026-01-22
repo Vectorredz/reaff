@@ -2,7 +2,6 @@ import Field from "../../../components/Field.jsx";
 
 export default function PersonalData({ form }) {
   const member = form?.data[0];
-  console.log(member);
   return (
     <div className="form">
       <div>

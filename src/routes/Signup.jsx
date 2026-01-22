@@ -5,6 +5,7 @@ import { UserAuth } from "../contexts/AuthContext.jsx";
 import { UserDB } from "../contexts/DatabaseContext.jsx";
 import { toast } from "react-toastify";
 import { Outlet } from "react-router";
+import useLocalStorage from "../hooks/useLocalStorage.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
 import Modal from "../components/Modal.jsx";
 // mock single page for the register form
@@ -24,6 +25,7 @@ function Signup() {
   const [consent, setConsent] = useState(false);
   const [formTemplate, setFormTemplate] = useState(null);
   const [formData, setFormData] = useState(formTemplate);
+  const [ localStorage, setLocalStorage ] = useLocalStorage('form', formData)
   const Navigate = useNavigate();
 
   // useEffect(() => {
@@ -42,9 +44,9 @@ function Signup() {
     handleFetchForm();
   }, []);
 
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
+  // useEffect(() => {
+  //   console.log(formData)
+  // }, [formData])
 
   useEffect(() => {
     if (formTemplate != null) {
@@ -227,10 +229,13 @@ function Signup() {
               context={{
                 formData,
                 setFormData,
+                localStorage,
+                setLocalStorage,
                 email,
                 setEmail,
                 password,
                 setPassword,
+                
               }}
             />
           </form>

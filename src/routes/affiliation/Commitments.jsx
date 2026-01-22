@@ -4,7 +4,7 @@ import "../../styles/components.css";
 import Add from "../../components/Add.jsx";
 
 export default function Commitments() {
-  const { formData, setFormData } = useOutletContext();
+  const { formData, setFormData, localStorage, setLocalStorage} = useOutletContext();
   const [complete, setComplete] = useState(false);
   const [organization, setOrganization] = useState({
     up: [],
@@ -17,6 +17,10 @@ export default function Commitments() {
   const handleAddOrg = (e, org, ref) => {
     e.preventDefault()
     setOrganization((prev) => ({
+      ...prev,
+      [org]: [...prev[org], ref.current.value]
+    }))
+    setLocalStorage((prev) => ({
       ...prev,
       [org]: [...prev[org], ref.current.value]
     }))
