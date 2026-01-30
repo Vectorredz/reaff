@@ -2,23 +2,29 @@ import "../../styles/components.css";
 import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router";
 import Field from "../../components/Field.jsx";
-
 export default function PersonalDetails() {
-  const { formData, setFormData } = useOutletContext();
+  const { formData, setFormData, localStorage, setLocalStorage } = useOutletContext();
   const [complete, setComplete] = useState(false);
   const Navigate = useNavigate();
-
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
       personalInfo: {
         ...prev.personalInfo,
-        [name]: type === "checkbox" ? checked : value,
       },
     }));
+    setLocalStorage((prev = formData) => ({
+      ...(prev ?? formData),
+      personalInfo: {
+        ...(prev?.personalInfo ?? formData?.personalInfo),
+        [name]: type === "checkbox" ? checked : value,
+      },
+    }))
   };
 
+  // every time the formData updates update the localStorage?
   useEffect(() => {
     if (Object.values(formData.personalInfo).every((value) => value !== "")) {
       setComplete(true);
@@ -34,7 +40,7 @@ export default function PersonalDetails() {
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
           <p className="text-sm text-gray-600">
-            Step 1 of 4 · Personal Information
+            Step 1 of 5 · Personal Information
           </p>
         </div>
 
@@ -48,7 +54,7 @@ export default function PersonalDetails() {
                 name="firstName"
                 placeholder="Jammond"
                 className="text-field"
-                value={formData.personalInfo?.firstName || ""}
+                value={localStorage?.personalInfo?.firstName || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -58,7 +64,7 @@ export default function PersonalDetails() {
                 name="middleName"
                 placeholder="Diamondback"
                 className="text-field"
-                value={formData.personalInfo?.middleName || ""}
+                value={localStorage?.personalInfo?.middleName || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -68,7 +74,7 @@ export default function PersonalDetails() {
                 name="lastName"
                 placeholder="Terrapin"
                 className="text-field"
-                value={formData.personalInfo?.lastName || ""}
+                value={localStorage?.personalInfo?.lastName || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -78,7 +84,7 @@ export default function PersonalDetails() {
                 name="suffix"
                 placeholder="Jr."
                 className="suffix-field"
-                value={formData.personalInfo?.suffix || ""}
+                value={localStorage?.personalInfo?.suffix || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -89,7 +95,7 @@ export default function PersonalDetails() {
               name="currentAddress"
               placeholder="Street Address, Barangay, City, Province"
               className="text-field"
-              value={formData.personalInfo?.currentAddress || ""}
+              value={localStorage?.personalInfo?.currentAddress || ""}
               onChange={handleChange}
             />
           </Field>
@@ -99,7 +105,7 @@ export default function PersonalDetails() {
               <input
                 name="gender"
                 className="text-field"
-                value={formData.personalInfo?.gender || ""}
+                value={localStorage?.personalInfo?.gender || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -109,7 +115,7 @@ export default function PersonalDetails() {
                 type="date"
                 name="birthday"
                 className="text-field"
-                value={formData.personalInfo?.birthday}
+                value={localStorage?.personalInfo?.birthday || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -125,7 +131,7 @@ export default function PersonalDetails() {
               name="studentNumber"
               className="text-field"
               placeholder="20XX-XXXXX"
-              value={formData.personalInfo?.studentNumber || ""}
+              value={localStorage?.personalInfo?.studentNumber || ""}
               onChange={handleChange}
             />
           </Field>
@@ -136,7 +142,7 @@ export default function PersonalDetails() {
                 name="year"
                 placeholder="Freshman"
                 className="text-field"
-                value={formData.personalInfo?.year || ""}
+                value={localStorage?.personalInfo?.year || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -146,7 +152,7 @@ export default function PersonalDetails() {
                 name="expectedGradYear"
                 placeholder="20XX"
                 className="text-field"
-                value={formData.personalInfo?.expectedGradYear || ""}
+                value={localStorage?.personalInfo?.expectedGradYear || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -156,7 +162,7 @@ export default function PersonalDetails() {
                 name="college"
                 placeholder="Engineering"
                 className="text-field"
-                value={formData.personalInfo?.college || ""}
+                value={localStorage?.personalInfo?.college || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -166,7 +172,7 @@ export default function PersonalDetails() {
                 name="degreeProgram"
                 placeholder="Computer Science"
                 className="text-field"
-                value={formData.personalInfo?.degreeProgram || ""}
+                value={localStorage?.personalInfo?.degreeProgram || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -177,7 +183,7 @@ export default function PersonalDetails() {
               name="highschool"
               placeholder="University of Santo Tomas Highschool"
               className="text-field"
-              value={formData.personalInfo?.highschool || ""}
+              value={localStorage?.personalInfo?.highschool || ""}
               onChange={handleChange}
             />
           </Field>
@@ -193,7 +199,7 @@ export default function PersonalDetails() {
                 name="primaryEmail"
                 placeholder="jammond@gmail.com"
                 className="text-field"
-                value={formData.personalInfo?.primaryEmail || ""}
+                value={localStorage?.personalInfo?.primaryEmail || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -203,7 +209,7 @@ export default function PersonalDetails() {
                 name="upEmail"
                 placeholder="jammond@up.edu.ph"
                 className="text-field"
-                value={formData.personalInfo?.upEmail || ""}
+                value={localStorage?.personalInfo?.upEmail || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -215,7 +221,7 @@ export default function PersonalDetails() {
                 name="phone"
                 placeholder="09XX XXX XXXX"
                 className="text-field"
-                value={formData.personalInfo?.phone || ""}
+                value={localStorage?.personalInfo?.phone || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -225,7 +231,7 @@ export default function PersonalDetails() {
                 name="telephone"
                 placeholder="09XX XXX XXXX"
                 className="text-field"
-                value={formData.personalInfo?.telephone || ""}
+                value={localStorage?.personalInfo?.telephone || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -241,7 +247,7 @@ export default function PersonalDetails() {
               <input
                 name="emergencyName"
                 className="text-field"
-                value={formData.personalInfo?.emergencyName || ""}
+                value={localStorage?.personalInfo?.emergencyName || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -250,7 +256,7 @@ export default function PersonalDetails() {
               <input
                 name="emergencyRelation"
                 className="text-field"
-                value={formData.personalInfo?.emergencyRelation || ""}
+                value={localStorage?.personalInfo?.emergencyRelation || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -259,7 +265,7 @@ export default function PersonalDetails() {
               <input
                 name="emergencyPhone"
                 className="text-field"
-                value={formData.personalInfo?.emergencyPhone || ""}
+                value={localStorage?.personalInfo?.emergencyPhone || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -275,7 +281,7 @@ export default function PersonalDetails() {
               <input
                 name="mbti"
                 className="text-field"
-                value={formData.personalInfo?.mbti || ""}
+                value={localStorage?.personalInfo?.mbti || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -284,7 +290,7 @@ export default function PersonalDetails() {
               <input
                 name="discord"
                 className="text-field"
-                value={formData.personalInfo?.discord || ""}
+                value={localStorage?.personalInfo?.discord || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -293,7 +299,7 @@ export default function PersonalDetails() {
               <input
                 name="facebook"
                 className="text-field"
-                value={formData.personalInfo?.facebook || ""}
+                value={localStorage?.personalInfo?.facebook || ""}
                 onChange={handleChange}
               />
             </Field>

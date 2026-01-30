@@ -62,51 +62,55 @@
       "webdev": "",
       "clouddev": "",
       "operations": "",
-      "teachme": []
+      "teachme": {
+        "choices": [],
+        "enthusiat": "",
+        "future": ""
+      }
     },
     "committee": {
-        "membership": {
-            "buddy": "",
-            "activities": [],
-            "sportsfest": "",
-            "faceToFace": {
-                "answer": "",
-                "comment": ""
-            },
-            "computer": "",
-            "skill": "",
-            "tambay": "",
-            "games": []
+      "membership": {
+        "buddy": "",
+        "acmeets": [],
+        "sportsfest": "",
+        "facetoface": {
+          "answer": "",
+          "comment": ""
         },
-        "records": {
-            "automaton": "",
-            "form-5": "",
-            "id": ""
-        },
-        "logistics": {
-            "download": "",
-            "upload": "",
-            "gadgets": [],
-            "computer": ""
-        },
-        "education": {
-            "academicLoad": "",
-            "pendingClasses": [],
-            "expectedClasses": []
-        },
-        "publicity": {
-            "picture": "",
-            "birthday": ""
-        },
-        "marketing": {
-            "infoDisclose": "",
-            "resume": "",
-            "faceToFace": ""
-        },
-        "publicRelations": {
-            "partnership": [],
-            "posts": ""
-        }
+        "gpu": "",
+        "skill": "",
+        "tambay": "",
+        "games": []
+      },
+      "records": {
+        "automaton": "",
+        "form5": "",
+        "upid": ""
+      },
+      "logistics": {
+        "download": "",
+        "upload": "",
+        "gadgets": [],
+        "computer": ""
+      },
+      "education": {
+        "academicLoad": "",
+        "pendingClasses": [],
+        "expectedClasses": []
+      },
+      "publicity": {
+        "picture": "",
+        "birthday": ""
+      },
+      "marketing": {
+        "infoDisclose": "",
+        "resume": "",
+        "companyf2f": ""
+      },
+      "publicRelations": {
+        "partnership": [],
+        "posts": ""
+      }
     }
   }
 }
