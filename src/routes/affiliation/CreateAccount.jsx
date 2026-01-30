@@ -16,7 +16,12 @@ export default function CreateAccount() {
     return (
         <div className='form-frame'>
             <div className="form">
-            <h1>Create An Account</h1>
+            <div className="text-center space-y-2">
+          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
+          <p className="text-sm text-gray-600">
+            Step 5 of 5 · Create Account
+          </p>
+        </div>
             <p>We are almost done! Please create an account to view to finally finish the registration</p>
             <div className='flex flex-col gap-2'>
                 <label htmlFor="email">Email:</label>

@@ -81,8 +81,8 @@ export default function Commitments() {
   useEffect(() => {
     if (
       Object.values(formData?.commitments).every((v) => v != "") &&
-      localStorage.up.length > 0 &&
-      localStorage.nonup.length > 0 &&
+      localStorage?.up?.length > 0 &&
+      localStorage?.nonup?.length > 0 &&
       Object.values(formData?.commitments?.concerns).every((v) => v != "")
     ) {
       setComplete(() => true);
@@ -94,6 +94,12 @@ export default function Commitments() {
   return (
     <div className="form-frame">
       <div className="form">
+        <div className="text-center space-y-2">
+          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
+          <p className="text-sm text-gray-600">
+            Step 2 of 5 · Commitments
+          </p>
+        </div>
         {/* Membership type */}
         <div>
           <h2>Type of membership</h2>

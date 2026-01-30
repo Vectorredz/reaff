@@ -1,11 +1,4 @@
-import Logistics from "./concerns-pages/Logistics"
-import Membership from "./concerns-pages/Membership"
-import Records from "./concerns-pages/Records"
-import Education from "./concerns-pages/Educations"
-import PublicRelations from "./concerns-pages/PublicRelations"
-import Publicity from "./concerns-pages/Publicity" 
-import Marketing from "./concerns-pages/Marketing"
-import Submit from "../../../components/Submit"
+import Committee from "./concerns-pages/concerns"
 import { useNavigate } from 'react-router'
 
 
@@ -15,16 +8,19 @@ export default function Concerns() {
 
     return (
         <div className='form'>
-            <div>
-                <h2>Committee-specific concerns</h2>
-            </div>
-            <Membership/>
-            <Records/>
+            <div className="text-center space-y-2">
+          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
+          <p className="text-sm text-gray-600">
+            Step 3 of 5 · Organization Related | Committee-specific Concerns
+          </p>
+        </div>
+            <Committee/>
+            {/* <Records/>
             <Logistics/>
             <Education/>
             <Publicity/>    
             <Marketing/>
-            <PublicRelations/>
+            <PublicRelations/> */}
             <button
                 className='btn-primary'
                 onClick={(e) => {

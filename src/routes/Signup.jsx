@@ -8,7 +8,6 @@ import { Outlet } from "react-router";
 import useLocalStorage from "../hooks/useLocalStorage.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
 import Modal from "../components/Modal.jsx";
-// mock single page for the register form
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -44,9 +43,6 @@ function Signup() {
     handleFetchForm();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(formData)
-  // }, [formData])
 
   useEffect(() => {
     if (formTemplate != null) {
@@ -54,6 +50,7 @@ function Signup() {
       setLoading(false);
     }
   }, [formTemplate]);
+
 
   const handleSignUp = async (e) => {
     e.preventDefault();

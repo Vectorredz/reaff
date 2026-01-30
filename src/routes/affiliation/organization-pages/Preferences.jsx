@@ -35,7 +35,12 @@ export default function Preferences() {
   return (
     <div className="form">
       {/* Page Title */}
-      <h2 className="text-2xl font-semibold">Committee Preference</h2>
+      <div className="text-center space-y-2">
+          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
+          <p className="text-sm text-gray-600">
+            Step 3 of 5 · Organization Related | Committee Preferences 
+          </p>
+        </div>
 
       {/* Primer Section */}
       <div className="space-y-2 rounded-lg border border-gray-300 p-5">

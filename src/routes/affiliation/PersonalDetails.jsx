@@ -1,5 +1,5 @@
 import "../../styles/components.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router";
 import Field from "../../components/Field.jsx";
 export default function PersonalDetails() {
@@ -13,11 +13,10 @@ export default function PersonalDetails() {
       ...prev,
       personalInfo: {
         ...prev.personalInfo,
-        [name]: type === "checkbox" ? checked : value,
       },
     }));
     setLocalStorage((prev = formData) => ({
-      ...prev ?? formData,
+      ...(prev ?? formData),
       personalInfo: {
         ...(prev?.personalInfo ?? formData?.personalInfo),
         [name]: type === "checkbox" ? checked : value,
@@ -27,7 +26,6 @@ export default function PersonalDetails() {
 
   // every time the formData updates update the localStorage?
   useEffect(() => {
-    // console.log(formData)
     if (Object.values(formData.personalInfo).every((value) => value !== "")) {
       setComplete(true);
     } else {
@@ -42,7 +40,7 @@ export default function PersonalDetails() {
         <div className="text-center space-y-2">
           <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
           <p className="text-sm text-gray-600">
-            Step 1 of 4 · Personal Information
+            Step 1 of 5 · Personal Information
           </p>
         </div>
 
@@ -56,7 +54,7 @@ export default function PersonalDetails() {
                 name="firstName"
                 placeholder="Jammond"
                 className="text-field"
-                value={localStorage?.personalInfo?.firstName}
+                value={localStorage?.personalInfo?.firstName || ""}
                 onChange={handleChange}
               />
             </Field>
@@ -117,7 +115,7 @@ export default function PersonalDetails() {
                 type="date"
                 name="birthday"
                 className="text-field"
-                value={localStorage?.personalInfo?.birthday}
+                value={localStorage?.personalInfo?.birthday || ""}
                 onChange={handleChange}
               />
             </Field>

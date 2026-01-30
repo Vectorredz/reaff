@@ -62,26 +62,30 @@
       "webdev": "",
       "clouddev": "",
       "operations": "",
-      "teachme": []
+      "teachme": {
+        "choices": [],
+        "enthusiat": "",
+        "future": ""
+      }
     },
     "committee": {
       "membership": {
         "buddy": "",
-        "activities": [],
+        "acmeets": [],
         "sportsfest": "",
-        "faceToFace": {
+        "facetoface": {
           "answer": "",
           "comment": ""
         },
-        "computer": "",
+        "gpu": "",
         "skill": "",
         "tambay": "",
         "games": []
       },
       "records": {
         "automaton": "",
-        "form-5": "",
-        "id": ""
+        "form5": "",
+        "upid": ""
       },
       "logistics": {
         "download": "",
@@ -101,7 +105,7 @@
       "marketing": {
         "infoDisclose": "",
         "resume": "",
-        "faceToFace": ""
+        "companyf2f": ""
       },
       "publicRelations": {
         "partnership": [],
