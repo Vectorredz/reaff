@@ -353,7 +353,7 @@
       }
     ],
 
-    "public_relations": [
+    "publicRelations": [
       {
         "id": "partnership",
         "type": "checkbox",
@@ -407,3 +407,4 @@
     ]
   }
 }
+

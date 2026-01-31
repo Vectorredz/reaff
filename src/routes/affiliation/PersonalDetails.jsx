@@ -2,11 +2,20 @@ import "../../styles/components.css";
 import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router";
 import Field from "../../components/Field.jsx";
+import Header from "../../components/Header.jsx";
 export default function PersonalDetails() {
-  const { formData, setFormData, localStorage, setLocalStorage } = useOutletContext();
+  const {
+    formData,
+    setFormData,
+    localStorage,
+    setLocalStorage,
+    clearLocalStorage,
+    page,
+    setPage,
+  } = useOutletContext();
   const [complete, setComplete] = useState(false);
   const Navigate = useNavigate();
-  
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -21,7 +30,7 @@ export default function PersonalDetails() {
         ...(prev?.personalInfo ?? formData?.personalInfo),
         [name]: type === "checkbox" ? checked : value,
       },
-    }))
+    }));
   };
 
   // every time the formData updates update the localStorage?
@@ -34,15 +43,10 @@ export default function PersonalDetails() {
   }, [formData.personalInfo]);
 
   return (
-    <div className="form-frame">  
+    <div className="form-frame">
       <div className="form-card">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
-          <p className="text-sm text-gray-600">
-            Step 1 of 5 · Personal Information
-          </p>
-        </div>
+        <Header page={page} title={"Personal Information"}></Header>
 
         {/* PERSONAL INFO */}
         <section className="form-section">
@@ -311,15 +315,26 @@ export default function PersonalDetails() {
           <span className="text-sm text-gray-500">
             Please review before proceeding
           </span>
-
+          
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded-md"
             onClick={(e) => {
               e.preventDefault();
               !complete && Navigate("/signup/commitments");
+              setPage(page + 1);
             }}
           >
             Next
+          </button>
+          <button
+            className="px-4 py-2 bg-red-600 text-white rounded-md"
+            onClick={(e) => {
+              e.preventDefault();
+              clearLocalStorage()
+              window.location.reload();
+            }}
+          >
+            Clear Form
           </button>
         </div>
       </div>

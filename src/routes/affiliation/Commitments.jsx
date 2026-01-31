@@ -2,9 +2,10 @@ import { useOutletContext, useNavigate } from "react-router";
 import { useState, useRef, useEffect } from "react";
 import "../../styles/components.css";
 import Add from "../../components/Add.jsx";
+import Header from "../../components/Header.jsx";
 
 export default function Commitments() {
-  const { formData, setFormData, localStorage, setLocalStorage } =
+  const { formData, setFormData, localStorage, setLocalStorage, page, setPage } =
     useOutletContext();
   const [complete, setComplete] = useState(false);
   const upRef = useRef(null);
@@ -27,10 +28,10 @@ export default function Commitments() {
       ...prev,
       commitments: {
         ...prev?.commitments,
-        membership: id
-      }
-    }
-  }
+        membership: id,
+      },
+    };
+  };
 
   const updatePriorities = (prev = formData, value) => {
     return {
@@ -94,12 +95,8 @@ export default function Commitments() {
   return (
     <div className="form-frame">
       <div className="form">
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
-          <p className="text-sm text-gray-600">
-            Step 2 of 5 · Commitments
-          </p>
-        </div>
+        <Header page={page} title={"Commitments"}></Header>
+
         {/* Membership type */}
         <div>
           <h2>Type of membership</h2>
@@ -167,10 +164,10 @@ export default function Commitments() {
             personal or interpersonal concern you would like us to know and
             consider so we could try to figure out together how we could support
             each other. :) Please be assured that this information will be
-            secured in confidence within the Executive Council of the
-            localStorage, and will never be used against you. Our objective is
-            solely to figure out how we may support and protect our members,
-            given their individual needs.
+            secured in confidence within the Executive Council of the localStorage,
+            and will never be used against you. Our objective is solely to
+            figure out how we may support and protect our members, given their
+            individual needs.
           </p>
           <div>
             <h3>Academic Concerns</h3>
@@ -215,6 +212,7 @@ export default function Commitments() {
           onClick={(e) => {
             e.preventDefault();
             !complete && Navigate("/signup/organization-related");
+            setPage(page + 1);
           }}
         >
           Next

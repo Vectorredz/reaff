@@ -1,10 +1,12 @@
 import { useNavigate, useOutletContext } from "react-router";
 import contents from "../../../data/contents.json";
+import Header from "../../../components/Header.jsx";
+
 import { useEffect } from "react";
 
 export default function Events() {
   const Navigate = useNavigate();
-  const { formData, setFormData, localStorage, setLocalStorage } =
+  const { formData, setFormData, localStorage, setLocalStorage, page } =
     useOutletContext();
 
   const updateInterests = (prev, name, id) => {
@@ -22,7 +24,7 @@ export default function Events() {
 
   const updateChoices = (prev, name, id) => {
     // update
-    const eap = prev.organization.events.teachme[name]
+    const eap = prev.organization.events.teachme[name];
     return {
       ...prev,
       organization: {
@@ -31,35 +33,36 @@ export default function Events() {
           ...prev?.organization?.events,
           teachme: {
             ...prev?.organization?.events?.teachme,
-            [name]: eap.includes(id) ? eap.filter((choice) => choice !== id) : [...eap, id]
-          }  
+            [name]: eap.includes(id)
+              ? eap.filter((choice) => choice !== id)
+              : [...eap, id],
+          },
         },
       },
     };
   };
 
-  const updateTeachMe = ((prev, name, e) => ({
-        ...prev,
-        organization: {
-          ...prev.organization,
-          events: {
-            ...prev.organization.events,
-            teachme: {
-              ...prev.organization.events.teachme,
-              [name]: e.target.value,
-            },
-          },
+  const updateTeachMe = (prev, name, e) => ({
+    ...prev,
+    organization: {
+      ...prev.organization,
+      events: {
+        ...prev.organization.events,
+        teachme: {
+          ...prev.organization.events.teachme,
+          [name]: e.target.value,
         },
-      }))
+      },
+    },
+  });
 
   const handleChange = (e) => {
     const { name, id } = e.target;
     if (name === "choices") {
-      console.log(e.target)
+      console.log(e.target);
       setFormData((prev) => updateChoices(prev, name, id));
-      setLocalStorage((prev) => updateChoices(prev,name,id))
-    }
-    else if (name === "enthusiast" || name === "future") {
+      setLocalStorage((prev) => updateChoices(prev, name, id));
+    } else if (name === "enthusiast" || name === "future") {
       setFormData((prev) => updateTeachMe(prev, name, e));
       setLocalStorage((prev) => updateTeachMe(prev, name, e));
     } else {
@@ -75,12 +78,8 @@ export default function Events() {
   return (
     <div className="form">
       <div className="space-y-4">
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
-          <p className="text-sm text-gray-600">
-            Step 3 of 5 · Organization Related | Events
-          </p>
-        </div>
+        <Header page={page} title={"Organization-related | Events"}></Header>
+
         <p>{contents.events_page.preface}</p>
 
         <ol className="list-decimal pl-6 space-y-2">
@@ -106,9 +105,7 @@ export default function Events() {
                   name={interest.id}
                   id="yes"
                   onChange={handleChange}
-                  checked={
-                    localStorage?.organization.events[interest.id] === "yes"
-                  }
+                  checked={localStorage?.organization.events[interest.id] === "yes"}
                 />
                 <label htmlFor="yes">yes</label>
               </div>
@@ -118,9 +115,7 @@ export default function Events() {
                   name={interest.id}
                   id="no"
                   onChange={handleChange}
-                  checked={
-                    localStorage?.organization.events[interest.id] === "no"
-                  }
+                  checked={localStorage?.organization.events[interest.id] === "no"}
                 />
                 <label htmlFor="no">no</label>
               </div>
@@ -153,7 +148,9 @@ export default function Events() {
                   name="choices"
                   id={choice.name}
                   onChange={handleChange}
-                  checked={localStorage?.organization?.events?.teachme?.choices?.includes(choice.name)}
+                  checked={localStorage?.organization?.events?.teachme?.choices?.includes(
+                    choice.name,
+                  )}
                 />
                 <label htmlFor={choice.name}>{choice.name}</label>
               </div>
@@ -164,24 +161,24 @@ export default function Events() {
             What topics would you be enthusiastic to personally teach for a
             teAChMe session?
           </p>
-          <input 
-            type="text" 
-            className="text-field" 
+          <input
+            type="text"
+            className="text-field"
             name="enthusiast"
-            id="" 
+            id=""
             onChange={handleChange}
             value={localStorage?.organization?.events?.teachme?.enthusiast || ""}
-            />
+          />
 
           <p>What topics do you want to see for future teAChMe sessions?</p>
-          <input 
-            type="text" 
-            className="text-field" 
+          <input
+            type="text"
+            className="text-field"
             name="future"
-            id="" 
+            id=""
             onChange={handleChange}
             value={localStorage?.organization?.events?.teachme?.future || ""}
-            />
+          />
         </div>
 
         <button

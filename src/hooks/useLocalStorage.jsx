@@ -8,7 +8,11 @@ const useLocalStorage = (key, initial) => {
     setStorage(formHandler(storage))
   }
 
-  return [ storage, setLocalStorage ]
+  const clearLocalStorage = () => {
+    localStorage.clear()
+  }
+
+  return [ storage, setLocalStorage, clearLocalStorage ]
 
 
   

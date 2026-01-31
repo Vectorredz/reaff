@@ -12,19 +12,19 @@ import Modal from "../components/Modal.jsx";
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { signUpNewUser } = UserAuth();
-  const {
-    fetchFormTemplate,
-    insertMemberData,
-    insertAnswersData,
-  } = UserDB();
+  const { fetchFormTemplate, insertMemberData, insertAnswersData } = UserDB();
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [consent, setConsent] = useState(false);
   const [formTemplate, setFormTemplate] = useState(null);
   const [formData, setFormData] = useState(formTemplate);
-  const [ localStorage, setLocalStorage ] = useLocalStorage('form', formData)
+  const [page, setPage] = useState(1);
+  const [localStorage, setLocalStorage, clearLocalStorage] = useLocalStorage(
+    "form",
+    formData,
+  );
   const Navigate = useNavigate();
 
   // useEffect(() => {
@@ -33,9 +33,11 @@ function Signup() {
   //   }, 900);
   // }, []);
 
+  console.log(loading)
   // 2. wait the value returned from promise and put it in setFormTempalte
   async function handleFetchForm() {
-    setFormTemplate(await fetchFormTemplate());
+    setLoading(true)
+    setFormTemplate(await fetchFormTemplate()); 
   }
 
   // 1. first mount; fetch the form template from the database
@@ -43,50 +45,61 @@ function Signup() {
     handleFetchForm();
   }, []);
 
+  useEffect(() => {
+    if (loading) {
+      toast.loading("fetching form...", { toastId: "form" });
+    }
+    else {
+      toast.dismiss("form")
+    }
+  }, [loading])
 
   useEffect(() => {
     if (formTemplate != null) {
       setFormData(formTemplate?.data[0]?.template);
-      setLoading(false);
     }
   }, [formTemplate]);
 
+  useEffect(() => {
+    if (formData != null) {
+      console.log("fetched...")
+      setLoading(false)
+    }      
+  }, [formData]);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
       const userResult = await signUpNewUser(email, password);
       if (userResult.error) {
-        throw userResult.error
-      }
-      else if (!userResult.error && (userResult.data && userResult.success)) {
+        throw userResult.error;
+      } else if (!userResult.error && userResult.data && userResult.success) {
         const user = userResult.data.user;
-        const member = await insertMemberData(user, formData)
-        const answers = await insertAnswersData(user, formData, formTemplate?.data[0]?.id)
+        const member = await insertMemberData(user, formData);
+        const answers = await insertAnswersData(
+          user,
+          formData,
+          formTemplate?.data[0]?.id,
+        );
         if (member.error || answers.error) {
-          throw member.error ?? answers.error
-        } 
-        else if (!member.error & !answers.error) {
-          toast.success('Created account successfully');
+          throw member.error ?? answers.error;
+        } else if (!member.error & !answers.error) {
+          toast.success("Created account successfully");
           setTimeout(() => {
-            Navigate('/')
-          }, 1000)
+            Navigate("/");
+          }, 1000);
         }
       }
-
     } catch (error) {
-        toast.error(error.message)
-        console.error(error.message)
-      // remove the account 
-    }
-    finally {
-      setLoading(false)
+      toast.error(error.message);
+      console.error(error.message);
+      // remove the account
     }
   };
 
   return (
     <>
-      {!loading && (
+      {(formData) &&
         <div className="flex flex-col items-center w-screen h-screen">
           <p>{open ? "You are logged in" : "Please sign up to continue"}</p>
           <Modal open={open} onClose={() => setOpen(false)}>
@@ -220,7 +233,8 @@ function Signup() {
               </div>
             )}
           </Modal>
-          <ProgressBar currentStep={1} />
+          <ProgressBar currentStep={1}/>
+            
           <form onSubmit={handleSignUp}>
             <Outlet
               context={{
@@ -228,17 +242,20 @@ function Signup() {
                 setFormData,
                 localStorage,
                 setLocalStorage,
+                clearLocalStorage,
                 email,
                 setEmail,
                 password,
                 setPassword,
-                
+                page,
+                setPage,
               }}
             />
           </form>
         </div>
-      )}
-      {loading}
+        
+      }
+
     </>
   );
 }

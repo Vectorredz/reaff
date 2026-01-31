@@ -1,8 +1,9 @@
 import { useNavigate, useOutletContext } from "react-router";
-import { useEffect } from 'react'
+import { useEffect } from "react";
+import Header from "../../../components/Header";
 export default function Preferences() {
   const Navigate = useNavigate();
-  const { formData, setFormData, localStorage, setLocalStorage } =
+  const { formData, setFormData, localStorage, setLocalStorage, page } =
     useOutletContext();
   const tops = [1, 2, 3];
 
@@ -25,22 +26,17 @@ export default function Preferences() {
   const handleChange = (e) => {
     const { name, value, id } = e.target;
     setFormData((prev) => updateReasons(prev, value, id, name));
-    setLocalStorage((prev) => updateReasons(prev, value, id, name))
+    setLocalStorage((prev) => updateReasons(prev, value, id, name));
   };
 
   useEffect(() => {
-    console.log(formData.organization.preferences)
-  }, [formData])
+    console.log(formData.organization.preferences);
+  }, [formData]);
 
   return (
     <div className="form">
       {/* Page Title */}
-      <div className="text-center space-y-2">
-          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
-          <p className="text-sm text-gray-600">
-            Step 3 of 5 · Organization Related | Committee Preferences 
-          </p>
-        </div>
+      <Header page={page} title={"Organization-related | Preferences"}></Header>
 
       {/* Primer Section */}
       <div className="space-y-2 rounded-lg border border-gray-300 p-5">
@@ -101,7 +97,9 @@ export default function Preferences() {
                 className="text-field min-h-[100px]"
                 id={`top${top}`}
                 placeholder="Experience, skills, motivation, or what you can contribute"
-                value={localStorage?.organization?.preferences[`top${top}`]?.expectation}
+                value={
+                  localStorage?.organization?.preferences[`top${top}`]?.expectation
+                }
                 onChange={handleChange}
                 required
               />

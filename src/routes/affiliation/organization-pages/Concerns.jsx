@@ -1,35 +1,30 @@
-import Committee from "./concerns-pages/concerns"
-import { useNavigate } from 'react-router'
-
+import Committee from "./concerns-pages/concerns";
+import { useOutletContext, useNavigate } from "react-router";
+import Header from "../../../components/Header.jsx";
 
 export default function Concerns() {
-    const Navigate = useNavigate();
+  const Navigate = useNavigate();
+  const { formData, setFormData, localStorage, setLocalStorage, page, setPage } =
+    useOutletContext();
+  return (
+    <div className="form">
+      <Header
+        page={page}
+        title={"Organization-related | Committee-specific Concerns"}
+      ></Header>
 
+      <Committee />
 
-    return (
-        <div className='form'>
-            <div className="text-center space-y-2">
-          <h1 className="text-2xl font-semibold">ACM Member Affiliation Form</h1>
-          <p className="text-sm text-gray-600">
-            Step 3 of 5 · Organization Related | Committee-specific Concerns
-          </p>
-        </div>
-            <Committee/>
-            {/* <Records/>
-            <Logistics/>
-            <Education/>
-            <Publicity/>    
-            <Marketing/>
-            <PublicRelations/> */}
-            <button
-                className='btn-primary'
-                onClick={(e) => {
-                    e.preventDefault()
-                    Navigate('../../create-account')
-                }}
-                >
-                Next
-            </button>
-        </div>
-    )
+      <button
+        className="btn-primary"
+        onClick={(e) => {
+          e.preventDefault();
+          Navigate("../../create-account");
+          setPage(page + 1);
+        }}
+      >
+        Next
+      </button>
+    </div>
+  );
 }
