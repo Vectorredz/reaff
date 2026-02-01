@@ -2,28 +2,13 @@ import contents from "../../../../data/contents.json";
 import { useOutletContext } from "react-router";
 import Organization from "../../Organization";
 import { useEffect } from "react";
+import { UtilsDB } from "../../../../contexts/UtilitiesContext";
 export default function Committee() {
   const { formData, setFormData, localStorage, setLocalStorage } = useOutletContext();
 
   // little hack for changing code to title
-  const committeeDecode = (code) => {
-    switch (code) {
-      case "logistics":
-        return "Logistics";
-      case "publicRelations":
-        return "Public Relations";
-      case "publicity":
-        return "Publicity";
-      case "marketing":
-        return "Marketing";
-      case "records":
-        return "Records";
-      case "membership":
-        return "Membership";
-      case "educations":
-        return "Educations";
-    }
-  };
+  const { decoderMap } = UtilsDB();
+  
 
   const updateRadio = (prev, comm, name, value) => {
     return {
@@ -82,7 +67,7 @@ export default function Committee() {
             return (
               <div key={key}>
                 <h2 className="text-2xl">
-                  {committeeDecode(committee)}-specific Concerns
+                  {decoderMap[committee]}-specific Concerns
                 </h2>
                 {contents?.committee_concerns_pages[committee].map(
                   (item, key) => (

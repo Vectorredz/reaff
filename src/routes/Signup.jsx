@@ -33,7 +33,6 @@ function Signup() {
   //   }, 900);
   // }, []);
 
-  console.log(loading)
   // 2. wait the value returned from promise and put it in setFormTempalte
   async function handleFetchForm() {
     setLoading(true)
@@ -56,13 +55,12 @@ function Signup() {
 
   useEffect(() => {
     if (formTemplate != null) {
-      setFormData(formTemplate?.data[0]?.template);
+      setFormData(localStorage ?? formTemplate?.data[0]?.template);
     }
   }, [formTemplate]);
 
   useEffect(() => {
     if (formData != null) {
-      console.log("fetched...")
       setLoading(false)
     }      
   }, [formData]);
@@ -249,6 +247,7 @@ function Signup() {
                 setPassword,
                 page,
                 setPage,
+
               }}
             />
           </form>

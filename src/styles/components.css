@@ -25,9 +25,15 @@
            focus:outline-none focus:ring-2 focus:ring-blue-500;
   }
 
-  .btn-primary {
-    @apply rounded-md bg-blue-600 py-2 px-4 text-white
-           hover:bg-blue-500 transition;
+   .btn-primary {
+    @apply rounded-md py-2 text-white
+           bg-blue-500 hover:bg-(--color-blue) p-5  transition;
+  }
+
+
+  .btn-primary-disabled {
+   @apply rounded-md bg-blue-500 py-2 px-4 text-white
+        opacity-80 cursor-not-allowed;
   }
 
   .form {
@@ -69,15 +75,12 @@
 
   /* Right panel (image / gradient) */
   .auth-right {
-    @apply w-[55%] bg-gradient-to-br from-(--color-blue) to-blue-500
+    @apply w-[55%] bg-gradient-to-br from-(--color-blue) to-blue-600
            hidden md:block;
   }
 
   /* Primary button */
-  .btn-primary {
-    @apply rounded-md bg-(--color-blue) py-2 text-white
-           hover:bg-blue-500   transition;
-  }
+ 
 
   /* Outline button */
   .btn-outline {
