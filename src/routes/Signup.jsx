@@ -44,6 +44,10 @@ function Signup() {
   //   setTimeout(() => setOpen(true), 900);
   // }, []);
 
+<<<<<<< HEAD
+=======
+  // 2. wait the value returned from promise and put it in setFormTempalte
+>>>>>>> 65dd3a9 (feat: initial form validation)
   async function handleFetchForm() {
     setLoading(true);
     setFormTemplate(await fetchFormTemplate());
@@ -59,6 +63,7 @@ function Signup() {
   }, [loading]);
 
   useEffect(() => {
+<<<<<<< HEAD
     function recurseFileTree(data, node, state) {
       if (typeof data[node] !== "object") return { status: "", error: "" };
       if (data[node].length === 0) return { status: "", error: "" };
@@ -75,12 +80,23 @@ function Signup() {
         if (node != "meta") recurseFileTree(data, node, (state[node] = {}));
       }
       form.setValues(data);
+=======
+    if (formTemplate != null) {
+      setFormData(localStorage ?? formTemplate?.data[0]?.template);
+>>>>>>> 65dd3a9 (feat: initial form validation)
     }
   }, [formTemplate]);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (form?.values != null) setLoading(false);
   }, [form?.values]);
+=======
+    if (formData != null) {
+      setLoading(false)
+    }      
+  }, [formData]);
+>>>>>>> 65dd3a9 (feat: initial form validation)
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -301,9 +317,13 @@ function Signup() {
                 setPassword,
                 page,
                 setPage,
+<<<<<<< HEAD
                 uploadFileData,
                 files,
                 setFiles,
+=======
+
+>>>>>>> 65dd3a9 (feat: initial form validation)
               }}
             />
           </form>
