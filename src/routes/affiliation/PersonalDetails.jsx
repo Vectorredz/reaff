@@ -1,5 +1,5 @@
 import "../../styles/components.css";
-import { use, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { useOutletContext, useNavigate } from "react-router";
 import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import Field from "../../components/Field.jsx";
@@ -45,39 +45,68 @@ export default function PersonalDetails() {
     page,
   } = useOutletContext();
 
+  const handleState = (key) => {
+    let value = formData?.personalInfo[key];
+    switch (decoderMap[key]?.type) {
+      case "email":
+        if (value === "") {
+          return { state: State.EMPTY, error: `This field is required.` };
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+          return { state: State.ERROR, error: "Invalid user email address." };
+        } else {
+          return { state: State.VALID, error: "" };
+        }
+      case "text":
+        if (value === "") {
+          return { state: State.EMPTY, error: `This field is required.` };
+        } else {
+          return { state: State.VALID, error: "" };
+        }
+      case "date":
+        if (value === "") {
+          return { state: State.EMPTY, error: `This field is required.` };
+        } else {
+          return { state: State.VALID, error: "" };
+        }
+      case "tel":
+        console.log('test')
+        if (value === "") {
+          return { state: State.EMPTY, error: `This field is required.` };
+        } else if (!/^[0-9]{4}\s[0-9]{3}\s[0-9]{4}$/i.test(value)) {
+          return { state: State.ERROR, error: "Invalid phone number." };
+        } else {  
+          return { state: State.VALID, error: "" };
+        }
+      default:
+        if (value === "") {
+          return { state: State.EMPTY, error: `This field is required.` };
+        } else {
+          return { state: State.VALID, error: "" };
+        }
+    }
+  };
+
   function validationReducer(state, action) {
     const { type, name, value, input } = action;
-    let error = "";
-    if (input === "email") {
-      if (value === "") {
-        error = "This field is required.";
-      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-        error = "Invalid email address.";
-      } else {
-        error = "";
-      }
-    } else {
-      if (value === "") {
-        error = "This field is required.";
-      }
-    }
+    const newState = handleState(name);
     switch (type) {
       case "CHANGE":
         return {
           ...state,
           [name]: {
             ...state[name],
-            status: value === "" ? State.EMPTY : State.VALID,
-            error: error,
+            status: newState.state,
+            error: newState.error,
           },
         };
       case "SUBMIT":
         return Object.fromEntries(
           Object.entries(state).map(([key, val]) => [
             key,
-            val.status === State.EMPTY || val.status === State.ERROR
-              ? { status: State.ERROR, error: "Required" }
-              : { status: State.SUCCESS, error: "" },
+
+            val.status === State.VALID || val.status === State.SUCCESS
+              ? { status: State.SUCCESS, error: "" }
+              : { status: State.ERROR, error: handleState(key)?.error },
           ]),
         );
 
@@ -108,12 +137,13 @@ export default function PersonalDetails() {
       ? "text-field border-red-600"
       : "text-field";
 
-  const displayError = (elem) =>
-    state[elem].status === State.ERROR && (
-      <span className="text-xs text-red-500">
-        {`${decoderMap[elem]} is required`}
-      </span>
+  const displayError = (elem) => {
+    return (
+      state[elem].status === State.ERROR && (
+        <span className="text-xs text-red-500">{state[elem].error}</span>
+      )
     );
+  };
 
   useEffect(() => {
     console.log(state);
@@ -132,7 +162,6 @@ export default function PersonalDetails() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       personalInfo: {
@@ -153,6 +182,7 @@ export default function PersonalDetails() {
       type: "CHANGE",
       name,
       value,
+      input: type,
     });
   };
 
@@ -374,7 +404,7 @@ export default function PersonalDetails() {
           <div className="grid grid-cols-2 gap-4 mt-4">
             <Field label="Mobile Number">
               <input
-                type="text"
+                type="tel"
                 name="phone"
                 placeholder="09XX XXX XXXX"
                 className={onBorderError("phone")}
@@ -387,7 +417,7 @@ export default function PersonalDetails() {
 
             <Field label="Telephone">
               <input
-                type="text"
+                type="tel"
                 name="telephone"
                 placeholder="09XX XXX XXXX"
                 className={onBorderError("telephone")}
@@ -432,7 +462,7 @@ export default function PersonalDetails() {
 
             <Field label="Contact Number">
               <input
-                type="text"
+                type="tel"
                 name="emergencyPhone"
                 placeholder="09XX XXX XXXX"
                 className={onBorderError("emergencyPhone")}
@@ -485,11 +515,9 @@ export default function PersonalDetails() {
           </div>
         </section>
 
-        <div className="flex justify-between items-center pt-6 border-t">
-          <span className="text-sm text-gray-500">
-            Please review before proceeding
-          </span>
+        
 
+        <div className="flex justify-between items-center pt-6 border-t border-gray-300">
           <button
             className="btn-primary"
             onClick={(e) => {
@@ -503,8 +531,13 @@ export default function PersonalDetails() {
             Next
           </button>
 
+          <span className="text-sm text-gray-500">
+            Please review before proceeding
+          </span>
+
+          
           <button
-            className="px-4 py-2 bg-red-600 text-white rounded-md"
+            className="btn-clear"
             onClick={(e) => {
               e.preventDefault();
               clearLocalStorage();

@@ -67,7 +67,7 @@ export default function Committee() {
             return (
               <div key={key}>
                 <h2 className="text-2xl">
-                  {decoderMap[committee]}-specific Concerns
+                  {decoderMap[committee].title}-specific Concerns
                 </h2>
                 {contents?.committee_concerns_pages[committee].map(
                   (item, key) => (
