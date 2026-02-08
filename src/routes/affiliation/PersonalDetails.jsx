@@ -4,38 +4,10 @@ import { useOutletContext, useNavigate } from "react-router";
 import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import Field from "../../components/Field.jsx";
 import Header from "../../components/Header.jsx";
-
-const State = Object.freeze({
-  EMPTY: "EMPTY",
-  VALID: "VALID",
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
-});
-
-// bruteforce
-const Required = [
-  "firstName",
-  "middleName",
-  "lastName",
-  "currentAddress",
-  "gender",
-  "birthday",
-  "studentNumber",
-  "year",
-  "expectedGradYear",
-  "college",
-  "degreeProgram",
-  "primaryEmail",
-  "upEmail",
-  "phone",
-  "telephone",
-  "emergencyName",
-  "emergencyRelation",
-  "emergencyPhone",
-];
-
+import Footer from "../../components/Footer.jsx";
+import DisplayError from "../../components/DisplayError.jsx";
 export default function PersonalDetails() {
-  const { decoderMap } = UtilsDB();
+  const { decoderMap, State } = UtilsDB();
   const {
     formData,
     setFormData,
@@ -44,66 +16,37 @@ export default function PersonalDetails() {
     clearLocalStorage,
     page,
   } = useOutletContext();
+  const Navigate = useNavigate();
 
+  // must be unique for each form
   const handleState = (key) => {
     let value = formData?.personalInfo[key];
-    switch (decoderMap[key]?.type) {
-      case "email":
-        if (value === "") {
-          return { state: State.EMPTY, error: `This field is required.` };
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-          return { state: State.ERROR, error: "Invalid user email address." };
-        } else {
-          return { state: State.VALID, error: "" };
-        }
-      case "text":
-        if (value === "") {
-          return { state: State.EMPTY, error: `This field is required.` };
-        } else {
-          return { state: State.VALID, error: "" };
-        }
-      case "date":
-        if (value === "") {
-          return { state: State.EMPTY, error: `This field is required.` };
-        } else {
-          return { state: State.VALID, error: "" };
-        }
-      case "tel":
-        console.log('test')
-        if (value === "") {
-          return { state: State.EMPTY, error: `This field is required.` };
-        } else if (!/^[0-9]{4}\s[0-9]{3}\s[0-9]{4}$/i.test(value)) {
-          return { state: State.ERROR, error: "Invalid phone number." };
-        } else {  
-          return { state: State.VALID, error: "" };
-        }
-      default:
-        if (value === "") {
-          return { state: State.EMPTY, error: `This field is required.` };
-        } else {
-          return { state: State.VALID, error: "" };
-        }
+    let item = decoderMap.personalInfo[key];
+    if (!value) {
+      return { status: State.EMPTY, error: "This field is required." };
+    } else if (item.pattern && !item.pattern.test(value)) {
+      return { status: State.ERROR, error: item.error };
+    } else {
+      return { status: State.VALID, error: "" };
     }
   };
 
   function validationReducer(state, action) {
-    const { type, name, value, input } = action;
-    const newState = handleState(name);
+    const { type, name } = action;
     switch (type) {
       case "CHANGE":
         return {
           ...state,
           [name]: {
             ...state[name],
-            status: newState.state,
-            error: newState.error,
+            status: handleState(name).status,
+            error: handleState(name).error,
           },
         };
       case "SUBMIT":
         return Object.fromEntries(
           Object.entries(state).map(([key, val]) => [
             key,
-
             val.status === State.VALID || val.status === State.SUCCESS
               ? { status: State.SUCCESS, error: "" }
               : { status: State.ERROR, error: handleState(key)?.error },
@@ -130,31 +73,23 @@ export default function PersonalDetails() {
     initialValidationState,
   );
 
-  const Navigate = useNavigate();
-
   const onBorderError = (elem) =>
     state[elem].status === State.ERROR
-      ? "text-field border-red-600"
+      ? "text-field border-red-500"
       : "text-field";
-
-  const displayError = (elem) => {
-    return (
-      state[elem].status === State.ERROR && (
-        <span className="text-xs text-red-500">{state[elem].error}</span>
-      )
-    );
-  };
 
   useEffect(() => {
     console.log(state);
   }, [state]);
 
   const validateForm = () => {
-    const complete = Required.every(
-      (key) =>
-        state[key].status === State.VALID ||
-        state[key].status === State.SUCCESS,
-    );
+    const complete = Object.entries(decoderMap.personalInfo)
+      .filter((key) => key[1].required)
+      .every(
+        (key) =>
+          state[key[0]].status === State.VALID ||
+          state[key[0]].status === State.SUCCESS,
+      );
     dispatch({ type: "SUBMIT" });
     console.log(complete);
     return complete;
@@ -205,7 +140,11 @@ export default function PersonalDetails() {
                 placeholder="Jammond"
                 required
               />
-              {displayError("firstName")}
+              <DisplayError
+                id="firstName"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Middle Name">
@@ -218,7 +157,11 @@ export default function PersonalDetails() {
                 placeholder="Diamondback"
                 required
               />
-              {displayError("middleName")}
+              <DisplayError
+                id="middleName"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Last Name">
@@ -231,7 +174,11 @@ export default function PersonalDetails() {
                 placeholder="Terrapin"
                 required
               />
-              {displayError("lastName")}
+              <DisplayError
+                id="lastName"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Suffix">
@@ -256,7 +203,11 @@ export default function PersonalDetails() {
               placeholder="1234 Elm St., Barangay, City, Province, ZIP"
               required
             />
-            {displayError("currentAddress")}
+            <DisplayError
+                id="currentAddress"
+                state={state}
+                State={State}
+              />
           </Field>
 
           <div className="grid grid-cols-2 gap-4 mt-4">
@@ -270,7 +221,11 @@ export default function PersonalDetails() {
                 placeholder="Male/Female/Other"
                 required
               />
-              {displayError("gender")}
+              <DisplayError
+                id="gender"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Birthday">
@@ -282,7 +237,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("birthday")}
+              <DisplayError
+                id="birthday"
+                state={state}
+                State={State}
+              />
             </Field>
           </div>
         </section>
@@ -301,7 +260,11 @@ export default function PersonalDetails() {
                 placeholder="20XX-XXXXX"
                 required
               />
-              {displayError("studentNumber")}
+              <DisplayError
+                id="studentNumber"
+                state={state}
+                State={State}
+              />
             </Field>
             <Field label="High School Attended">
               <input
@@ -311,7 +274,11 @@ export default function PersonalDetails() {
                 value={localStorage?.personalInfo?.highschool || ""}
                 onChange={handleChange}
               />
-              {displayError("highschool")}
+              <DisplayError
+                id="highschool"
+                state={state}
+                State={State}
+              />
             </Field>
           </div>
 
@@ -326,7 +293,11 @@ export default function PersonalDetails() {
                 placeholder="First Year"
                 required
               />
-              {displayError("year")}
+              <DisplayError
+                id="year"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Expected Grad Year">
@@ -339,7 +310,11 @@ export default function PersonalDetails() {
                 placeholder="20XX"
                 required
               />
-              {displayError("expectedGradYear")}
+              <DisplayError
+                id="expectedGradYear"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="College">
@@ -352,7 +327,11 @@ export default function PersonalDetails() {
                 placeholder="College of Engineering"
                 required
               />
-              {displayError("college")}
+              <DisplayError
+                id="college"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Degree Program">
@@ -365,7 +344,11 @@ export default function PersonalDetails() {
                 placeholder="BS/BA"
                 required
               />
-              {displayError("degreeProgram")}
+              <DisplayError
+                id="degreeProgram"
+                state={state}
+                State={State}
+              />
             </Field>
           </div>
         </section>
@@ -384,7 +367,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("primaryEmail")}
+              <DisplayError
+                id="primaryEmail"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="UP Email">
@@ -397,7 +384,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("upEmail")}
+              <DisplayError
+                id="upEmail"
+                state={state}
+                State={State}
+              />
             </Field>
           </div>
 
@@ -412,7 +403,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("phone")}
+              <DisplayError
+                id="phone"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Telephone">
@@ -420,12 +415,10 @@ export default function PersonalDetails() {
                 type="tel"
                 name="telephone"
                 placeholder="09XX XXX XXXX"
-                className={onBorderError("telephone")}
+                className="text-field"
                 value={localStorage?.personalInfo?.telephone || ""}
                 onChange={handleChange}
-                required
               />
-              {displayError("telephone")}
             </Field>
           </div>
         </section>
@@ -444,7 +437,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("emergencyName")}
+              <DisplayError
+                id="emergencyName"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Relationship">
@@ -457,7 +454,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("emergencyRelation")}
+              <DisplayError
+                id="emergencyRelation"
+                state={state}
+                State={State}
+              />
             </Field>
 
             <Field label="Contact Number">
@@ -470,7 +471,11 @@ export default function PersonalDetails() {
                 onChange={handleChange}
                 required
               />
-              {displayError("emergencyPhone")}
+              <DisplayError
+                id="emergencyPhone"
+                state={state}
+                State={State}
+              />
             </Field>
           </div>
         </section>
@@ -514,39 +519,12 @@ export default function PersonalDetails() {
             </Field>
           </div>
         </section>
-
-        
-
-        <div className="flex justify-between items-center pt-6 border-t border-gray-300">
-          <button
-            className="btn-primary"
-            onClick={(e) => {
-              e.preventDefault();
-              if (validateForm()) {
-                // Navigate("commitments");
-                console.log("test");
-              }
-            }}
-          >
-            Next
-          </button>
-
-          <span className="text-sm text-gray-500">
-            Please review before proceeding
-          </span>
-
-          
-          <button
-            className="btn-clear"
-            onClick={(e) => {
-              e.preventDefault();
-              clearLocalStorage();
-              window.location.reload();
-            }}
-          >
-            Clear Form
-          </button>
-        </div>
+        <Footer
+          validateForm={validateForm}
+          clearLocalStorage={clearLocalStorage}
+          Navigate={Navigate}
+          nextPage="commitments"
+        />
       </div>
     </div>
   );

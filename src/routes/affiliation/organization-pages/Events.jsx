@@ -80,10 +80,10 @@ export default function Events() {
       <div className="space-y-4">
         <Header page={page} title={"Organization-related | Events"}></Header>
 
-        <p>{contents.events_page.preface}</p>
+        <p>{contents.organization_related.events_page.preface}</p>
 
         <ol className="list-decimal pl-6 space-y-2">
-          {contents.events_page.events.map((event) => (
+          {contents.organization_related.events_page.events.map((event) => (
             <li key={event.id}>
               <p>
                 <strong>{event.title}</strong> - {event.description}
@@ -94,7 +94,7 @@ export default function Events() {
       </div>
 
       <div>
-        {contents.events_page.interests.map((interest) => (
+        {contents.organization_related.events_page.interests.map((interest) => (
           <div key={interest.id} className="space-y-2">
             <h2 className="text-lg font-semibold">{interest.question}</h2>
             <p>{interest.description}</p>
@@ -136,12 +136,12 @@ export default function Events() {
         ))}
         <div>
           <h2 className="text-lg font-semibold">
-            {contents.events_page.teachMe.title}
+            {contents.organization_related.events_page.teachMe.title}
           </h2>
-          <p>{contents.events_page.teachMe.question}</p>
-          <p>{contents.events_page.teachMe.description}</p>
+          <p>{contents.organization_related.events_page.teachMe.question}</p>
+          <p>{contents.organization_related.events_page.teachMe.description}</p>
           <div>
-            {contents.events_page.teachMe.choices.map((choice, index) => (
+            {contents.organization_related.events_page.teachMe.choices.map((choice, index) => (
               <div key={index}>
                 <input
                   type="checkbox"

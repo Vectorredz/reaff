@@ -8,7 +8,15 @@
   }
 
   .form-section {
-    @apply space-y-4 pt-6 border-t border-gray-300;
+    @apply space-y-4 pt-6 border-t border-gray-300 p-4;
+  }
+
+  .form {
+    @apply border border-gray-200 bg-white min-w-[60rem] max-w-[60rem] p-6 space-y-8 rounded-2xl;
+  }
+
+  .form-frame {
+    @apply min-h-screen flex justify-center bg-gray-50 py-12 mt-[10rem];
   }
 
   .section-title {
@@ -16,46 +24,41 @@
   }
 
   .text-field {
-    @apply w-full text-sm rounded-md border border-gray-300 p-2
+    @apply w-full min-h-[2em] text-sm rounded-md border bg-gray-50 border-gray-300 p-2
            focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
+  .radio-label {
+    @apply flex items-center gap-2 rounded-lg border border-gray-300 p-3 cursor-pointer hover:bg-gray-50
   }
 
   .suffix-field {
-    @apply w-24 text-sm rounded-md border border-gray-300 p-2
+    @apply w-24 text-sm rounded-md border bg-gray-50 border-gray-300 p-2
            focus:outline-none focus:ring-2 focus:ring-blue-500;
   }
 
-   .btn-primary {
+  .radio-section {
+    @apply flex flex-row w-full gap-2 
+  }
+
+  .btn-primary {
     @apply rounded-md py-2 text-sm text-white border-1 border-blue-300
            bg-blue-600 hover:bg-blue-500 active:bg-(--color-blue) p-5  transition;
   }
 
   .btn-clear {
-    @apply rounded-md py-2 text-sm text-red-600 hover:text-red-500 hover:font-medium ;
+    @apply rounded-md py-2 text-sm text-red-600 hover:text-red-500 hover:font-medium;
   }
 
-
-
-
   .btn-primary-disabled {
-   @apply rounded-md bg-blue-500 py-2 px-4 text-white
+    @apply rounded-md bg-blue-500 py-2 px-4 text-white
         opacity-80 cursor-not-allowed;
   }
 
-  .form {
-    @apply border border-gray-200 bg-white min-w-[60rem] max-w-[60rem] p-6 space-y-8 rounded-2xl ;
-  }
-
-  .form-frame {
-    @apply min-h-screen flex justify-center bg-gray-50 py-12 mt-[10rem]
-  }
-  
   .text-field {
     @apply w-full text-sm rounded-md border border-gray-300 p-2
            focus:outline-none focus:ring-2 focus:ring-(--color-blue)
-           placeholder:italic
-           
-           ;
+           placeholder:italic placeholder:text-gray-300;
   }
 
   .suffix-field {
@@ -86,7 +89,6 @@
   }
 
   /* Primary button */
- 
 
   /* Outline button */
   .btn-outline {
@@ -107,5 +109,5 @@
 }
 
 :root {
-  color: var(--color-black-1)
+  color: var(--color-black-1);
 }

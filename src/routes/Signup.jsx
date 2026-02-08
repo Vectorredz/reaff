@@ -247,7 +247,6 @@ function Signup() {
                 setPassword,
                 page,
                 setPage,
-
               }}
             />
           </form>
