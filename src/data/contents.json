@@ -74,7 +74,7 @@
           "description": "UP ACM's anniversary celebration, usually featuring talks from industry professionals and a game day for members (typically held in March or April)."
         },
         {
-          "id": "algo",
+          "id": "algolympics",
           "title": "Algolympics 2026",
           "description": "Our flagship event and a national coding competition, likely held around February 2026."
         },
@@ -111,7 +111,7 @@
           "description": "You do not need to be the Education head or a member of the Education committee to participate. If you have a passion for teaching and want to gain leadership experience in handling a smaller event, this is for you. Answering \"yes\" does not serve as a final commitment—it is simply an interest check. If you have questions about the responsibilities involved, feel free to ask any council member."
         },
         {
-          "id": "algo",
+          "id": "algolympics",
           "question": "Are you interested in being the Algolympics project head?",
           "description": "Do you want to gain experience in handling a large-scale coding event? Answering \"yes\" does not serve as a final commitment—it is simply an interest check. If you have questions about the responsibilities involved, feel free to ask any council member."
         },
@@ -131,7 +131,7 @@
           "description": "The operations ad hoc committee is a separate committee designed to give portfolio-ready projects to work on. Develop tools and forms that help streamline or automate operations within the organization. Note that being a part of the operations ad hoc committee won't exempt you from your regular committee responsibilities."
         }
       ],
-      "teachMe": {
+      "teachme": {
         "id": "teachme",
         "title": "teACh Me",
         "question": "What topics would you be interested in joining for teACh Me",

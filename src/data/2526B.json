@@ -57,6 +57,7 @@
       }
     },
     "events": {
+      "acmfest": "",
       "eap": "",
       "algolympics": "",
       "webdev": "",
@@ -64,7 +65,7 @@
       "operations": "",
       "teachme": {
         "choices": [],
-        "enthusiat": "",
+        "enthusiast": "",
         "future": ""
       }
     },

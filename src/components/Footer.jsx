@@ -23,6 +23,7 @@ export default function Footer({validateForm, clearLocalStorage, Navigate, nextP
             onClick={(e) => {
               e.preventDefault();
               clearLocalStorage();
+              Navigate(`/signup/`)
               window.location.reload();
             }}
           >

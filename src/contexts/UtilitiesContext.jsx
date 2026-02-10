@@ -223,6 +223,56 @@ export const UtilitiesContextProvider = ({ children }) => {
           },
         },
       },
+      events: {
+        eap: {
+          title: "Easy as Py",
+          type: "radio",
+          error: "Must select an option",
+          required: true,
+        },
+        algolympics: {
+          title: "Algolympics",
+          type: "radio",
+          error: "Must select an option",
+          required: true,
+        },
+        webdev: {
+          title: "Web development",
+          type: "radio",
+          error: "Must select an option",
+          required: true,
+        },
+        clouddev: {
+          title: "Cloud development",
+          type: "radio",
+          error: "Must select an option",
+          required: true,
+        },
+        operations: {
+          title: "Operations Committee",
+          type: "radio",
+          error: "Must select an option",
+          required: true,
+        },
+        teachme: {
+          choices: {
+            title: "Choices",
+            type: "checkbox",
+            error: "Must select atleast (1) option",
+            required: true,
+          },
+          enthusiast: {
+            title: "Enthusiast",
+            type: "text",
+            error: "",
+          },
+          future: {
+            title: "Future",
+            type: "text",
+            error: "",
+          },
+        },
+      },
       committee: {
         logistics: { title: "Logistics", type: "checkbox" },
         publicRelations: { title: "Public Relations", type: "checkbox" },
