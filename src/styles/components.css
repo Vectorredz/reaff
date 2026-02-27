@@ -2,13 +2,14 @@
 
 @layer components {
   /* Inputs */
+
   .form-card {
     @apply bg-white w-[60rem] p-8 rounded-2xl
            border border-gray-200 space-y-8;
   }
 
   .form-section {
-    @apply space-y-4 pt-6 border-t border-gray-300 p-4;
+    @apply space-y-4 pt-6 border-gray-200 p-4 relative p-4 rounded-xl border bg-gray-50;
   }
 
   .form {
@@ -23,13 +24,72 @@
     @apply text-lg font-semibold text-gray-800;
   }
 
-  .text-field {
-    @apply w-full min-h-[2em] text-sm rounded-md border bg-gray-50 border-gray-300 p-2
-           focus:outline-none focus:ring-2 focus:ring-blue-500;
+  .question-grid {
+    @apply grid grid-cols-2 gap-4;
+  }
+
+  .question-card {
+    @apply relative p-4 rounded-xl border border-gray-200 bg-white;
+  }
+
+  .floating-label {
+    @apply absolute top-2 left-3 text-xs text-gray-400;
+  }
+
+  .field-text {
+    @apply text-sm text-gray-600;
+  }
+
+  .committee-title {
+    @apply text-2xl font-bold text-gray-800 capitalize;
+  }
+
+  .radio-grid {
+    @apply grid grid-cols-3 gap-2;
+  }
+
+  .question-text {
+    @apply text-base font-medium text-gray-700;
+  }
+
+  .description-text {
+    @apply text-sm text-gray-500;
+  }
+
+  .notes-text {
+    @apply text-sm text-gray-400;
+  }
+
+  .file-input {
+    @apply text-sm text-gray-600 
+  file:mr-4 file:py-2 file:px-4 
+  file:rounded-md file:border-0 
+  file:text-sm file:bg-blue-50 
+  file:text-blue-600 
+  hover:file:bg-blue-100;
+  }
+
+  .checkbox-label {
+    @apply flex items-center gap-2 rounded-lg border border-gray-300 p-3 cursor-pointer hover:bg-gray-50;
   }
 
   .radio-label {
-    @apply flex items-center gap-2 rounded-lg border border-gray-300 p-3 cursor-pointer hover:bg-gray-50
+    @apply flex items-center gap-2 rounded-lg border border-gray-300 p-3 cursor-pointer hover:bg-gray-50 transition-colors;
+  }
+
+  .radio-label-selected {
+    @apply flex items-center gap-2 rounded-lg border border-blue-500 bg-blue-50 text-blue-500 font-medium p-3 cursor-pointer transition-colors;
+  }
+
+  .radio-label input[type="radio"],
+  .radio-label-selected input[type="radio"],
+  .radio-label input[type="checkbox"],
+  .radio-label-selected input[type="checkbox"] {
+    @apply accent-blue-500;
+  }
+
+  .fill-button {
+    @apply rounded-lg bg-blue-50 px-3 py-1 text-sm text-blue-500 border border-blue-500;
   }
 
   .suffix-field {
@@ -38,7 +98,7 @@
   }
 
   .radio-section {
-    @apply flex flex-row w-full gap-2 
+    @apply flex flex-row w-full gap-2;
   }
 
   .btn-primary {
@@ -56,9 +116,19 @@
   }
 
   .text-field {
-    @apply w-full text-sm rounded-md border border-gray-300 p-2
-           focus:outline-none focus:ring-2 focus:ring-(--color-blue)
-           placeholder:italic placeholder:text-gray-300;
+    @apply w-full text-sm rounded-md border  p-2 border-gray-300
+           focus:outline-none focus:ring-1 focus:ring-blue-500
+           placeholder:italic placeholder:text-gray-300
+           focus:border-transparent
+           focus:bg-blue-50;
+  }
+
+  .text-field-error {
+    @apply w-full text-sm rounded-md border p-2 border-red-500
+    bg-red-50
+    focus:outline-none focus:ring-1 focus:ring-red-500
+           placeholder:italic placeholder:text-gray-300
+           focus:border-transparent
   }
 
   .suffix-field {

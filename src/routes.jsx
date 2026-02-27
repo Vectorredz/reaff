@@ -14,8 +14,15 @@ import Organization from "./routes/affiliation/Organization.jsx"
 import Preferences from "./routes/affiliation/organization-pages/Preferences.jsx"
 import Concerns from "./routes/affiliation/organization-pages/Concerns.jsx"
 import CreateAccount from "./routes/affiliation/CreateAccount.jsx";
+import Assessment from "./routes/affiliation/Assessment.jsx";
 
-
+/*
+Phase 1: 
+- progress bar
+- ui
+- draggable committee preferences
+- media queries
+*/
 
 const routes = [
   { path: "/", element: <Login /> },
@@ -36,6 +43,7 @@ const routes = [
       { index: true, element: <PersonalDetails/> },
       { path: "personal-details/", element: <PersonalDetails /> },
       { path: "commitments/", element: <Commitments /> },
+      { path: "self-assessment/", element: <Assessment /> },
       { path: "organization-related/", 
         element: <Organization /> , 
         children: [

@@ -1,9 +1,12 @@
-export default function DisplayError({id, name=null, state, State}) {
+// DisplayError.jsx
+export default function DisplayError({ id, state, State }) {
+  const field = state?.[id];
+  if (field?.status === State.VALID || field?.status === State.EMPTY ||  field?.status === State.SUCCESS) {
+    return null;
+  }
   return (
-    name ? state[id][name].status === State.ERROR && (
-      <span className="text-xs text-red-500">{state[id][name].error}</span>
-    ) : state[id].status === State.ERROR && (
-      <span className="text-xs text-red-500">{state[id].error}</span>
-    )
+    <p className="text-red-500 text-xs mt-1">
+      {field?.error ?? field?.["choices"]?.error}
+    </p>
   );
 }

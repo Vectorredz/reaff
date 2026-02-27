@@ -1,125 +1,32 @@
 import "../../styles/components.css";
-import { useEffect, useReducer } from "react";
 import { useOutletContext, useNavigate } from "react-router";
 import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import Field from "../../components/Field.jsx";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import DisplayError from "../../components/DisplayError.jsx";
+import { useEffect } from "react";
+
 export default function PersonalDetails() {
-  const { decoderMap, State } = UtilsDB();
-  const {
-    formData,
-    setFormData,
-    localStorage,
-    setLocalStorage,
-    clearLocalStorage,
-    page,
-  } = useOutletContext();
+  const { validationUtils } = UtilsDB();
+  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
   const Navigate = useNavigate();
-
-  // must be unique for each form
-  const handleState = (key) => {
-    let value = formData?.personalInfo[key];
-    let item = decoderMap.personalInfo[key];
-    if (!value) {
-      return { status: State.EMPTY, error: "This field is required." };
-    } else if (item.pattern && !item.pattern.test(value)) {
-      return { status: State.ERROR, error: item.error };
-    } else {
-      return { status: State.VALID, error: "" };
-    }
-  };
-
-  function validationReducer(state, action) {
-    const { type, name } = action;
-    switch (type) {
-      case "CHANGE":
-        return {
-          ...state,
-          [name]: {
-            ...state[name],
-            status: handleState(name).status,
-            error: handleState(name).error,
-          },
-        };
-      case "SUBMIT":
-        return Object.fromEntries(
-          Object.entries(state).map(([key, val]) => [
-            key,
-            val.status === State.VALID || val.status === State.SUCCESS
-              ? { status: State.SUCCESS, error: "" }
-              : { status: State.ERROR, error: handleState(key)?.error },
-          ]),
-        );
-
-      default:
-        return state;
-    }
-  }
-
-  const initialValidationState = Object.fromEntries(
-    Object.keys(formData?.personalInfo ?? {}).map((key) => [
-      key,
-      {
-        status: formData?.personalInfo[key] ? State.VALID : State.EMPTY,
-        error: "",
-      },
-    ]),
-  );
-
-  const [state, dispatch] = useReducer(
-    validationReducer,
-    initialValidationState,
-  );
-
-  const onBorderError = (elem) =>
-    state[elem].status === State.ERROR
-      ? "text-field border-red-500"
-      : "text-field";
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
-  const validateForm = () => {
-    const complete = Object.entries(decoderMap.personalInfo)
-      .filter((key) => key[1].required)
-      .every(
-        (key) =>
-          state[key[0]].status === State.VALID ||
-          state[key[0]].status === State.SUCCESS,
-      );
-    dispatch({ type: "SUBMIT" });
-    console.log(complete);
-    return complete;
-  };
+  const state = form.validationState?.personalInfo;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      personalInfo: {
-        ...prev.personalInfo,
-        [name]: type === "checkbox" ? checked : value,
-      },
-    }));
-
-    setLocalStorage((prev = formData) => ({
-      ...(prev ?? formData),
-      personalInfo: {
-        ...(prev.personalInfo ?? formData?.personalInfo),
-        [name]: type === "checkbox" ? checked : value,
-      },
-    }));
-
-    dispatch({
+    const newValue = type === "checkbox" ? checked : value;
+    form.updateField({ path: `personalInfo.${name}`, value: newValue, type });
+    form.dispatch({
       type: "CHANGE",
-      name,
-      value,
-      input: type,
+      path: `personalInfo.${name}`,
+      result: validationUtils.handleState(state, name, newValue, "personalInfo"),
     });
   };
+
+  useEffect(() => {
+    console.log(form.validationState);
+  }, [form.validationState]);
 
   return (
     <div className="form-frame">
@@ -134,7 +41,7 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="firstName"
-                className={onBorderError("firstName")}
+                className={validationUtils.onBorderError("firstName", state)}
                 value={localStorage?.personalInfo?.firstName || ""}
                 onChange={handleChange}
                 placeholder="Jammond"
@@ -143,7 +50,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="firstName"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -151,7 +58,7 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="middleName"
-                className={onBorderError("middleName")}
+                className={validationUtils.onBorderError("middleName", state)}
                 value={localStorage?.personalInfo?.middleName || ""}
                 onChange={handleChange}
                 placeholder="Diamondback"
@@ -160,7 +67,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="middleName"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -168,7 +75,7 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="lastName"
-                className={onBorderError("lastName")}
+                className={validationUtils.onBorderError("lastName", state)}
                 value={localStorage?.personalInfo?.lastName || ""}
                 onChange={handleChange}
                 placeholder="Terrapin"
@@ -177,7 +84,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="lastName"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -197,17 +104,17 @@ export default function PersonalDetails() {
             <input
               type="text"
               name="currentAddress"
-              className={onBorderError("currentAddress")}
+              className={validationUtils.onBorderError("currentAddress", state)}
               value={localStorage?.personalInfo?.currentAddress || ""}
               onChange={handleChange}
               placeholder="1234 Elm St., Barangay, City, Province, ZIP"
               required
             />
             <DisplayError
-                id="currentAddress"
-                state={state}
-                State={State}
-              />
+              id="currentAddress"
+              state={state}
+              State={validationUtils.State}
+            />
           </Field>
 
           <div className="grid grid-cols-2 gap-4 mt-4">
@@ -215,7 +122,7 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="gender"
-                className={onBorderError("gender")}
+                className={validationUtils.onBorderError("gender", state)}
                 value={localStorage?.personalInfo?.gender || ""}
                 onChange={handleChange}
                 placeholder="Male/Female/Other"
@@ -224,7 +131,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="gender"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -232,7 +139,7 @@ export default function PersonalDetails() {
               <input
                 type="date"
                 name="birthday"
-                className={onBorderError("birthday")}
+                className={validationUtils.onBorderError("birthday", state)}
                 value={localStorage?.personalInfo?.birthday || ""}
                 onChange={handleChange}
                 required
@@ -240,7 +147,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="birthday"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
           </div>
@@ -254,7 +161,10 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="studentNumber"
-                className={onBorderError("studentNumber")}
+                className={validationUtils.onBorderError(
+                  "studentNumber",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.studentNumber || ""}
                 onChange={handleChange}
                 placeholder="20XX-XXXXX"
@@ -263,21 +173,22 @@ export default function PersonalDetails() {
               <DisplayError
                 id="studentNumber"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
+
             <Field label="High School Attended">
               <input
                 name="highschool"
-                placeholder="University of Santo Tomas Highschool"
-                className={onBorderError("highschool")}
+                className={validationUtils.onBorderError("highschool", state)}
                 value={localStorage?.personalInfo?.highschool || ""}
                 onChange={handleChange}
+                placeholder="University of Santo Tomas Highschool"
               />
               <DisplayError
                 id="highschool"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
           </div>
@@ -287,7 +198,7 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="year"
-                className={onBorderError("year")}
+                className={validationUtils.onBorderError("year", state)}
                 value={localStorage?.personalInfo?.year || ""}
                 onChange={handleChange}
                 placeholder="First Year"
@@ -296,7 +207,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="year"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -304,7 +215,10 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="expectedGradYear"
-                className={onBorderError("expectedGradYear")}
+                className={validationUtils.onBorderError(
+                  "expectedGradYear",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.expectedGradYear || ""}
                 onChange={handleChange}
                 placeholder="20XX"
@@ -313,7 +227,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="expectedGradYear"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -321,7 +235,7 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="college"
-                className={onBorderError("college")}
+                className={validationUtils.onBorderError("college", state)}
                 value={localStorage?.personalInfo?.college || ""}
                 onChange={handleChange}
                 placeholder="College of Engineering"
@@ -330,7 +244,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="college"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -338,7 +252,10 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="degreeProgram"
-                className={onBorderError("degreeProgram")}
+                className={validationUtils.onBorderError(
+                  "degreeProgram",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.degreeProgram || ""}
                 onChange={handleChange}
                 placeholder="BS/BA"
@@ -347,7 +264,7 @@ export default function PersonalDetails() {
               <DisplayError
                 id="degreeProgram"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
           </div>
@@ -361,16 +278,16 @@ export default function PersonalDetails() {
               <input
                 type="email"
                 name="primaryEmail"
-                placeholder="jammond@gmail.com"
-                className={onBorderError("primaryEmail")}
+                className={validationUtils.onBorderError("primaryEmail", state)}
                 value={localStorage?.personalInfo?.primaryEmail || ""}
                 onChange={handleChange}
+                placeholder="jammond@gmail.com"
                 required
               />
               <DisplayError
                 id="primaryEmail"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -378,16 +295,16 @@ export default function PersonalDetails() {
               <input
                 type="email"
                 name="upEmail"
-                placeholder="jammond@up.edu.ph"
-                className={onBorderError("upEmail")}
+                className={validationUtils.onBorderError("upEmail", state)}
                 value={localStorage?.personalInfo?.upEmail || ""}
                 onChange={handleChange}
+                placeholder="jammond@up.edu.ph"
                 required
               />
               <DisplayError
                 id="upEmail"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
           </div>
@@ -397,16 +314,16 @@ export default function PersonalDetails() {
               <input
                 type="tel"
                 name="phone"
-                placeholder="09XX XXX XXXX"
-                className={onBorderError("phone")}
+                className={validationUtils.onBorderError("phone", state)}
                 value={localStorage?.personalInfo?.phone || ""}
                 onChange={handleChange}
+                placeholder="09XX XXX XXXX"
                 required
               />
               <DisplayError
                 id="phone"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -414,10 +331,10 @@ export default function PersonalDetails() {
               <input
                 type="tel"
                 name="telephone"
-                placeholder="09XX XXX XXXX"
                 className="text-field"
                 value={localStorage?.personalInfo?.telephone || ""}
                 onChange={handleChange}
+                placeholder="09XX XXX XXXX"
               />
             </Field>
           </div>
@@ -431,16 +348,19 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="emergencyName"
-                placeholder="Jammond's Mom"
-                className={onBorderError("emergencyName")}
+                className={validationUtils.onBorderError(
+                  "emergencyName",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.emergencyName || ""}
                 onChange={handleChange}
+                placeholder="Jammond's Mom"
                 required
               />
               <DisplayError
                 id="emergencyName"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -448,16 +368,19 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="emergencyRelation"
-                placeholder="Mother"
-                className={onBorderError("emergencyRelation")}
+                className={validationUtils.onBorderError(
+                  "emergencyRelation",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.emergencyRelation || ""}
                 onChange={handleChange}
+                placeholder="Mother"
                 required
               />
               <DisplayError
                 id="emergencyRelation"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -465,16 +388,19 @@ export default function PersonalDetails() {
               <input
                 type="tel"
                 name="emergencyPhone"
-                placeholder="09XX XXX XXXX"
-                className={onBorderError("emergencyPhone")}
+                className={validationUtils.onBorderError(
+                  "emergencyPhone",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.emergencyPhone || ""}
                 onChange={handleChange}
+                placeholder="09XX XXX XXXX"
                 required
               />
               <DisplayError
                 id="emergencyPhone"
                 state={state}
-                State={State}
+                State={validationUtils.State}
               />
             </Field>
           </div>
@@ -488,11 +414,10 @@ export default function PersonalDetails() {
               <input
                 type="text"
                 name="mbti"
-                placeholder="INTJ"
                 className="text-field"
                 value={localStorage?.personalInfo?.mbti || ""}
                 onChange={handleChange}
-                required
+                placeholder="INTJ"
               />
             </Field>
 
@@ -501,9 +426,9 @@ export default function PersonalDetails() {
                 type="text"
                 name="discord"
                 className="text-field"
-                placeholder="#jammond"
                 value={localStorage?.personalInfo?.discord || ""}
                 onChange={handleChange}
+                placeholder="#jammond"
               />
             </Field>
 
@@ -512,17 +437,19 @@ export default function PersonalDetails() {
                 type="text"
                 name="facebook"
                 className="text-field"
-                placeholder="https://www.facebook.com/jammond/"
                 value={localStorage?.personalInfo?.facebook || ""}
                 onChange={handleChange}
+                placeholder="https://www.facebook.com/jammond/"
               />
             </Field>
           </div>
         </section>
+
         <Footer
-          validateForm={validateForm}
+          validateForm={validationUtils.validateForm}
           clearLocalStorage={clearLocalStorage}
           Navigate={Navigate}
+          details={[form, "personalInfo"]}
           nextPage="commitments"
         />
       </div>

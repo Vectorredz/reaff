@@ -14,6 +14,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       middleName: {
         title: "Middle name",
         type: "text",
+        required: false,
       },
       lastName: {
         title: "Last name",
@@ -23,6 +24,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       suffix: {
         title: "Suffix",
         type: "text",
+        required: false,
       },
       currentAddress: {
         title: "Current address",
@@ -70,6 +72,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       highschool: {
         title: "Highschool",
         type: "text",
+        required: false,
       },
 
       primaryEmail: {
@@ -121,14 +124,17 @@ export const UtilitiesContextProvider = ({ children }) => {
       mbti: {
         title: "MBTI",
         type: "text",
+        required: false,
       },
       discord: {
         title: "Discord",
         type: "text",
+        required: false,
       },
       facebook: {
         title: "Facebook",
         type: "text",
+        required: false,
       },
     },
 
@@ -143,37 +149,146 @@ export const UtilitiesContextProvider = ({ children }) => {
         title: "UP",
         type: "text",
         error: "Must not be an empty value.",
+        required: false,
       },
       nonup: {
         title: "NONUP",
         type: "text",
         error: "Must not be an empty value.",
+        required: false,
       },
       priorities: {
         title: "Priorities",
         type: "text",
+        required: false,
       },
       concerns: {
         acad: {
           title: "Academics",
           type: "text",
+          required: false,
         },
         health: {
           title: "Health",
           type: "text",
+          required: false,
         },
         personal: {
           title: "Personal",
           type: "text",
+          required: false,
         },
         other: {
           title: "Others",
           type: "text",
+          required: false,
         },
       },
     },
     // commitments
-
+    assessment: {
+      activePerformance: {
+        meta: {
+          required: true,
+        },
+        task: {
+          title: "Task performance",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+        events: {
+          title: "Event participation",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+        meetings: {
+          title: "Meeting attendance",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+        assembly: {
+          title: "Assembly attendance",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+      },
+      elaboration: {
+        title: "Elaboration",
+        type: "text",
+        required: true,
+      },
+      projects: {
+        title: "Project involvement",
+        question: "Which projects have you been involved in this semester?",
+        type: "checkbox",
+        error: "Must select atleast one option.",
+        required: true,
+      },
+      projectPerformance: {
+        meta: {
+          required: true,
+        },
+        time: {
+          title: "Time commitment",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+        task: {
+          title: "Task performance",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+        communication: {
+          title: "Communication",
+          type: "radio",
+          error: "Must select one option.",
+          required: true,
+        },
+        meetings: {
+          title: "Meeting attendance",
+          type: "radio",
+          error: "Must select one option.",
+        },
+      },
+      best: {
+        title: "Best experience",
+        type: "text",
+        required: true,
+      },
+      improve: {
+        title: "Areas for improvement",
+        type: "text",
+        required: true,
+      },
+      vision: {
+        title: "Vision for future involvement",
+        type: "text",
+        required: true,
+      },
+      committee: {
+        lastSem: {
+          title: "Committee involvement last semester",
+          type: "text",
+          required: true,
+        },
+        improvement: {
+          title: "Committee involvement improvement",
+          type: "text",
+          required: true,
+        },
+        feedback: {
+          title: "Committee feedback",
+          type: "text",
+          required: true,
+        },
+      },
+    },
     // ─── Committees ────────────────────────────────
 
     organization: {
@@ -265,36 +380,242 @@ export const UtilitiesContextProvider = ({ children }) => {
             title: "Enthusiast",
             type: "text",
             error: "",
+            required: false,
           },
           future: {
             title: "Future",
             type: "text",
             error: "",
+            required: false,
           },
         },
       },
       committee: {
-        logistics: { title: "Logistics", type: "checkbox" },
-        publicRelations: { title: "Public Relations", type: "checkbox" },
-        publicity: { title: "Publicity", type: "checkbox" },
-        marketing: { title: "Marketing", type: "checkbox" },
-        records: { title: "Records", type: "checkbox" },
+        logistics: {
+          title: "Logistics",
+          download: {
+            title: "",
+            type: "text",
+            required: true,
+          },
+          upload: {
+            title: "",
+            type: "text",
+            required: true,
+          },
+          gadgets: {
+            title: "",
+            type: "checkbox",
+            error: "Must select atleast one option",
+            required: true,
+          },
+        },
+        publicRelations: {
+          title: "Public Relations",
+          partnership: {
+            id: "partnership",
+            title: "Computing related questions",
+            required: true,
+            type: "checkbox",
+          },
+          posts: {
+            id: "posts",
+            type: "radio",
+            required: true,
+          },
+        },
+        publicity: {
+          title: "Publicity",
+          picture: {
+            type: "file",
+            required: false,
+          },
+          birthday: {
+            type: "radio",
+            required: true,
+          },
+        },
+        marketing: {
+          title: "Marketing",
+          type: "checkbox",
+          infoDisclose: {
+            title: "Information disclosure consent",
+            type: "radio",
+            id: "infoDisclose",
+            error: "This field is required.",
+            required: true,
+          },
+          resume: {
+            title: "Resume/CV",
+            type: "file",
+            id: "resume",
+            error: "This field is required.",
+            required: false,
+          },
+          companyf2f: {
+            title: "Company face-to-face",
+            type: "radio",
+            id: "companyf2f",
+            error: "This field is required.",
+            required: true,
+          },
+        },
+        records: {
+          title: "Records",
+          automaton: {
+            title: "",
+            type: "radio",
+            error: "Must select one option.",
+            required: true,
+          },
+          form5: {
+            title: "",
+            type: "file",
+            error: "Must upload a file.",
+            required: false,
+          },
+          upid: {
+            title: "",
+            type: "file",
+            error: "Must upload a file.",
+            required: false,
+          },
+        },
         membership: {
           title: "Membership",
           buddy: {
-            title: "",
-            type: "checkbox",
+            title: "Buddy",
+            type: "radio",
             error: "This field is required.",
+            required: true,
+          },
+          tambay: {
+            title: "Tambay",
+            type: "text",
+            error: "This field is required.",
+            required: true,
           },
           acmeets: {
+            title: "ACMeets",
+            type: "text",
+            error: "This field is required.",
+            required: true,
+          },
+          sportsfests: {
+            title: "Sportsfests",
+            type: "radio",
+            error: "This field is required.",
+            required: true,
+          },
+          facetoface: {
+            title: "Face to face",
+            answer: {
+              type: "radio",
+              error: "This field is required",
+              required: true,
+            },
+            comments: {
+              type: "text",
+              error: "This field is required",
+              required: true,
+            },
+          },
+          gpu: {
+            title: "GPU",
+            type: "radio",
+            error: "This field is required",
+            required: true,
+          },
+          skill: {
             title: "",
+            type: "text",
+            required: true,
+          },
+          games: {
+            title: "",
+            type: "text",
+            required: true,
           },
         },
-        education: { title: "Education", type: "checkbox" },
+        education: {
+          title: "Education",
+          academicLoad: {
+            type: "text",
+            required: true,
+          },
+          pendingClasses: {
+            type: "text",
+            required: true,
+          },
+          expectedClasses: {
+            type: "text",
+            required: true,
+          },
+        },
       },
     },
   };
 
+  const onBorderError = (key, state) =>
+    state?.[key]?.status === State.ERROR ? "text-field-error" : "text-field";
+
+  const handleState = (state, key, value, section, ref = null) => {
+    const item = decoderMap?.[section]?.[key];
+    if (ref === "") {
+      return { status: State.EMPTY, error: "Must be nonempty value." };
+    } else if (ref) {
+      return { status: State.VALID, error: "" };
+    }
+
+    if (!value || value.length <= 0)
+      return { status: State.EMPTY, error: "This field is required." };
+    if (item?.pattern && !item.pattern.test(value))
+      return { status: State.ERROR, error: item.error };
+    return { status: State.VALID, error: "" };
+  };
+
+  const validateForm = (form, subpath) => {
+    let complete = true;
+
+    const schema = subpath
+      .split(".")
+      .reduce((acc, key) => acc?.[key], decoderMap);
+    const values = subpath
+      .split(".")
+      .reduce((acc, key) => acc?.[key], form.values);
+
+    const validateField = (key, value, fieldSchema, path) => {
+      if (!fieldSchema.required) return;
+      const result = handleState(form, key, value, subpath.split(".")[0]);
+      if (result.status !== State.VALID) complete = false;
+      if (result.status === State.EMPTY) result.status = State.ERROR;
+      form.dispatch({ type: "SUBMIT", path, result });
+    };
+
+    Object.entries(schema).forEach(([key, item]) => {
+      if (key === "title") return; // skip metadata
+
+      if ("required" in item) {
+        // leaf field
+        validateField(key, values?.[key], item, `${subpath}.${key}`);
+      } else {
+        // nested group — recurse one level
+        Object.entries(item).forEach(([childKey, childItem]) => {
+          if (key === "title" || typeof childItem !== "object") return;
+          if ("required" in childItem) {
+            validateField(
+              childKey,
+              values?.[key]?.[childKey],
+              childItem,
+              `${subpath}.${key}.${childKey}`,
+            );
+          }
+        });
+      }
+    });
+    console.log(complete);
+    return complete;
+  };
   const State = Object.freeze({
     EMPTY: "EMPTY",
     VALID: "VALID",
@@ -302,8 +623,15 @@ export const UtilitiesContextProvider = ({ children }) => {
     ERROR: "ERROR",
   });
 
+  const validationUtils = {
+    onBorderError,
+    validateForm,
+    handleState,
+    State,
+  };
+
   return (
-    <UtilitiesContext.Provider value={{ decoderMap, State }}>
+    <UtilitiesContext.Provider value={{ decoderMap, validationUtils }}>
       {children}
     </UtilitiesContext.Provider>
   );

@@ -6,7 +6,7 @@ export default function Modal({open, onClose, children}) {
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className={`bg-white rounded-xl p-6 transform transition-all max-w-xl w-full h-[80vh] ${open ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+                className={`bg-white rounded-xl p-6 transform transition-all max-w-xl w-full h-[80vh] overflow-y-scroll ${open ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
             >
             {children}
             </div>

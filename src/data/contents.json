@@ -15,7 +15,7 @@
           "title": "Active member",
           "type": "radio"
         },
-        "returninMember": {
+        "returningMember": {
           "id": "returningMember",
           "title": "Returning member",
           "type": "radio"
@@ -41,8 +41,8 @@
       "title": "Special Concerns",
       "description": "Feel free to share any concerns you would like us to take note. Anything from academic concerns (eg. naghahabol ng grad, under contract, maintaining scholarship, heavy subjects), to health concerns (dietary restrictions, chronic ailments, disabilities, mental or psychological health concerns, etc.), or any other personal or interpersonal concern you would like us to know and consider so we could try to figure out together how we could support each other. Please be assured that this information will be secured in confidence within the Executive Council of the localStorage, and will never be used against you. Our objective is solely to figure out how we may support and protect our members, given their individual needs.",
       "choices": {
-        "acads": {
-          "id": "acads",
+        "acad": {
+          "id": "acad",
           "title": "Academic Concerns",
           "placeholder": "Add academic conerns you would like to share."
         },
@@ -62,6 +62,107 @@
           "placeholder": "Add other conerns you would like to share."
         }
       }
+    }
+  },
+  "self_assessment": {
+    "title": "Org and Self-Assessment",
+    "description": "For the org's betterment",
+    "committeeEvaluation": {
+      "title": "Self evaluation as a committee member",
+      "description": "How active were you last semester, considering your constitutionally-mandated responsibilities as a member of the organization? Please recall that as stated in our Constitution Article III Section C, an active member has the following responsibilities: (1) do the committee tasks assigned by the committee head, (2) participate in any or all internal and external events, (3) pay membership fee, (not applicable) (4) attend in all committee meetings called by the committee head, (5) attend in all GA, and lastly understand and abide the constitution.",
+      "ratings": {
+        "title": "I have done the following as an active committee member:",
+        "description": "Please rate your performance (1 = worst performance, 4 = best performance)",
+        "items": [
+          { "id": "task", "label": "Do the tasks assigned by the head" },
+          {
+            "id": "events",
+            "label": "Participate in internal and external events"
+          },
+          { "id": "meetings", "label": "Attend meetings called by the head" },
+          { "id": "assembly", "label": "Attend general assemblies" }
+        ],
+        "scale": ["NA", "1", "2", "3", "4"]
+      },
+      "elaboration": {
+        "id": "elaboration",
+        "type": "textarea",
+        "question": "Please feel free to elaborate on your performance in the above."
+      }
+    },
+    "projectPerformance": {
+      "title": "Self evaluation as a project member or volunteer",
+      "description": "How active were you in projects organized by UP ACM?",
+      "projects": {
+        "id": "projects",
+        "type": "checkbox",
+        "question": "I was a team member or volunteer for these projects:",
+        "options": [
+          {
+            "id": "appProcess",
+            "label": "App Process 2526A",
+            "name": "projects"
+          },
+          { "id": "eap", "label": "Easy As Py", "name": "projects" },
+          { "id": "other", "label": "Other", "name": "projects" }
+        ]
+      },
+      "ratings": {
+        "title": "I have done the following as an active project team member or volunteer:",
+        "description": "Please rate your performance (1 = worst performance, 4 = best performance)",
+        "items": [
+          { "id": "time", "label": "Did my tasks on time" },
+          { "id": "task", "label": "Did my tasks well" },
+          {
+            "id": "communication",
+            "label": "Communicated well with my heads and fellow teammates"
+          },
+          { "id": "meetings", "label": "Attended meetings called by the heads" }
+        ],
+        "scale": ["NA", "1", "2", "3", "4"]
+      }
+    },
+    "orgAssessment": {
+      "title": "Org Assessment",
+      "fields": [
+        {
+          "id": "best",
+          "type": "textarea",
+          "question": "UP ACM is best in/for..."
+        },
+        {
+          "id": "improve",
+          "type": "textarea",
+          "question": "UP ACM could improve by...",
+          "description": "Any comments or suggestions on what we could do better :)"
+        },
+        {
+          "id": "vision",
+          "type": "textarea",
+          "question": "I envision UP ACM to be..."
+        }
+      ]
+    },
+    "committeeAssessment": {
+      "title": "Committee Assessment",
+      "fields": [
+        {
+          "id": "lastSem",
+          "type": "text",
+          "question": "Committee Last Semester"
+        },
+        {
+          "id": "improvement",
+          "type": "textarea",
+          "question": "My last committee can improve if..."
+        },
+        {
+          "id": "feedback",
+          "type": "textarea",
+          "question": "My last committee head was...",
+          "description": "Please DESCRIBE your committee head. Comments, concerns, or feedback (Don't worry, this will be taken strictly constructively)"
+        }
+      ]
     }
   },
   "organization_related": {
@@ -158,6 +259,7 @@
           "id": "buddy",
           "type": "radio",
           "question": "Are you g to be a buddy for this coming app process? ",
+          "required": true,
           "description": "A buddy will be an applican't point person and hopefully first friend to help them with their app process",
           "options": [
             {
@@ -208,26 +310,38 @@
         },
         {
           "id": "facetoface",
-          "type": "radio",
           "question": "Are you G for face to face activities? ",
           "description": "Examples: Review sessions, Sportsfest, Food trip sa A2, etc.",
-          "options": [
-            {
-              "title": "yes",
-              "id": "yes",
-              "name": "facetoface"
-            },
-            {
-              "title": "no",
-              "id": "no",
-              "name": "facetoface"
-            },
-            {
-              "title": "maybe",
-              "id": "maybe",
-              "name": "facetoface"
-            }
-          ]
+          "answer": {
+            "id": "answer",
+            "type": "radio",
+            "error": "This field is required",
+            "required": true,
+            "options": [
+              {
+                "title": "yes",
+                "id": "yes",
+                "name": "facetoface"
+              },
+              {
+                "title": "no",
+                "id": "no",
+                "name": "facetoface"
+              },
+              {
+                "title": "depends",
+                "id": "depends",
+                "name": "facetoface"
+              }
+            ]
+          },
+          "comments": {
+            "id": "comments",
+            "type": "text",
+            "error": "This field is required",
+            "required": true,
+            "placeholder": "If you answered 'depends', please explain your answer."
+          }
         },
         {
           "id": "gpu",
@@ -255,12 +369,15 @@
         {
           "id": "tambay",
           "type": "text",
-          "question": "I'd tambay with UP ACM if What would make you join org events? (even non-official or chill/hangout events)"
+
+          "question": "I'd tambay with UP ACM if What would make you join org events? (even non-official or chill/hangout events)",
+          "required": true
         },
         {
           "id": "games",
           "type": "text",
-          "question": "Kindly list the multiplayer games that you currently play & willing to play with ACMems (i.e. Valorant, Fortnite, Minecraft)"
+          "question": "Kindly list the multiplayer games that you currently play & willing to play with ACMems (i.e. Valorant, Fortnite, Minecraft)",
+          "required": true
         }
       ],
 
@@ -307,23 +424,46 @@
         {
           "id": "download",
           "type": "text",
+          "required": true,
           "question": "What is your download speed (in Mbps) based on speedtest.net?"
         },
         {
           "id": "upload",
           "type": "text",
+          "required": true,
           "question": "What is your upload speed (in Mbps) based on speedtest.net?"
         },
         {
           "id": "gadgets",
           "type": "checkbox",
+          "required": true,
           "question": "What type of gadgets do you own?",
           "options": [
-            "Tablet",
-            "Smartphone",
-            "Laptop",
-            "Personal Computer",
-            "Other"
+            {
+              "title": "Tablet",
+              "id": "tablet",
+              "name": "gadgets"
+            },
+            {
+              "title": "Smartphone",
+              "id": "smartphone",
+              "name": "gadgets"
+            },
+            {
+              "title": "Laptop",
+              "id": "laptop",
+              "name": "gadgets"
+            },
+            {
+              "title": "Personal Computer",
+              "id": "computer",
+              "name": "gadgets"
+            },
+            {
+              "title": "Other",
+              "id": "other",
+              "name": "gadgets"
+            }
           ]
         }
       ],
@@ -332,18 +472,24 @@
         {
           "id": "academicLoad",
           "type": "text",
+          "required": true,
+
           "question": "Academic Load for 2526A semester"
         },
         {
           "id": "pendingClasses",
           "type": "text",
           "question": "What classes do you still have pending requirement in?",
+          "required": true,
+
           "description": "Please separate each subject with a comma and a space."
         },
         {
           "id": "expectedClasses",
           "type": "text",
           "question": "What classes are you expected to take this semester?",
+          "required": true,
+
           "description": "Please separate each subject with a comma and a space."
         }
       ],
@@ -351,6 +497,8 @@
         {
           "id": "picture",
           "type": "file",
+          "required": true,
+
           "question": "Attach a picture of you that you would like us to use in our pubs!",
           "description": "This would be used in official UP ACM Publicity Materials. Please upload a good-looking picture of yourself! If you don't upload a photo, we will choose a photo of you at our own discretion.",
           "notes": "Upload 1 supported file: image. Max 10 MB."
@@ -358,6 +506,8 @@
         {
           "id": "birthday",
           "type": "radio",
+          "required": true,
+
           "question": "Do you want to be greeted by Jammond in the ACM Resident GC on your birthday?",
           "options": [
             {
@@ -377,6 +527,7 @@
         {
           "id": "infoDisclose",
           "type": "radio",
+          "required": true,
           "question": "Are you willing to disclose your personal information to UP ACM's company sponsors/partners?",
           "description": "This includes name, year level, course, and email address. The goal is to connect members with internship or job opportunities.",
           "options": [
@@ -395,6 +546,8 @@
         {
           "id": "resume",
           "type": "file",
+          "required": true,
+
           "question": "Attach your RESUME / CV below",
           "description": "Alternatively, you may submit your RESUME/CV by emailing it to marketing@upacm.net with the SUBJECT: LASTNAME RESUME/CV.",
           "notes": "Upload 1 supported file: PDF. Max 10 MB."
@@ -402,6 +555,8 @@
         {
           "id": "companyf2f",
           "type": "radio",
+          "required": true,
+
           "question": "Are you available for face-to-face meetups should certain companies request for it?",
           "description": "Meetups will likely be around UPD/Katipunan area.",
           "options": [
@@ -424,6 +579,8 @@
           "id": "partnership",
           "type": "checkbox",
           "question": "Would you be willing to participate in liking/sharing for partnership responsibilities?",
+          "required": true,
+
           "description": "Check all that apply.",
           "options": [
             {
@@ -447,6 +604,8 @@
           "id": "posts",
           "type": "radio",
           "question": "How many posts a month would you be willing to like/share for partnerships (excluding UP ACM events)?",
+          "required": true,
+
           "options": [
             {
               "title": "0 posts",
