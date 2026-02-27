@@ -9,7 +9,7 @@
     "lastName": "",
     "suffix": "",
     "currentAddress": "",
-    "birthday": null,
+    "birthday": "",
     "gender": "",
     "studentNumber": "",
     "year": "",
@@ -40,6 +40,31 @@
       "other": ""
     }
   },
+  "assessment": {
+    "activePerformance": {
+      "task": "",
+      "events": "",
+      "meetings": "",
+      "assembly": ""
+    },
+    "elaboration": "",
+    "projects": [],
+    "projectPerformance": {
+      "time": "",
+      "task": "",
+      "communication": "",
+      "meetings": ""
+    },
+    "best": "",
+    "improve": "",
+    "vision": "",
+    "committee": {
+      "lastSem": "",
+      "improvement": "",
+      "feedback": ""
+    }
+  },
+
   "organization": {
     "preferences": {
       "committeeRank": [],
@@ -57,6 +82,7 @@
       }
     },
     "events": {
+      "acmfest": "",
       "eap": "",
       "algolympics": "",
       "webdev": "",
@@ -64,7 +90,7 @@
       "operations": "",
       "teachme": {
         "choices": [],
-        "enthusiat": "",
+        "enthusiast": "",
         "future": ""
       }
     },

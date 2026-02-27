@@ -1,222 +1,242 @@
 import { useOutletContext, useNavigate } from "react-router";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
+import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import "../../styles/components.css";
 import Add from "../../components/Add.jsx";
 import Header from "../../components/Header.jsx";
-
+import Footer from "../../components/Footer.jsx";
+import contents from "../../data/contents.json";
+import DisplayError from "../../components/DisplayError.jsx";
 export default function Commitments() {
-  const { formData, setFormData, localStorage, setLocalStorage, page, setPage } =
+  const { validationUtils } = UtilsDB();
+  const { form, localStorage, clearLocalStorage, page, setPage } =
     useOutletContext();
-  const [complete, setComplete] = useState(false);
+  const state = form.validationState?.commitments;
   const upRef = useRef(null);
   const nonUpRef = useRef(null);
   const Navigate = useNavigate();
 
-  const updateOrgs = (prev = formData, org, ref) => {
-    const commitments = prev?.commitments[org] ?? "";
-    return {
-      ...prev,
-      commitments: {
-        ...(prev?.commitments ?? formData?.commitments),
-        [org]: [...commitments, ref.current.value],
-      },
-    };
-  };
-
-  const updateMembership = (prev, value, id) => {
-    return {
-      ...prev,
-      commitments: {
-        ...prev?.commitments,
-        membership: id,
-      },
-    };
-  };
-
-  const updatePriorities = (prev = formData, value) => {
-    return {
-      ...prev,
-      commitments: {
-        ...(prev?.commitments ?? formData?.commitments),
-        priorities: value,
-      },
-    };
-  };
-
-  const updateConcerns = (prev = formData, name, value) => {
-    return {
-      ...prev,
-      commitments: {
-        ...(prev?.commitments ?? formData?.commitments),
-        concerns: {
-          ...(prev?.commitments?.concerns ?? formData?.concerns),
-          [name]: value,
-        },
-      },
-    };
-  };
-
   const handleAddOrg = (e, org, ref) => {
     e.preventDefault();
-    setFormData((prev) => updateOrgs(prev, org, ref));
-    setLocalStorage((prev) => updateOrgs(prev, org, ref));
-    upRef.current.value = "";
-    nonUpRef.current.value = "";
+    console.log(org);
+    if (ref.current.value !== "") {
+      form.updateField({
+        path: `commitments.${org}`,
+        value: ref.current.value,
+        type: "array",
+      });
+    }
+    form.dispatch({
+      type: "CHANGE",
+      path: `commitments.${org}`,
+      result: validationUtils.handleState(
+        org,
+        ref.current.value,
+        "commitments",
+      ),
+    });
+    ref.current.value = "";
   };
 
   const handleChange = (e) => {
-    const { name, value, id } = e.target;
-
-    if (name === "priorities") {
-      setFormData((prev) => updatePriorities(prev, value));
-      setLocalStorage((prev) => updatePriorities(prev, value));
-    } else if (name === "member") {
-      setFormData((prev) => updateMembership(prev, value, id));
-      setLocalStorage((prev) => updateMembership(prev, value, id));
-    } else {
-      setFormData((prev) => updateConcerns(prev, name, value));
-      setLocalStorage((prev) => updateConcerns(prev, name, value));
-    }
+    const { name, value, type, checked, id } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+    if (name === "addText") return;
+    form.updateField({
+      path: `commitments.${name}`,
+      value: newValue,
+      id,
+      type,
+    });
+    form.dispatch({
+      type: "CHANGE",
+      path: `commitments.${name}`,
+      result: validationUtils.handleState(name, newValue, "commitments"),
+    });
   };
 
-  useEffect(() => {
-    if (
-      Object.values(formData?.commitments).every((v) => v != "") &&
-      localStorage?.up?.length > 0 &&
-      localStorage?.nonup?.length > 0 &&
-      Object.values(formData?.commitments?.concerns).every((v) => v != "")
-    ) {
-      setComplete(() => true);
-    } else {
-      setComplete(() => false);
-    }
-  }, [formData.commitments]);
+  const handleConcernChange = (e) => {
+    const { name, value } = e.target;
+    form.updateField({
+      path: `commitments.concerns.${name}`,
+      value,
+      type: "text",
+    });
+    form.dispatch({
+      type: "CHANGE",
+      path: `commitments.concerns.${name}`,
+      result: validationUtils.handleState(name, value, "commitments"),
+    });
+  };
+
+  /* ===================== RENDER ===================== */
 
   return (
     <div className="form-frame">
-      <div className="form">
-        <Header page={page} title={"Commitments"}></Header>
+      <div className="form space-y-8">
+        <Header page={page} title="Commitments" />
 
-        {/* Membership type */}
-        <div>
-          <h2>Type of membership</h2>
-          <input
-            name="member"
-            id="newMember"
-            type="radio"
-            checked={localStorage?.commitments?.membership === "newMember"}
-            onChange={handleChange}
-          />
-          <label htmlFor="newMember"> New Member</label>
-          <input
-            name="member"
-            id="activeMember"
-            type="radio"
-            checked={localStorage?.commitments?.membership === "activeMember"}
-            onChange={handleChange}
-          />
-          <label htmlFor="activeMember"> Active Member</label>
-          <input
-            name="member"
-            id="returningMember"
-            type="radio"
-            checked={localStorage?.commitments?.membership === "returningMember"}
-            onChange={handleChange}
-          />
-          <label htmlFor="returningMember"> Returning Member</label>
-        </div>
-        {/* UP organizations */}
-        <div>
-          <h2>Other Organization within UP</h2>
-          {localStorage?.commitments?.up?.map((org, index) => (
-            <div key={index}>{org}</div>
-          ))}
-          <Add handler={handleAddOrg} ref={upRef} list="up" />
-        </div>
-        {/* Non-UP organizations */}
-        <div>
-          <h2>Other Organization beyond UP</h2>
-          {localStorage?.commitments?.nonup?.map((org, index) => (
-            <div key={index}>{org}</div>
-          ))}
-          <Add handler={handleAddOrg} ref={nonUpRef} list="nonup" />
-        </div>
-        {/* Other priorities */}
-        <div>
-          <h2>Other significant priorities</h2>
+        {/* MEMBERSHIP */}
+        <section className="form-section">
+          <h2 className="section-title">Type of membership</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {Object.keys(contents.commitments.membership.options).map((key) => {
+              const opt = contents.commitments.membership.options[key];
+              return (
+                <label
+                  key={key}
+                  htmlFor={opt.id}
+                  className={
+                    localStorage?.commitments?.membership === opt.id
+                      ? "radio-label-selected"
+                      : "radio-label"
+                  }
+                >
+                  <input
+                    type={opt.type}
+                    name="membership"
+                    id={opt.id}
+                    checked={localStorage?.commitments?.membership === opt.id}
+                    onChange={handleChange}
+                  />
+                  <span className="text-sm">{opt.title}</span>
+                </label>
+              );
+            })}
+          </div>
+
+          <DisplayError
+            id={`membership`}
+            state={state}
+            State={validationUtils.State}
+          ></DisplayError>
+        </section>
+
+        {/* ORGANIZATIONS */}
+        <section className="form-section">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* UP */}
+            <div className="space-y-3">
+              <h2 className="section-title">Organizations within UP</h2>
+
+              <div className="flex flex-wrap gap-2 rounded-md bg-gray-50 p-3 min-h-[64px]">
+                {localStorage?.commitments?.up?.length ? (
+                  localStorage.commitments.up.map((org, i) => (
+                    <span key={i} className="fill-button">
+                      {org}
+                    </span>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-400 italic">
+                    No organizations added
+                  </p>
+                )}
+              </div>
+
+              <Add
+                handler={handleAddOrg}
+                placeholder={contents.commitments.up.placeholder}
+                ref={upRef}
+                onChange={handleChange}
+                list="up"
+              />
+              <DisplayError
+                id={`up`}
+                state={state}
+                State={validationUtils.State}
+              ></DisplayError>
+            </div>
+
+            {/* NON-UP */}
+            <div className="space-y-3">
+              <h2 className="section-title">Organizations outside UP</h2>
+
+              <div className="flex flex-wrap gap-2 rounded-md bg-gray-50 p-3 min-h-[64px]">
+                {localStorage?.commitments?.nonup?.length ? (
+                  localStorage.commitments.nonup.map((org, i) => (
+                    <span key={i} className="fill-button">
+                      {org}
+                    </span>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-400 italic">
+                    No organizations added
+                  </p>
+                )}
+              </div>
+
+              <Add
+                handler={handleAddOrg}
+                placeholder={contents.commitments.nonup.placeholder}
+                ref={nonUpRef}
+                onChange={handleChange}
+                list="nonup"
+              />
+              <DisplayError
+                id={`nonup`}
+                state={state}
+                State={validationUtils.State}
+              ></DisplayError>
+            </div>
+          </div>
+        </section>
+
+        {/* PRIORITIES */}
+        <section className="form-section">
+          <h2 className="section-title">Other significant priorities</h2>
           <input
             type="text"
             name="priorities"
             value={localStorage?.commitments?.priorities || ""}
+            placeholder={contents.commitments.priorities.placeholder}
             onChange={handleChange}
             className="text-field"
           />
-        </div>
-        {/* Special concerns */}
-        <div>
-          <h2>Special Concerns</h2>
-          <p>
-            Feel free to share any concerns you would like us to take note :)
-            Anything from academic concerns (eg. naghahabol ng grad, under
-            contract, maintaining scholarship, heavy subjects), to health
-            concerns (dietary restrictions, chronic ailments, disabilities,
-            mental or psychological health concerns, etc.), or any other
-            personal or interpersonal concern you would like us to know and
-            consider so we could try to figure out together how we could support
-            each other. :) Please be assured that this information will be
-            secured in confidence within the Executive Council of the localStorage,
-            and will never be used against you. Our objective is solely to
-            figure out how we may support and protect our members, given their
-            individual needs.
+        </section>
+
+        {/* CONCERNS */}
+        <section className="form-section">
+          <h2 className="section-title">
+            {contents.commitments.concerns.title}
+          </h2>
+
+          <p className="text-sm text-gray-600">
+            {contents.commitments.concerns.description}
           </p>
-          <div>
-            <h3>Academic Concerns</h3>
-            <textarea
-              name="acad"
-              value={localStorage?.commitments?.concerns?.acad || ""}
-              onChange={handleChange}
-              className="text-field"
-            />
+
+          <div className="space-y-4">
+            {Object.keys(contents.commitments.concerns.choices).map((key) => {
+              const item = contents.commitments.concerns.choices[key];
+              return (
+                <div key={key} className="space-y-1">
+                  <h3 className="text-sm font-medium">{item.title}</h3>
+                  <textarea
+                    name={item.id}
+                    value={localStorage?.commitments?.concerns[key] || ""}
+                    onChange={handleConcernChange} // ← use this one
+                    className="text-field min-h-[96px]"
+                    placeholder="Elaborate your concern..."
+                  />
+                </div>
+              );
+            })}
           </div>
-          <div>
-            <h3>Health Concerns</h3>
-            <textarea
-              name="health"
-              value={localStorage?.commitments?.concerns?.health || ""}
-              onChange={handleChange}
-              className="text-field"
-            />
-          </div>
-          <div>
-            <h3>Personal / Interpersonal Concerns</h3>
-            <textarea
-              name="personal"
-              value={localStorage?.commitments?.concerns?.personal || ""}
-              onChange={handleChange}
-              className="text-field"
-            />
-          </div>
-          <div>
-            <h3>Other Concerns</h3>
-            <textarea
-              name="other"
-              value={localStorage?.commitments?.concerns?.other || ""}
-              onChange={handleChange}
-              className="text-field"
-            />
-          </div>
-        </div>
-        {/* Next button */}
-        <button
-          className="px-4 py-2 bg-blue-600 text-white rounded-md"
-          onClick={(e) => {
-            e.preventDefault();
-            !complete && Navigate("/signup/organization-related");
-            setPage(page + 1);
-          }}
-        >
-          Next
-        </button>
+        </section>
+
+        {/* FOOTER */}
+        <Footer
+          validateForm={validationUtils.validateForm}
+          clearLocalStorage={clearLocalStorage}
+          Navigate={Navigate}
+          details={[form, "commitments"]}
+          nextPage={
+            
+            ["returningMember", "activeMember"].includes(form?.values?.commitments?.membership)
+              ? "self-assessment"
+              : "organization-related"
+          }
+        />
       </div>
     </div>
   );

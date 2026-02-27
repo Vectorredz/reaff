@@ -1,44 +1,41 @@
 import { useNavigate, useOutletContext } from "react-router";
 import { useEffect } from "react";
-import Header from "../../../components/Header";
+import { UtilsDB } from "../../../contexts/UtilitiesContext.jsx";
+import Header from "../../../components/Header.jsx";
+import Footer from "../../../components/Footer.jsx";
+import DisplayError from "../../../components/DisplayError.jsx";
+
 export default function Preferences() {
   const Navigate = useNavigate();
-  const { formData, setFormData, localStorage, setLocalStorage, page } =
-    useOutletContext();
+  const { validationUtils } = UtilsDB();
+  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
+
   const tops = [1, 2, 3];
 
-  const updateReasons = (prev = formData, value, id, name) => {
-    return {
-      ...prev,
-      organization: {
-        ...prev?.organization,
-        preferences: {
-          ...prev?.organization?.preferences,
-          [id]: {
-            ...prev?.organization?.preferences[id],
-            [name]: value,
-          },
-        },
-      },
-    };
-  };
+  const state = form.validationState?.organization?.preferences;
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   const handleChange = (e) => {
     const { name, value, id } = e.target;
-    setFormData((prev) => updateReasons(prev, value, id, name));
-    setLocalStorage((prev) => updateReasons(prev, value, id, name));
+    form.updateField({
+      path: `organization.preferences.${id}.${name}`,
+      value,
+      type: "text",
+    });
+    form.dispatch({
+      type: "CHANGE",
+      path: `organization.preferences.${id}.${name}`,
+      result: validationUtils.handleState(name, value, "organization"), 
+    });
   };
-
-  useEffect(() => {
-    console.log(formData.organization.preferences);
-  }, [formData]);
 
   return (
     <div className="form">
-      {/* Page Title */}
-      <Header page={page} title={"Organization-related | Preferences"}></Header>
+      <Header page={page} title={"Organization-related | Preferences"} />
 
-      {/* Primer Section */}
       <div className="space-y-2 rounded-lg border border-gray-300 p-5">
         <h3 className="text-lg font-medium">2526 UP ACM Committee Primer</h3>
         <p className="text-sm text-gray-600">
@@ -49,73 +46,79 @@ export default function Preferences() {
         </p>
       </div>
 
-      {/* Preferences Section */}
       <div className="space-y-8">
         <h3 className="text-xl font-semibold">Committee Preference</h3>
 
-        {/* Drag and Drop Placeholder */}
         <div className="rounded-md border border-dashed border-gray-300 p-6 text-center text-gray-400">
           Insert Drag and Drop here
         </div>
 
-        {/* Preference Evaluation */}
-        <p className="text-sm text-gray-500">Preference Evaluation</p>
-
-        {/* Top Preferences */}
         {tops.map((top) => (
-          <div
-            key={top}
-            className="space-y-4 rounded-lg border border-gray-300 p-5"
-          >
-            <h4 className="text-base font-medium">
-              Top {top} Preferred Committee
-            </h4>
+          <div key={top} className="form-section">
+            <h4 className="section-title">Top {top} Preferred Committee</h4>
 
-            {/* Reason */}
-            <div className="space-y-1">
+            <div className="flex flex-col space-y-2">
               <label className="text-sm font-medium">
-                Reason for preference *
+                Reason for preference
               </label>
               <textarea
-                className="text-field min-h-[100px]"
+                className={validationUtils.onBorderError(
+                  "reason",
+                  state?.[`top${top}`],
+                )}
                 name="reason"
                 id={`top${top}`}
                 placeholder="Experience, skills, motivation, or what you can contribute"
-                value={localStorage?.organization?.preferences[`top${top}`]?.reason}
+                value={
+                  localStorage?.organization?.preferences[`top${top}`]
+                    ?.reason || ""
+                }
                 onChange={handleChange}
                 required
               />
+              <DisplayError
+                id="reason"
+                state={state?.[`top${top}`]}
+                State={validationUtils.State}
+              />
             </div>
 
-            {/* Expectation */}
             <div className="space-y-1">
               <label className="text-sm font-medium">
                 What you expect from this committee
               </label>
               <textarea
                 name="expectation"
-                className="text-field min-h-[100px]"
+                className={validationUtils.onBorderError(
+                  "expectation",
+                  state?.[`top${top}`],
+                )}
                 id={`top${top}`}
                 placeholder="Experience, skills, motivation, or what you can contribute"
                 value={
-                  localStorage?.organization?.preferences[`top${top}`]?.expectation
+                  localStorage?.organization?.preferences[`top${top}`]
+                    ?.expectation || ""
                 }
                 onChange={handleChange}
                 required
+              />
+              <DisplayError
+                id="expectation"
+                state={state?.[`top${top}`]}
+                State={validationUtils.State}
               />
             </div>
           </div>
         ))}
       </div>
-      <button
-        className="btn-primary"
-        onClick={(e) => {
-          e.preventDefault();
-          Navigate("/signup/organization-related/events");
-        }}
-      >
-        Next
-      </button>
+
+      <Footer
+        validateForm={validationUtils.validateForm}
+        clearLocalStorage={clearLocalStorage}
+        Navigate={Navigate}
+        details={[form, "organization.preferences"]}
+        nextPage="organization-related/events"
+      />
     </div>
   );
 }

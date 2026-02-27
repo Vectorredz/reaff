@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useLocalStorage = (key, initial) => {
   const [ storage, setStorage ] = useState(JSON.parse(localStorage?.getItem(key)) ?? initial)
@@ -7,6 +7,12 @@ const useLocalStorage = (key, initial) => {
     localStorage.setItem(key, JSON.stringify(formHandler(storage)))
     setStorage(formHandler(storage))
   }
+
+  useEffect(() => {
+    if (storage == null && initial != null) {
+      setLocalStorage(() => initial)
+    }
+  }, [initial])
 
   const clearLocalStorage = () => {
     localStorage.clear()

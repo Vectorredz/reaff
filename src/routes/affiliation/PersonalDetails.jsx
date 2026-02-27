@@ -1,116 +1,137 @@
 import "../../styles/components.css";
-import { useEffect, useState } from "react";
 import { useOutletContext, useNavigate } from "react-router";
+import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import Field from "../../components/Field.jsx";
 import Header from "../../components/Header.jsx";
+import Footer from "../../components/Footer.jsx";
+import DisplayError from "../../components/DisplayError.jsx";
+import { useEffect } from "react";
+
 export default function PersonalDetails() {
-  const {
-    formData,
-    setFormData,
-    localStorage,
-    setLocalStorage,
-    clearLocalStorage,
-    page,
-    setPage,
-  } = useOutletContext();
-  const [complete, setComplete] = useState(false);
+  const { validationUtils } = UtilsDB();
+  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
   const Navigate = useNavigate();
+  const state = form.validationState?.personalInfo;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      personalInfo: {
-        ...prev.personalInfo,
-      },
-    }));
-    setLocalStorage((prev = formData) => ({
-      ...(prev ?? formData),
-      personalInfo: {
-        ...(prev?.personalInfo ?? formData?.personalInfo),
-        [name]: type === "checkbox" ? checked : value,
-      },
-    }));
+    const newValue = type === "checkbox" ? checked : value;
+    form.updateField({ path: `personalInfo.${name}`, value: newValue, type });
+    form.dispatch({
+      type: "CHANGE",
+      path: `personalInfo.${name}`,
+      result: validationUtils.handleState(state, name, newValue, "personalInfo"),
+    });
   };
 
-  // every time the formData updates update the localStorage?
   useEffect(() => {
-    if (Object.values(formData.personalInfo).every((value) => value !== "")) {
-      setComplete(true);
-    } else {
-      setComplete(false);
-    }
-  }, [formData.personalInfo]);
+    console.log(form.validationState);
+  }, [form.validationState]);
 
   return (
     <div className="form-frame">
       <div className="form-card">
-        {/* Header */}
-        <Header page={page} title={"Personal Information"}></Header>
+        <Header page={page} title={"Personal Information"} />
 
-        {/* PERSONAL INFO */}
         <section className="form-section">
           <h2 className="section-title">Personal Information</h2>
 
           <div className="grid grid-cols-4 gap-4">
             <Field label="First Name">
               <input
+                type="text"
                 name="firstName"
-                placeholder="Jammond"
-                className="text-field"
+                className={validationUtils.onBorderError("firstName", state)}
                 value={localStorage?.personalInfo?.firstName || ""}
                 onChange={handleChange}
+                placeholder="Jammond"
+                required
+              />
+              <DisplayError
+                id="firstName"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Middle Name">
               <input
+                type="text"
                 name="middleName"
-                placeholder="Diamondback"
-                className="text-field"
+                className={validationUtils.onBorderError("middleName", state)}
                 value={localStorage?.personalInfo?.middleName || ""}
                 onChange={handleChange}
+                placeholder="Diamondback"
+                required
+              />
+              <DisplayError
+                id="middleName"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Last Name">
               <input
+                type="text"
                 name="lastName"
-                placeholder="Terrapin"
-                className="text-field"
+                className={validationUtils.onBorderError("lastName", state)}
                 value={localStorage?.personalInfo?.lastName || ""}
                 onChange={handleChange}
+                placeholder="Terrapin"
+                required
+              />
+              <DisplayError
+                id="lastName"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Suffix">
               <input
+                type="text"
                 name="suffix"
-                placeholder="Jr."
                 className="suffix-field"
                 value={localStorage?.personalInfo?.suffix || ""}
                 onChange={handleChange}
+                placeholder="Jr."
               />
             </Field>
           </div>
 
           <Field label="Current Address" className="mt-4">
             <input
+              type="text"
               name="currentAddress"
-              placeholder="Street Address, Barangay, City, Province"
-              className="text-field"
+              className={validationUtils.onBorderError("currentAddress", state)}
               value={localStorage?.personalInfo?.currentAddress || ""}
               onChange={handleChange}
+              placeholder="1234 Elm St., Barangay, City, Province, ZIP"
+              required
+            />
+            <DisplayError
+              id="currentAddress"
+              state={state}
+              State={validationUtils.State}
             />
           </Field>
 
           <div className="grid grid-cols-2 gap-4 mt-4">
             <Field label="Gender">
               <input
+                type="text"
                 name="gender"
-                className="text-field"
+                className={validationUtils.onBorderError("gender", state)}
                 value={localStorage?.personalInfo?.gender || ""}
                 onChange={handleChange}
+                placeholder="Male/Female/Other"
+                required
+              />
+              <DisplayError
+                id="gender"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
@@ -118,103 +139,172 @@ export default function PersonalDetails() {
               <input
                 type="date"
                 name="birthday"
-                className="text-field"
+                className={validationUtils.onBorderError("birthday", state)}
                 value={localStorage?.personalInfo?.birthday || ""}
                 onChange={handleChange}
+                required
+              />
+              <DisplayError
+                id="birthday"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
           </div>
         </section>
 
-        {/* STUDENT INFO */}
         <section className="form-section">
           <h2 className="section-title">Student Information</h2>
 
-          <Field label="Student Number">
-            <input
-              name="studentNumber"
-              className="text-field"
-              placeholder="20XX-XXXXX"
-              value={localStorage?.personalInfo?.studentNumber || ""}
-              onChange={handleChange}
-            />
-          </Field>
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <Field label="Student Number">
+              <input
+                type="text"
+                name="studentNumber"
+                className={validationUtils.onBorderError(
+                  "studentNumber",
+                  state,
+                )}
+                value={localStorage?.personalInfo?.studentNumber || ""}
+                onChange={handleChange}
+                placeholder="20XX-XXXXX"
+                required
+              />
+              <DisplayError
+                id="studentNumber"
+                state={state}
+                State={validationUtils.State}
+              />
+            </Field>
+
+            <Field label="High School Attended">
+              <input
+                name="highschool"
+                className={validationUtils.onBorderError("highschool", state)}
+                value={localStorage?.personalInfo?.highschool || ""}
+                onChange={handleChange}
+                placeholder="University of Santo Tomas Highschool"
+              />
+              <DisplayError
+                id="highschool"
+                state={state}
+                State={validationUtils.State}
+              />
+            </Field>
+          </div>
 
           <div className="grid grid-cols-4 gap-4 mt-4">
             <Field label="Current Year">
               <input
+                type="text"
                 name="year"
-                placeholder="Freshman"
-                className="text-field"
+                className={validationUtils.onBorderError("year", state)}
                 value={localStorage?.personalInfo?.year || ""}
                 onChange={handleChange}
+                placeholder="First Year"
+                required
+              />
+              <DisplayError
+                id="year"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Expected Grad Year">
               <input
+                type="text"
                 name="expectedGradYear"
-                placeholder="20XX"
-                className="text-field"
+                className={validationUtils.onBorderError(
+                  "expectedGradYear",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.expectedGradYear || ""}
                 onChange={handleChange}
+                placeholder="20XX"
+                required
+              />
+              <DisplayError
+                id="expectedGradYear"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="College">
               <input
+                type="text"
                 name="college"
-                placeholder="Engineering"
-                className="text-field"
+                className={validationUtils.onBorderError("college", state)}
                 value={localStorage?.personalInfo?.college || ""}
                 onChange={handleChange}
+                placeholder="College of Engineering"
+                required
+              />
+              <DisplayError
+                id="college"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Degree Program">
               <input
+                type="text"
                 name="degreeProgram"
-                placeholder="Computer Science"
-                className="text-field"
+                className={validationUtils.onBorderError(
+                  "degreeProgram",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.degreeProgram || ""}
                 onChange={handleChange}
+                placeholder="BS/BA"
+                required
+              />
+              <DisplayError
+                id="degreeProgram"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
           </div>
-
-          <Field label="High School Attended" className="mt-4">
-            <input
-              name="highschool"
-              placeholder="University of Santo Tomas Highschool"
-              className="text-field"
-              value={localStorage?.personalInfo?.highschool || ""}
-              onChange={handleChange}
-            />
-          </Field>
         </section>
 
-        {/* CONTACT INFO */}
         <section className="form-section">
           <h2 className="section-title">Contact Information</h2>
 
           <div className="grid grid-cols-2 gap-4">
             <Field label="Primary Email">
               <input
+                type="email"
                 name="primaryEmail"
-                placeholder="jammond@gmail.com"
-                className="text-field"
+                className={validationUtils.onBorderError("primaryEmail", state)}
                 value={localStorage?.personalInfo?.primaryEmail || ""}
                 onChange={handleChange}
+                placeholder="jammond@gmail.com"
+                required
+              />
+              <DisplayError
+                id="primaryEmail"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="UP Email">
               <input
+                type="email"
                 name="upEmail"
-                placeholder="jammond@up.edu.ph"
-                className="text-field"
+                className={validationUtils.onBorderError("upEmail", state)}
                 value={localStorage?.personalInfo?.upEmail || ""}
                 onChange={handleChange}
+                placeholder="jammond@up.edu.ph"
+                required
+              />
+              <DisplayError
+                id="upEmail"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
           </div>
@@ -222,121 +312,146 @@ export default function PersonalDetails() {
           <div className="grid grid-cols-2 gap-4 mt-4">
             <Field label="Mobile Number">
               <input
+                type="tel"
                 name="phone"
-                placeholder="09XX XXX XXXX"
-                className="text-field"
+                className={validationUtils.onBorderError("phone", state)}
                 value={localStorage?.personalInfo?.phone || ""}
                 onChange={handleChange}
+                placeholder="09XX XXX XXXX"
+                required
+              />
+              <DisplayError
+                id="phone"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Telephone">
               <input
+                type="tel"
                 name="telephone"
-                placeholder="09XX XXX XXXX"
                 className="text-field"
                 value={localStorage?.personalInfo?.telephone || ""}
                 onChange={handleChange}
+                placeholder="09XX XXX XXXX"
               />
             </Field>
           </div>
         </section>
 
-        {/* EMERGENCY CONTACT */}
         <section className="form-section">
           <h2 className="section-title">Emergency Contact</h2>
 
           <div className="grid grid-cols-3 gap-4">
             <Field label="Contact Person">
               <input
+                type="text"
                 name="emergencyName"
-                className="text-field"
+                className={validationUtils.onBorderError(
+                  "emergencyName",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.emergencyName || ""}
                 onChange={handleChange}
+                placeholder="Jammond's Mom"
+                required
+              />
+              <DisplayError
+                id="emergencyName"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Relationship">
               <input
+                type="text"
                 name="emergencyRelation"
-                className="text-field"
+                className={validationUtils.onBorderError(
+                  "emergencyRelation",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.emergencyRelation || ""}
                 onChange={handleChange}
+                placeholder="Mother"
+                required
+              />
+              <DisplayError
+                id="emergencyRelation"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
 
             <Field label="Contact Number">
               <input
+                type="tel"
                 name="emergencyPhone"
-                className="text-field"
+                className={validationUtils.onBorderError(
+                  "emergencyPhone",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.emergencyPhone || ""}
                 onChange={handleChange}
+                placeholder="09XX XXX XXXX"
+                required
+              />
+              <DisplayError
+                id="emergencyPhone"
+                state={state}
+                State={validationUtils.State}
               />
             </Field>
           </div>
         </section>
 
-        {/* OTHERS */}
         <section className="form-section">
           <h2 className="section-title">Other Information</h2>
 
           <div className="grid grid-cols-3 gap-4">
             <Field label="MBTI">
               <input
+                type="text"
                 name="mbti"
                 className="text-field"
                 value={localStorage?.personalInfo?.mbti || ""}
                 onChange={handleChange}
+                placeholder="INTJ"
               />
             </Field>
 
             <Field label="Discord Tag">
               <input
+                type="text"
                 name="discord"
                 className="text-field"
                 value={localStorage?.personalInfo?.discord || ""}
                 onChange={handleChange}
+                placeholder="#jammond"
               />
             </Field>
 
             <Field label="Facebook Profile">
               <input
+                type="text"
                 name="facebook"
                 className="text-field"
                 value={localStorage?.personalInfo?.facebook || ""}
                 onChange={handleChange}
+                placeholder="https://www.facebook.com/jammond/"
               />
             </Field>
           </div>
         </section>
 
-        {/* FOOTER */}
-        <div className="flex justify-between items-center pt-6 border-t">
-          <span className="text-sm text-gray-500">
-            Please review before proceeding
-          </span>
-          
-          <button
-            className="px-4 py-2 bg-blue-600 text-white rounded-md"
-            onClick={(e) => {
-              e.preventDefault();
-              !complete && Navigate("/signup/commitments");
-              setPage(page + 1);
-            }}
-          >
-            Next
-          </button>
-          <button
-            className="px-4 py-2 bg-red-600 text-white rounded-md"
-            onClick={(e) => {
-              e.preventDefault();
-              clearLocalStorage()
-              window.location.reload();
-            }}
-          >
-            Clear Form
-          </button>
-        </div>
+        <Footer
+          validateForm={validationUtils.validateForm}
+          clearLocalStorage={clearLocalStorage}
+          Navigate={Navigate}
+          details={[form, "personalInfo"]}
+          nextPage="commitments"
+        />
       </div>
     </div>
   );
