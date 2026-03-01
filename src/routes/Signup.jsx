@@ -65,16 +65,32 @@ function Signup() {
   useEffect(() => {
 <<<<<<< HEAD
     function recurseFileTree(data, node, state) {
-      if (typeof data[node] !== "object") return { status: "", error: "" };
-      if (data[node].length === 0) return { status: "", error: "" };
-      for (const child of Object.keys(data[node])) {
-        state[child] = recurseFileTree(data[node], child, (state[child] = {}));
+      const current = data?.[node];
+
+      if (!current || typeof current !== "object") {
+        return { status: "", error: "" };
       }
+
+      const keys = Object.keys(current);
+      if (keys.length === 0) {
+        return { status: "", error: "" };
+      }
+
+      for (const child of keys) {
+        state[child] = {};
+        state[child] = recurseFileTree(current, child, state[child]);
+      }
+
       return state;
     }
 
-    if (formTemplate) {
-      const data = localStorage ?? formTemplate?.data[0]?.template;
+    if (formTemplate?.data?.[0]?.template) {
+      const data =
+        localStorage && Object.keys(localStorage).length > 0
+          ? localStorage
+          : formTemplate.data[0].template;
+
+      if (!data) return;
       let state = {};
       for (const node of Object.keys(data)) {
         if (node != "meta") recurseFileTree(data, node, (state[node] = {}));

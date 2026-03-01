@@ -567,13 +567,14 @@ export const UtilitiesContextProvider = ({ children }) => {
 
   const handleState = (state, key, value, path, ref = null) => {
     const item = path?.split(".").reduce((acc, key) => acc?.[key], decoderMap);
+    console.log(item)
     if (ref === "") {
       return { status: State.EMPTY, error: "Must be nonempty value." };
     } else if (ref) {
       return { status: State.VALID, error: "" };
     }
 
-    if (!value || value.length <= 0) {
+    if (!value || value?.[0].length <= 0) {
       return { status: State.EMPTY, error: "This field is required." };
     }
     if (item?.pattern && !item.pattern.test(value)) {
@@ -595,8 +596,9 @@ export const UtilitiesContextProvider = ({ children }) => {
       if (!fieldSchema.required) return;
       // console.log(key, value, fieldSchema, path)
       const result = handleState(form, key, value, path);
+      console.log(result)
       if (result.status !== State.VALID) complete = false;
-      if (result.status === State.EMPTY) result.status = State.ERROR;
+      if (result.status === State.EMPTY) result.status = State.ERROR; 
       form.dispatch({ type: "SUBMIT", path, result });
     };
 

@@ -11,7 +11,7 @@ const setUpdate = (obj, path, update, array = false) => {
       if (!current[key]) current[key] = {};
       current = current[key];
     }
-    current[lastKey] = array ? [...current[lastKey], update] : update;
+    current[lastKey] = array ? [update] : update;
   });
 };
 
