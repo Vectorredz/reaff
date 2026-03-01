@@ -19,6 +19,7 @@ function validationReducer(state, action) {
   // console.log(state, action)
   switch (action.type) {
     case "CHANGE":
+      console.log(action)
       return setUpdate(state, action.path, action.result); // result computed outside
     case "SUBMIT":
       return setUpdate(state, action.path, action.result); // same
@@ -48,7 +49,7 @@ export default function useForm(initialData, storageHook) {
       if (!prev) return prev;
       let newValue = value;
       if (type === "checkbox") {
-        const current = path.split(".").reduce((acc, key) => acc[key], prev);
+        const current = path?.split(".").reduce((acc, key) => acc[key], prev);
         newValue = Array.isArray(current)
           ? current.includes(value)
             ? current.filter((v) => v !== value)

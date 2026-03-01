@@ -9,16 +9,20 @@ import { useEffect } from "react";
 export default function Events() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
+  const { form, localStorage, clearLocalStorage, page, setPage } = useOutletContext();
 
   const state = form.validationState?.organization?.events;
 
   useEffect(() => {
-    console.log('state',state);
+    console.log("state", state);
   }, [state]);
 
   useEffect(() => {
-    console.log('form', form.values.organization.events);
+    setPage(4);
+  }, []);
+
+  useEffect(() => {
+    console.log("form", form.values.organization.events);
   }, [form.values]);
 
   const handleChange = (e) => {
@@ -64,14 +68,13 @@ export default function Events() {
     }
   };
 
-
   return (
     <div className="form">
       <div className="space-y-4">
         <Header page={page} title={"Organization-related | Events"} />
-        <p>{contents.organization_related.events_page.preface}</p>
+        <p>{contents.organization.eventsPage.preface}</p>
         <ol className="list-decimal pl-6 space-y-2">
-          {contents.organization_related.events_page.events.map((event) => (
+          {contents.organization.eventsPage.events.map((event) => (
             <li key={event.id}>
               <p>
                 <strong>{event.title}</strong> - {event.description}
@@ -82,7 +85,7 @@ export default function Events() {
       </div>
 
       <div>
-        {contents.organization_related.events_page.interests.map((interest) => (
+        {contents.organization.eventsPage.interests.map((interest) => (
           <div key={interest.id} className="form-section space-y-2">
             <h2 className="text-lg font-semibold">{interest.question}</h2>
             <p>{interest.description}</p>
@@ -112,13 +115,13 @@ export default function Events() {
 
         <div className="form-section">
           <h2 className="text-lg font-semibold">
-            {contents.organization_related.events_page.teachme.title}
+            {contents.organization.eventsPage.teachme.title}
           </h2>
-          <p>{contents.organization_related.events_page.teachme.question}</p>
-          <p>{contents.organization_related.events_page.teachme.description}</p>
+          <p>{contents.organization.eventsPage.teachme.question}</p>
+          <p>{contents.organization.eventsPage.teachme.description}</p>
 
           <div>
-            {contents.organization_related.events_page.teachme.choices.map(
+            {contents.organization.eventsPage.teachme.choices.map(
               (choice, index) => (
                 <div key={index}>
                   <input
@@ -184,7 +187,6 @@ export default function Events() {
         <Footer
           validateForm={validationUtils.validateForm}
           clearLocalStorage={clearLocalStorage}
-          Navigate={Navigate}
           details={[form, "organization.events"]}
           nextPage="organization-related/committee"
         />

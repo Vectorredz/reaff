@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router";
+
 export default function Footer({
   validateForm,
   clearLocalStorage,
-  Navigate,
   nextPage,
   details,
 }) {  
+  const Navigate = useNavigate()
+
   return (
     <div>
       <div className="flex justify-between items-center pt-6 border-t border-gray-300">
@@ -12,7 +15,7 @@ export default function Footer({
           className="btn-primary"
           onClick={(e) => {
             e.preventDefault();
-            if (validateForm(details[0], details[1])) {
+            if (validateForm && validateForm(details[0], details[1])) {
               window.scrollTo(0, 0);
               Navigate(`/signup/${nextPage}`);
             }

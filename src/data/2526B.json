@@ -1,142 +1,142 @@
-{
-  "meta": {
-    "semester": "2526B",
-    "templateName": "UP ACM Reaff Form 2nd Sem AY 25-26"
-  },
-  "personalInfo": {
-    "firstName": "",
-    "middleName": "",
-    "lastName": "",
-    "suffix": "",
-    "currentAddress": "",
-    "birthday": "",
-    "gender": "",
-    "studentNumber": "",
-    "year": "",
-    "degreeProgram": "",
-    "college": "",
-    "expectedGradYear": "",
-    "highschool": "",
-    "primaryEmail": "",
-    "upEmail": "",
-    "phone": "",
-    "telephone": "",
-    "emergencyName": "",
-    "emergencyRelation": "",
-    "emergencyPhone": "",
-    "mbti": "",
-    "discord": "",
-    "facebook": ""
-  },
-  "commitments": {
-    "membership": "",
-    "up": [],
-    "nonup": [],
-    "priorities": "",
-    "concerns": {
-      "acad": "",
-      "health": "",
-      "personal": "",
-      "other": ""
-    }
-  },
-  "assessment": {
-    "activePerformance": {
-      "task": "",
-      "events": "",
-      "meetings": "",
-      "assembly": ""
+  {
+    "meta": {
+      "semester": "2526B",
+      "templateName": "UP ACM Reaff Form 2nd Sem AY 25-26"
     },
-    "elaboration": "",
-    "projects": [],
-    "projectPerformance": {
-      "time": "",
-      "task": "",
-      "communication": "",
-      "meetings": ""
+    "personalInfo": {
+      "firstName": "",
+      "middleName": "",
+      "lastName": "",
+      "suffix": "",
+      "currentAddress": "",
+      "birthday": "",
+      "gender": "",
+      "studentNumber": "",
+      "year": "",
+      "degreeProgram": "",
+      "college": "",
+      "expectedGradYear": "",
+      "highschool": "",
+      "primaryEmail": "",
+      "upEmail": "",
+      "phone": "",
+      "telephone": "",
+      "emergencyName": "",
+      "emergencyRelation": "",
+      "emergencyPhone": "",
+      "mbti": "",
+      "discord": "",
+      "facebook": ""
     },
-    "best": "",
-    "improve": "",
-    "vision": "",
-    "committee": {
-      "lastSem": "",
-      "improvement": "",
-      "feedback": ""
-    }
-  },
+    "commitments": {
+      "membership": "",
+      "up": [],
+      "nonup": [],
+      "priorities": "",
+      "concerns": {
+        "acad": "",
+        "health": "",
+        "personal": "",
+        "other": ""
+      }
+    },
+    "assessment": {
+      "activePerformance": {
+        "task": "",
+        "events": "",
+        "meetings": "",
+        "assembly": ""
+      },
+      "elaboration": "",
+      "projects": [],
+      "projectPerformance": {
+        "time": "",
+        "task": "",
+        "communication": "",
+        "meetings": ""
+      },
+      "best": "",
+      "improve": "",
+      "vision": "",
+      "committee": {
+        "lastSem": "",
+        "improvement": "",
+        "feedback": ""
+      }
+    },
 
-  "organization": {
-    "preferences": {
-      "committeeRank": [],
-      "top1": {
-        "reason": "",
-        "expectation": ""
-      },
-      "top2": {
-        "reason": "",
-        "expectation": ""
-      },
-      "top3": {
-        "reason": "",
-        "expectation": ""
-      }
-    },
-    "events": {
-      "acmfest": "",
-      "eap": "",
-      "algolympics": "",
-      "webdev": "",
-      "clouddev": "",
-      "operations": "",
-      "teachme": {
-        "choices": [],
-        "enthusiast": "",
-        "future": ""
-      }
-    },
-    "committee": {
-      "membership": {
-        "buddy": "",
-        "acmeets": [],
-        "sportsfest": "",
-        "facetoface": {
-          "answer": "",
-          "comment": ""
+    "organization": {
+      "preferences": {
+        "committeeRank": [],
+        "top1": {
+          "reason": "",
+          "expectation": ""
         },
-        "gpu": "",
-        "skill": "",
-        "tambay": "",
-        "games": []
+        "top2": {
+          "reason": "",
+          "expectation": ""
+        },
+        "top3": {
+          "reason": "",
+          "expectation": ""
+        }
       },
-      "records": {
-        "automaton": "",
-        "form5": "",
-        "upid": ""
+      "events": {
+        "acmfest": "",
+        "eap": "",
+        "algolympics": "",
+        "webdev": "",
+        "clouddev": "",
+        "operations": "",
+        "teachme": {
+          "choices": [],
+          "enthusiast": "",
+          "future": ""
+        }
       },
-      "logistics": {
-        "download": "",
-        "upload": "",
-        "gadgets": [],
-        "computer": ""
-      },
-      "education": {
-        "academicLoad": "",
-        "pendingClasses": [],
-        "expectedClasses": []
-      },
-      "publicity": {
-        "picture": "",
-        "birthday": ""
-      },
-      "marketing": {
-        "infoDisclose": "",
-        "resume": "",
-        "companyf2f": ""
-      },
-      "publicRelations": {
-        "partnership": [],
-        "posts": ""
+      "committee": {
+        "membership": {
+          "buddy": "",
+          "acmeets": [],
+          "sportsfest": "",
+          "facetoface": {
+            "answer": "",
+            "comment": ""
+          },
+          "gpu": "",
+          "skill": "",
+          "tambay": "",
+          "games": []
+        },
+        "records": {
+          "automaton": "",
+          "form5": "",
+          "upid": ""
+        },
+        "logistics": {
+          "download": "",
+          "upload": "",
+          "gadgets": [],
+          "computer": ""
+        },
+        "education": {
+          "academicLoad": "",
+          "pendingClasses": [],
+          "expectedClasses": []
+        },
+        "publicity": {
+          "picture": "",
+          "birthday": ""
+        },
+        "marketing": {
+          "infoDisclose": "",
+          "resume": "",
+          "companyf2f": ""
+        },
+        "publicRelations": {
+          "partnership": [],
+          "posts": ""
+        }
       }
     }
   }
-}

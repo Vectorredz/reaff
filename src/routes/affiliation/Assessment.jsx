@@ -7,13 +7,18 @@ import Footer from "../../components/Footer.jsx";
 import contents from "../../data/contents.json";
 import DisplayError from "../../components/DisplayError.jsx";
 
-const sa = contents.self_assessment;
+const sa = contents.assessment;
 
 export default function Assessment() {
   const { decoderMap, validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
+  const { form, localStorage, clearLocalStorage, page, setPage } =
+    useOutletContext();
   const Navigate = useNavigate();
   const state = form.validationState.assessment;
+
+  useEffect(() => {
+    setPage(3);
+  }, []);
 
   const allError = (item) =>
     Object.keys(decoderMap.assessment?.[item])
@@ -116,7 +121,7 @@ export default function Assessment() {
       <table className="w-full text-sm">
         <thead>
           <tr>
-            <th className="text-left py-2 pr-4 text-gray-500 font-medium w-full"></th>
+            <th className=" py-2 pr-4 subheading font-medium w-full"></th>
             {scaleLabels.map((s) => (
               <th
                 key={s}
@@ -184,20 +189,20 @@ export default function Assessment() {
             ></DisplayError>
           </div>
 
-            <p className="question-text">
-              {sa.committeeEvaluation.elaboration.question}
-            </p>
-            <textarea
-              className={validationUtils.onBorderError("elaboration", state)}
-              value={localStorage?.assessment?.elaboration || ""}
-              onChange={(e) => handleChange(e, "elaboration")}
-              placeholder="Feel free to elaborate..."
-            />
-            <DisplayError
-              id={"elaboration"}
-              state={state}
-              State={validationUtils.State}
-            ></DisplayError>
+          <p className="question-text">
+            {sa.committeeEvaluation.elaboration.question}
+          </p>
+          <textarea
+            className={validationUtils.onBorderError("elaboration", state)}
+            value={localStorage?.assessment?.elaboration || ""}
+            onChange={(e) => handleChange(e, "elaboration")}
+            placeholder="Feel free to elaborate..."
+          />
+          <DisplayError
+            id={"elaboration"}
+            state={state}
+            State={validationUtils.State}
+          ></DisplayError>
         </section>
 
         {/* PROJECT EVALUATION */}
@@ -207,37 +212,37 @@ export default function Assessment() {
             {sa.projectPerformance.description}
           </p>
 
-            <p className="question-text">
-              {sa.projectPerformance.projects.question}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {sa.projectPerformance.projects.options.map((opt) => (
-                <label
-                  key={opt.id}
-                  className={
-                    localStorage?.assessment?.projects?.includes(opt.id)
-                      ? "radio-label-selected"
-                      : "radio-label"
+          <p className="question-text">
+            {sa.projectPerformance.projects.question}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {sa.projectPerformance.projects.options.map((opt) => (
+              <label
+                key={opt.id}
+                className={
+                  localStorage?.assessment?.projects?.includes(opt.id)
+                    ? "radio-label-selected"
+                    : "radio-label"
+                }
+              >
+                <input
+                  type="checkbox"
+                  className="accent-blue-600"
+                  checked={
+                    localStorage?.assessment?.projects?.includes(opt.id) ||
+                    false
                   }
-                >
-                  <input
-                    type="checkbox"
-                    className="accent-blue-600"
-                    checked={
-                      localStorage?.assessment?.projects?.includes(opt.id) ||
-                      false
-                    }
-                    onChange={() => handleCheckbox(opt.id)}
-                  />
-                  <span className="text-sm">{opt.label}</span>
-                </label>
-              ))}
-            </div>
-            <DisplayError
-              id={"projects"}
-              state={state}
-              State={validationUtils.State}
-            ></DisplayError>
+                  onChange={() => handleCheckbox(opt.id)}
+                />
+                <span className="text-sm">{opt.label}</span>
+              </label>
+            ))}
+          </div>
+          <DisplayError
+            id={"projects"}
+            state={state}
+            State={validationUtils.State}
+          ></DisplayError>
 
           <div className="question-card space-y-4">
             <p className="question-text">
@@ -264,10 +269,7 @@ export default function Assessment() {
           <h2 className="section-title">{sa.orgAssessment.title}</h2>
           <div className="question-grid">
             {sa.orgAssessment.fields.map((field) => (
-              <div
-                key={field.id}
-                className="col-span-2 space-y-2"
-              >
+              <div key={field.id} className="col-span-2 space-y-2">
                 <p className="question-text">{field.question}</p>
                 {field.description && (
                   <p className="description-text">{field.description}</p>
@@ -340,7 +342,6 @@ export default function Assessment() {
         <Footer
           validateForm={validationUtils.validateForm}
           clearLocalStorage={clearLocalStorage}
-          Navigate={Navigate}
           details={[form, "assessment"]}
           nextPage="organization-related"
         />

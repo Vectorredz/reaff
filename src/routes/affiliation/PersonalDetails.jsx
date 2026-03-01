@@ -7,26 +7,44 @@ import Footer from "../../components/Footer.jsx";
 import DisplayError from "../../components/DisplayError.jsx";
 import { useEffect } from "react";
 
-export default function PersonalDetails() {
+export default function PersonalDetailsx() {
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
+  const { form, localStorage, clearLocalStorage, page, setPage } =
+    useOutletContext();
   const Navigate = useNavigate();
   const state = form.validationState?.personalInfo;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    console.log(e.target);
     const newValue = type === "checkbox" ? checked : value;
-    form.updateField({ path: `personalInfo.${name}`, value: newValue, type });
+    form.updateField({
+      path: `personalInfo.${name}`,
+      value: newValue,
+      type,
+    });
     form.dispatch({
       type: "CHANGE",
       path: `personalInfo.${name}`,
-      result: validationUtils.handleState(state, name, newValue, "personalInfo"),
+      result: validationUtils.handleState(
+        state,
+        name,
+        newValue,
+        `personalInfo.${name}`,
+      ),
     });
   };
 
   useEffect(() => {
+    setPage(1);
+  }, []);
+
+  useEffect(() => {
     console.log(form.validationState);
   }, [form.validationState]);
+  useEffect(() => {
+    console.log(form.values);
+  }, [form.values]);
 
   return (
     <div className="form-frame">
@@ -278,7 +296,10 @@ export default function PersonalDetails() {
               <input
                 type="email"
                 name="primaryEmail"
-                className={validationUtils.onBorderError("primaryEmail", state)}
+                className={validationUtils.onBorderError(
+                  "primaryEmail",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.primaryEmail || ""}
                 onChange={handleChange}
                 placeholder="jammond@gmail.com"
@@ -295,7 +316,10 @@ export default function PersonalDetails() {
               <input
                 type="email"
                 name="upEmail"
-                className={validationUtils.onBorderError("upEmail", state)}
+                className={validationUtils.onBorderError(
+                  "upEmail",
+                  state,
+                )}
                 value={localStorage?.personalInfo?.upEmail || ""}
                 onChange={handleChange}
                 placeholder="jammond@up.edu.ph"
@@ -448,7 +472,6 @@ export default function PersonalDetails() {
         <Footer
           validateForm={validationUtils.validateForm}
           clearLocalStorage={clearLocalStorage}
-          Navigate={Navigate}
           details={[form, "personalInfo"]}
           nextPage="commitments"
         />

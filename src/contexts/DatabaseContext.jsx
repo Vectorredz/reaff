@@ -9,7 +9,7 @@ export const DatabaseContextProvider = ({ children }) => {
     return await supabase.from("forms").select("*").eq("semester", "2526B");
   };
 
-  const insertMemberData = async (user, form) => {
+  const insertMemberData = async (user, form, authEmail) => {
     const personal = form.personalInfo;
     const { data, error } = await supabase.from("members").insert({
       id: user.id, // MUST match auth.users.id
@@ -32,6 +32,7 @@ export const DatabaseContextProvider = ({ children }) => {
 
       primary_email: personal.primaryEmail,
       up_email: personal.upEmail,
+      auth_email: authEmail,
       phone: personal.phone,
       telephone: personal.telephone,
       emergency_name: personal.emergencyName,
@@ -51,7 +52,7 @@ export const DatabaseContextProvider = ({ children }) => {
       form_id: form_id,
       answers: form,
     });
-    console.log(form)
+    console.log(form);
     return { success: data, error };
   };
 
@@ -62,11 +63,25 @@ export const DatabaseContextProvider = ({ children }) => {
     await supabase.from("submissions").select("*");
 
   const uploadFileData = async (user, type, file) => {
-    console.log(`members/member-${user.id}/${type}/${file.name}`)
+    console.log(`members/member-${user.id}/${type}/${file.name}`);
     const { data, error } = await supabase.storage
       .from("acm-files")
       .upload(`members/member-${user.id}/${type}/${file.name}`, file);
-    return { success: data, error }
+    return { success: data, error };
+  };
+
+  const fetchMemberEmail = async (studentNum) => {
+    const { data, error } = await supabase
+      .from("members")
+      .select("auth_email")
+      .eq("student_number", studentNum)
+      .single();
+
+    if (error?.code === "PGRST116") {
+      return { data: null, error: { message: "Student number not found." } };
+    }
+    if (error) return { data: null, error };
+    return { data: data.auth_email, error: null };
   };
 
   return (
@@ -77,6 +92,7 @@ export const DatabaseContextProvider = ({ children }) => {
         insertAnswersData,
         fetchMemberProfile,
         fetchMemberAnswers,
+        fetchMemberEmail,
         uploadFileData,
       }}
     >

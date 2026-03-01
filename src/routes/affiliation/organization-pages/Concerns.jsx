@@ -10,14 +10,25 @@ import Field from "../../../components/Field.jsx";
 export default function Concerns() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, files, setFiles } =
-    useOutletContext();
+  const {
+    form,
+    localStorage,
+    clearLocalStorage,
+    page,
+    setPage,
+    files,
+    setFiles,
+  } = useOutletContext();
 
   const state = form.validationState?.organization?.committee;
 
   useEffect(() => {
+    setPage(4);
+  }, []);
+
+  useEffect(() => {
     console.log("state", form.values.organization.committee);
-  }, [form])
+  }, [form]);
 
   const handleChange = (e, committee) => {
     const { name, id, type, value } = e.target;
@@ -36,7 +47,12 @@ export default function Concerns() {
       ? `organization.committee.${committee}.facetoface.${name === "facetoface" ? "answer" : "comment"}`
       : `organization.committee.${committee}.${name}`;
 
-    form.updateField({ path, value: type === "radio" || type === "checkbox" ? id : value, id, type });
+    form.updateField({
+      path,
+      value: type === "radio" || type === "checkbox" ? id : value,
+      id,
+      type,
+    });
     form.dispatch({
       type: "CHANGE",
       path,
@@ -55,7 +71,7 @@ export default function Concerns() {
         title={"Organization-related | Committee-specific Concerns"}
       />
 
-      {Object.keys(contents.organization_related.committee_concerns_pages).map(
+      {Object.keys(contents.organization.concerns).map(
         (committee) => (
           <section key={committee} className="form-section">
             <h2 className="section-title capitalize">
@@ -63,14 +79,12 @@ export default function Concerns() {
             </h2>
 
             <div className="space-y-6">
-              {contents.organization_related.committee_concerns_pages[
+              {contents.organization.concerns[
                 committee
               ].map((item, key) => (
                 <div key={key} className="space-y-2">
                   {item?.question && (
-                    <p className="question-text">
-                      {item.question}
-                    </p>
+                    <p className="question-text">{item.question}</p>
                   )}
                   {item?.description && (
                     <p className="description-text">{item.description}</p>
@@ -150,9 +164,7 @@ export default function Concerns() {
                     </Field>
                   ) : item?.type === "file" ? (
                     <div className="flex flex-col gap-1">
-                      {item.notes && (
-                        <p className="notes-text">{item.notes}</p>
-                      )}
+                      {item.notes && <p className="notes-text">{item.notes}</p>}
                       <input
                         type="file"
                         name={item.id}
@@ -226,7 +238,6 @@ export default function Concerns() {
       <Footer
         validateForm={validationUtils.validateForm}
         clearLocalStorage={clearLocalStorage}
-        Navigate={Navigate}
         details={[form, "organization.committee"]}
         nextPage="/create-account"
       />

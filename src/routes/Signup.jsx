@@ -21,6 +21,7 @@ function Signup() {
     insertAnswersData,
     uploadFileData,
   } = UserDB();
+
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -38,10 +39,6 @@ function Signup() {
     resume: { file: null, id: null },
   });
   const Navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(files)
-  })
 
   // useEffect(() => {
   //   setTimeout(() => setOpen(true), 900);
@@ -96,7 +93,7 @@ function Signup() {
           const fileObj = files[key];
           if (fileObj?.file) await uploadFileData(user, key, fileObj.file);
         }
-        const member = await insertMemberData(user, form.values);
+        const member = await insertMemberData(user, form.values, email);
         const answers = await insertAnswersData(
           user,
           form.values,
