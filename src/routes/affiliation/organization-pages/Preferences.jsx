@@ -8,7 +8,7 @@ import DisplayError from "../../../components/DisplayError.jsx";
 export default function Preferences() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page } = useOutletContext();
+  const { form, localStorage, clearLocalStorage, page, setPage } = useOutletContext();
 
   const tops = [1, 2, 3];
 
@@ -17,6 +17,10 @@ export default function Preferences() {
   useEffect(() => {
     console.log(state);
   }, [state]);
+
+  useEffect(() => {
+    setPage(4);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, id } = e.target;
@@ -28,7 +32,7 @@ export default function Preferences() {
     form.dispatch({
       type: "CHANGE",
       path: `organization.preferences.${id}.${name}`,
-      result: validationUtils.handleState(name, value, "organization"), 
+      result: validationUtils.handleState(name, value, "organization"),
     });
   };
 
@@ -115,7 +119,6 @@ export default function Preferences() {
       <Footer
         validateForm={validationUtils.validateForm}
         clearLocalStorage={clearLocalStorage}
-        Navigate={Navigate}
         details={[form, "organization.preferences"]}
         nextPage="organization-related/events"
       />

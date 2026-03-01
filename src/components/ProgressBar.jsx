@@ -1,6 +1,7 @@
 const steps = [
   "Personal details",
   "Commitments",
+  "Assessment",
   "Organization-related",
   "Payment",
   "Create Account",

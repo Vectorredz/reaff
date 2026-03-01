@@ -69,6 +69,10 @@ export default function Commitments() {
     });
   };
 
+  useEffect(() => {
+    setPage(2);
+  }, []);
+
   /* ===================== RENDER ===================== */
 
   return (
@@ -228,11 +232,11 @@ export default function Commitments() {
         <Footer
           validateForm={validationUtils.validateForm}
           clearLocalStorage={clearLocalStorage}
-          Navigate={Navigate}
           details={[form, "commitments"]}
           nextPage={
-            
-            ["returningMember", "activeMember"].includes(form?.values?.commitments?.membership)
+            ["returningMember", "activeMember"].includes(
+              form?.values?.commitments?.membership,
+            )
               ? "self-assessment"
               : "organization-related"
           }

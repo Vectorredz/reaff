@@ -15,14 +15,22 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { signUpNewUser } = UserAuth();
-  const { fetchFormTemplate, insertMemberData, insertAnswersData, uploadFileData } = UserDB();
+  const {
+    fetchFormTemplate,
+    insertMemberData,
+    insertAnswersData,
+    uploadFileData,
+  } = UserDB();
+
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [consent, setConsent] = useState(false);
   const [formTemplate, setFormTemplate] = useState(null);
-  const [formData, setFormData] = useState(formTemplate);
   const [page, setPage] = useState(1);
-  const [localStorage, setLocalStorage, clearLocalStorage] = useLocalStorage("form", formData);
+  const [localStorage, setLocalStorage, clearLocalStorage] = useLocalStorage(
+    "form",
+    formTemplate,
+  );
   const form = useForm(formTemplate, { setLocalStorage });
   const [files, setFiles] = useState({
     form5: { file: null, id: null },
@@ -30,12 +38,7 @@ function Signup() {
     picture: { file: null, id: null },
     resume: { file: null, id: null },
   });
-
   const Navigate = useNavigate();
-
-  // useEffect(() => {
-  //   console.log(files)
-  // })
 
   // useEffect(() => {
   //   setTimeout(() => setOpen(true), 900);
@@ -46,7 +49,9 @@ function Signup() {
     setFormTemplate(await fetchFormTemplate());
   }
 
-  useEffect(() => { handleFetchForm(); }, []);
+  useEffect(() => {
+    handleFetchForm();
+  }, []);
 
   useEffect(() => {
     if (loading) toast.loading("fetching form...", { toastId: "form" });
@@ -69,7 +74,6 @@ function Signup() {
       for (const node of Object.keys(data)) {
         if (node != "meta") recurseFileTree(data, node, (state[node] = {}));
       }
-      setFormData(data);
       form.setValues(data);
     }
   }, [formTemplate]);
@@ -89,8 +93,12 @@ function Signup() {
           const fileObj = files[key];
           if (fileObj?.file) await uploadFileData(user, key, fileObj.file);
         }
-        const member = await insertMemberData(user, formData);
-        const answers = await insertAnswersData(user, formData, formTemplate?.data[0]?.id);
+        const member = await insertMemberData(user, form.values, email);
+        const answers = await insertAnswersData(
+          user,
+          form.values,
+          formTemplate?.data[0]?.id,
+        );
         if (member.error || answers.error) throw member.error ?? answers.error;
         toast.success("Created account successfully");
         setTimeout(() => Navigate("/"), 1000);
@@ -107,11 +115,14 @@ function Signup() {
       content: (
         <div className="flex flex-col gap-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">UP ACM Affiliation Form</h1>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+              UP ACM Affiliation Form
+            </h1>
             <p className="description-text">
-              Thank you for your interest in renewing your membership for UP ACM this year.
-              We're excited to have a fruitful semester with you as we gradually move our
-              activities F2F. Let's continue to build communities together!
+              Thank you for your interest in renewing your membership for UP ACM
+              this year. We're excited to have a fruitful semester with you as
+              we gradually move our activities F2F. Let's continue to build
+              communities together!
             </p>
           </div>
 
@@ -136,11 +147,15 @@ function Signup() {
           </div>
 
           <p className="description-text">
-            Committing reaffirmation means agreeing with all of the above responsibilities.
-            This form is to be done <strong>once only</strong> and will take 15–20 minutes.
+            Committing reaffirmation means agreeing with all of the above
+            responsibilities. This form is to be done <strong>once only</strong>{" "}
+            and will take 15–20 minutes.
           </p>
 
-          <button className="btn-primary self-start" onClick={() => setIndex(1)}>
+          <button
+            className="btn-primary self-start"
+            onClick={() => setIndex(1)}
+          >
             Read the preamble →
           </button>
         </div>
@@ -152,12 +167,17 @@ function Signup() {
         <div className="flex flex-col gap-6">
           <div>
             <h2 className="section-title">Preamble</h2>
-            <p className="description-text">Please read the preamble carefully before proceeding.</p>
+            <p className="description-text">
+              Please read the preamble carefully before proceeding.
+            </p>
           </div>
           <div className="rounded-xl border border-gray-200 overflow-hidden">
             <img src="preamble.jpg" className="w-full" alt="Preamble" />
           </div>
-          <button className="btn-primary self-start" onClick={() => setIndex(2)}>
+          <button
+            className="btn-primary self-start"
+            onClick={() => setIndex(2)}
+          >
             Proceed to data privacy →
           </button>
         </div>
@@ -173,20 +193,45 @@ function Signup() {
           </div>
 
           <div className="overflow-y-auto flex-1 space-y-3 text-sm text-gray-600 leading-relaxed pr-1">
-            <p>We at UP ACM understand the importance of data privacy and are committed to protecting the personal data of our community.</p>
-            <p>The information collected through this form shall only be used for the following purposes:</p>
+            <p>
+              We at UP ACM understand the importance of data privacy and are
+              committed to protecting the personal data of our community.
+            </p>
+            <p>
+              The information collected through this form shall only be used for
+              the following purposes:
+            </p>
             <ul className="list-disc pl-5 space-y-1">
               <li>The official database of renewed members</li>
-              <li>Use of the organization's official Google Drive and Calendar</li>
+              <li>
+                Use of the organization's official Google Drive and Calendar
+              </li>
             </ul>
-            <p>Appropriate measures shall be taken to ensure the safety of personal data stored in our databases, including secure storage, regular backups, and access controls to prevent unauthorized access.</p>
-            <p>We ensure that personal data is not disclosed or shared with any third-party without consent or legal obligation.</p>
-            <p>Individuals have the right to access, correct, and request deletion or restriction of their personal data. UP ACM recognizes these rights and will comply with valid requests.</p>
-            <p className="font-medium text-gray-800">By answering this form, you give your consent to UP ACM to process your personal information.</p>
+            <p>
+              Appropriate measures shall be taken to ensure the safety of
+              personal data stored in our databases, including secure storage,
+              regular backups, and access controls to prevent unauthorized
+              access.
+            </p>
+            <p>
+              We ensure that personal data is not disclosed or shared with any
+              third-party without consent or legal obligation.
+            </p>
+            <p>
+              Individuals have the right to access, correct, and request
+              deletion or restriction of their personal data. UP ACM recognizes
+              these rights and will comply with valid requests.
+            </p>
+            <p className="font-medium text-gray-800">
+              By answering this form, you give your consent to UP ACM to process
+              your personal information.
+            </p>
           </div>
 
           <div className="border-t border-gray-100 pt-4 space-y-4 overflow-hidden">
-            <label className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${consent ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+            <label
+              className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${consent ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}
+            >
               <input
                 type="checkbox"
                 checked={consent}
@@ -220,21 +265,25 @@ function Signup() {
             <div className="flex items-center gap-2 mb-6">
               {steps.map((step, i) => (
                 <div key={i} className="flex items-center gap-">
-                  <div className={`flex items-center gap-1.5 text-xs font-medium ${i === index ? "text-blue-600" : i < index ? "text-green-600" : "text-gray-400"}`}>
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center text-xs ${i === index ? "bg-blue-600 text-white" : i < index ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}>
+                  <div
+                    className={`flex items-center gap-1.5 text-xs font-medium ${i === index ? "text-blue-600" : i < index ? "text-green-600" : "text-gray-400"}`}
+                  >
+                    <span
+                      className={`w-5 h-5 rounded-full flex items-center justify-center text-xs ${i === index ? "bg-blue-600 text-white" : i < index ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+                    >
                       {i < index ? i + 1 : i + 1}
                     </span>
                     {step.label}
                   </div>
-                  {i < steps.length - 1 && <div className="w-8 h-px bg-gray-200" />}
+                  {i < steps.length - 1 && (
+                    <div className="w-8 h-px bg-gray-200" />
+                  )}
                 </div>
               ))}
             </div>
 
             {/* Step content */}
-            <div className="flex-1 overflow-y-auto">
-              {steps[index].content}
-            </div>
+            <div className="flex-1 overflow-y-auto">{steps[index].content}</div>
           </Modal>
 
           <ProgressBar currentStep={1} />
@@ -242,10 +291,19 @@ function Signup() {
           <form onSubmit={handleSignUp}>
             <Outlet
               context={{
-                form, formData, setFormData,
-                localStorage, setLocalStorage, clearLocalStorage,
-                email, setEmail, password, setPassword,
-                page, setPage, uploadFileData, files, setFiles,
+                form,
+                localStorage,
+                setLocalStorage,
+                clearLocalStorage,
+                email,
+                setEmail,
+                password,
+                setPassword,
+                page,
+                setPage,
+                uploadFileData,
+                files,
+                setFiles,
               }}
             />
           </form>

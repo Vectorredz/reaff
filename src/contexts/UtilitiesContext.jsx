@@ -554,30 +554,36 @@ export const UtilitiesContextProvider = ({ children }) => {
         },
       },
     },
+    payment: {
+      qr: {
+        required: false,
+      },
+    },
   };
 
   const onBorderError = (key, state) =>
     state?.[key]?.status === State.ERROR ? "text-field-error" : "text-field";
 
-  const handleState = (state, key, value, section, ref = null) => {
-    const item = decoderMap?.[section]?.[key];
+  const handleState = (state, key, value, path, ref = null) => {
+    const item = path?.split(".").reduce((acc, key) => acc?.[key], decoderMap);
     if (ref === "") {
       return { status: State.EMPTY, error: "Must be nonempty value." };
     } else if (ref) {
       return { status: State.VALID, error: "" };
     }
 
-    if (!value || value.length <= 0)
+    if (!value || value.length <= 0) {
       return { status: State.EMPTY, error: "This field is required." };
-    if (item?.pattern && !item.pattern.test(value))
+    }
+    if (item?.pattern && !item.pattern.test(value)) {
       return { status: State.ERROR, error: item.error };
+    }
     return { status: State.VALID, error: "" };
   };
 
   const validateForm = (form, subpath) => {
     let complete = true;
-
-    const schema = subpath
+    const state = subpath
       .split(".")
       .reduce((acc, key) => acc?.[key], decoderMap);
     const values = subpath
@@ -586,13 +592,14 @@ export const UtilitiesContextProvider = ({ children }) => {
 
     const validateField = (key, value, fieldSchema, path) => {
       if (!fieldSchema.required) return;
-      const result = handleState(form, key, value, subpath.split(".")[0]);
+      // console.log(key, value, fieldSchema, path)
+      const result = handleState(form, key, value, path);
       if (result.status !== State.VALID) complete = false;
       if (result.status === State.EMPTY) result.status = State.ERROR;
       form.dispatch({ type: "SUBMIT", path, result });
     };
 
-    Object.entries(schema).forEach(([key, item]) => {
+    Object.entries(state).forEach(([key, item]) => {
       if (key === "title") return; // skip metadata
 
       if ("required" in item) {
@@ -614,6 +621,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       }
     });
     console.log(complete);
+
     return complete;
   };
   const State = Object.freeze({

@@ -64,7 +64,7 @@
       }
     }
   },
-  "self_assessment": {
+  "assessment": {
     "title": "Org and Self-Assessment",
     "description": "For the org's betterment",
     "committeeEvaluation": {
@@ -165,8 +165,8 @@
       ]
     }
   },
-  "organization_related": {
-    "events_page": {
+  "organization": {
+    "eventsPage": {
       "preface": "This upcoming academic year, we have several projects lined up. We would like to know if you are interested in participating in any of them.",
       "events": [
         {
@@ -253,7 +253,7 @@
         ]
       }
     },
-    "committee_concerns_pages": {
+    "concerns": {
       "membership": [
         {
           "id": "buddy",
@@ -630,6 +630,19 @@
           ]
         }
       ]
+    }
+  },
+  "payment": {
+    "rationale": {
+      "title": "Payment of Reaffiliation Fee",
+      "details": {
+        "fee": "150",
+        "position": "Vice Head",
+        "pointPerson": "Pammy Rebolido",
+        "number": "09275190049"
+      },
+      "gcash": "",
+      "maya": ""
     }
   }
 }
