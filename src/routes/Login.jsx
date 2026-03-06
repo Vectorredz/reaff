@@ -22,7 +22,7 @@ function Login() {
       } 
       else {
         const result = await signInUser(
-          emailResult?.data?.auth_email,
+          emailResult?.data,
           password,
         );
 
