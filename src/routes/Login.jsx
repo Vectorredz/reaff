@@ -14,24 +14,20 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     // fetch the email from the student number
-
     try {
       const emailResult = await fetchMemberEmail(studentNum);
+
       if (emailResult.error) {
         toast.error(emailResult.error?.message);
       } 
       else {
         const result = await signInUser(
-          emailResult?.data?.auth_email,
+          emailResult?.data,
           password,
         );
-
+      
         if (result.error) {
-          toast.error(
-            result.error.message === "missing email or phone"
-              ? "Invalid password"
-              : "error",
-          );
+          toast.error("Invalid password.");
         } else {
           toast.success("Login successful!");
           setTimeout(() => {

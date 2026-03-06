@@ -574,7 +574,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       return { status: State.VALID, error: "" };
     }
 
-    if (!value || value?.[0].length <= 0) {
+    if (!value || value?.[0]?.length <= 0) {
       return { status: State.EMPTY, error: "This field is required." };
     }
     if (item?.pattern && !item.pattern.test(value)) {
@@ -596,7 +596,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       if (!fieldSchema.required) return;
       // console.log(key, value, fieldSchema, path)
       const result = handleState(form, key, value, path);
-      console.log(result)
+      // console.log(result)
       if (result.status !== State.VALID) complete = false;
       if (result.status === State.EMPTY) result.status = State.ERROR; 
       form.dispatch({ type: "SUBMIT", path, result });

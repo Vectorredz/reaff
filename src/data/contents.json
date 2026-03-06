@@ -236,7 +236,7 @@
         "id": "teachme",
         "title": "teACh Me",
         "question": "What topics would you be interested in joining for teACh Me",
-        "description": "* teACh Me is a 1–2 day workshop where you get to dive into a topic you’re curious about. You’ll be working hands-on and walking away with something cool you can show off or keep building on. Since our instructors put a lot of effort into running these workshops, we do ask for commitment for the full duration, but trust us, it’ll be worth it.",
+        "description": "teACh Me is a 1–2 day workshop where you get to dive into a topic you’re curious about. You’ll be working hands-on and walking away with something cool you can show off or keep building on. Since our instructors put a lot of effort into running these workshops, we do ask for commitment for the full duration, but trust us, it’ll be worth it.",
         "choices": [
           {
             "name": "pokemon",
