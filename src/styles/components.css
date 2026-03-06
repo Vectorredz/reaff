@@ -23,9 +23,9 @@
   .section-title {
     @apply text-lg font-semibold text-gray-800;
   }
-  
+
   .subheading {
-    @apply text-gray-500 text-justify ;
+    @apply text-gray-500 text-justify;
   }
 
   .question-grid {
@@ -46,6 +46,16 @@
 
   .committee-title {
     @apply text-2xl font-bold text-gray-800 capitalize;
+  }
+
+  .droppable {
+    @apply flex flex-col h-full w-100 outline-dashed outline-2 rounded-xl p-5 outline-blue-400 bg-blue-50;
+  }
+
+  .draggable,
+  .sortable {
+    @apply w-80 px-4 py-3 rounded-xl border border-gray-200 bg-white
+         shadow-sm hover:shadow-md  text-gray-500 font-medium gap-2;
   }
 
   .radio-grid {
@@ -132,7 +142,7 @@
     bg-red-50
     focus:outline-none focus:ring-1 focus:ring-red-500
            placeholder:italic placeholder:text-gray-300
-           focus:border-transparent
+           focus:border-transparent;
   }
 
   .suffix-field {

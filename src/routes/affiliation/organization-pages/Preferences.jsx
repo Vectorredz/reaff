@@ -4,13 +4,17 @@ import { UtilsDB } from "../../../contexts/UtilitiesContext.jsx";
 import Header from "../../../components/Header.jsx";
 import Footer from "../../../components/Footer.jsx";
 import DisplayError from "../../../components/DisplayError.jsx";
+import DragNDrop from "../../../components/drag-and-drop/DragNDrop.jsx";
+// import App from "../../../components/drag-and-drop/Sortable.jsx";
 
 export default function Preferences() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, setPage } = useOutletContext();
+  const { form, localStorage, clearLocalStorage, page, setPage } =
+    useOutletContext();
 
   const tops = [1, 2, 3];
+  const committee = ['Logistics', 'Membership', 'Publicity', 'Public Relations', 'Operations', 'Educations', 'Marketing', 'Records']
 
   const state = form.validationState?.organization?.preferences;
 
@@ -53,8 +57,11 @@ export default function Preferences() {
       <div className="space-y-8">
         <h3 className="text-xl font-semibold">Committee Preference</h3>
 
-        <div className="rounded-md border border-dashed border-gray-300 p-6 text-center text-gray-400">
-          Insert Drag and Drop here
+        <div className="form-section">
+          <div>
+            <DragNDrop form={form} state={state} validationUtils={validationUtils} committee={committee} localStorage={localStorage}></DragNDrop>
+            {/* <App></App> */}
+          </div>
         </div>
 
         {tops.map((top) => (
