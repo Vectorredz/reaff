@@ -45,7 +45,7 @@
   }
 
   .committee-title {
-    @apply text-2xl font-bold text-gray-800 capitalize;
+    @apply text-xl font-semibold text-gray-800 capitalize;
   }
 
   .droppable {
@@ -61,6 +61,7 @@
   .radio-grid {
     @apply grid grid-cols-3 gap-2;
   }
+  
 
   .question-text {
     @apply text-base font-medium text-gray-700;

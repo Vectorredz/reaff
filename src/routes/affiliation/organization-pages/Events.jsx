@@ -28,8 +28,6 @@ export default function Events() {
   const handleChange = (e) => {
     const { name, value, type, checked, id } = e.target;
     const newValue = type === "checkbox" ? checked : value;
-
-    // teachme fields are nested
     if (name === "choices") {
       form.updateField({
         path: `organization.events.teachme.choices`,
@@ -53,7 +51,7 @@ export default function Events() {
         result: validationUtils.handleState(name, newValue, "organization"),
       });
     } else {
-      // top-level event radio fields (eap, algolympics, etc.)
+      console.log('newval', name, newValue, value)
       form.updateField({
         path: `organization.events.${name}`,
         value: newValue,
@@ -69,118 +67,180 @@ export default function Events() {
   };
 
   return (
-    <div className="form">
+    <div className="form space-y-8">
+
       <div className="space-y-4">
         <Header page={page} title={"Organization-related | Events"} />
-        <p>{contents.organization.eventsPage.preface}</p>
-        <ol className="list-decimal pl-6 space-y-2">
+
+        <p className="description-text">
+          {contents.organization.eventsPage.preface}
+        </p>
+
+        <ol className="list-decimal pl-6 space-y-2 text-sm text-gray-600">
           {contents.organization.eventsPage.events.map((event) => (
             <li key={event.id}>
-              <p>
-                <strong>{event.title}</strong> - {event.description}
-              </p>
+              <strong>{event.title}</strong> — {event.description}
             </li>
           ))}
         </ol>
       </div>
 
-      <div>
+      <div className="space-y-6">
+
         {contents.organization.eventsPage.interests.map((interest) => (
-          <div key={interest.id} className="form-section space-y-2">
-            <h2 className="text-lg font-semibold">{interest.question}</h2>
-            <p>{interest.description}</p>
-            <div className="flex flex-col gap-2">
-              {["yes", "no", "maybe"].map((option) => (
-                <div key={option}>
-                  <input
-                    type="radio"
-                    name={interest.id}
-                    id={option}
-                    onChange={handleChange}
-                    checked={
-                      localStorage?.organization?.events[interest.id] === option
-                    }
-                  />
-                  <label htmlFor={option}>{option}</label>
-                </div>
-              ))}
-              <DisplayError
-                id={interest.id}
-                state={state}
-                State={validationUtils.State}
-              />
+          <div key={interest.id} className="form-section space-y-4">
+
+            <div>
+              <h2 className="section-title">{interest.question}</h2>
+              <p className="description-text">{interest.description}</p>
             </div>
+
+            {/* RADIO OPTIONS */}
+            <div className="grid grid-cols-3 gap-3">
+
+              {["yes", "no", "maybe"].map((option) => { 
+                const selected =
+                  localStorage?.organization?.events[interest.id] === `${interest.id}-${option}`;
+                return (
+                  <div key={option}>
+                    <label
+                      htmlFor={`${interest.id}-${option}`}
+                      className={
+                        selected
+                          ? "radio-label-selected"
+                          : "radio-label"
+                      }
+                    >
+                      <input
+                        type="radio"
+                        name={interest.id}
+                        id={`${interest.id}-${option}`}
+                        value={option}
+                        onChange={handleChange}
+                        checked={selected}
+                      />
+
+                      <span className="capitalize">{option}</span>
+                    </label>
+
+                  </div>
+                );
+              })}
+
+            </div>
+
+            <DisplayError
+              id={interest.id}
+              state={state}
+              State={validationUtils.State}
+            />
           </div>
         ))}
 
-        <div className="form-section">
-          <h2 className="text-lg font-semibold">
-            {contents.organization.eventsPage.teachme.title}
-          </h2>
-          <p>{contents.organization.eventsPage.teachme.question}</p>
-          <p>{contents.organization.eventsPage.teachme.description}</p>
+        {/* TEACHME SECTION */}
+
+        <div className="form-section space-y-5">
 
           <div>
+            <h2 className="section-title">
+              {contents.organization.eventsPage.teachme.title}
+            </h2>
+
+            <p className="question-text">
+              {contents.organization.eventsPage.teachme.question}
+            </p>
+
+            <p className="description-text">
+              {contents.organization.eventsPage.teachme.description}
+            </p>
+          </div>
+
+          {/* CHECKBOX GRID */}
+
+          <div className="grid grid-cols-2 gap-3">
+
             {contents.organization.eventsPage.teachme.choices.map(
               (choice, index) => (
-                <div key={index}>
+                <label
+                  key={index}
+                  htmlFor={choice.name}
+                  className="checkbox-label"
+                >
                   <input
                     type="checkbox"
                     name="choices"
                     id={choice.name}
                     onChange={handleChange}
-                    checked={localStorage?.organization?.events?.teachme?.choices?.includes(
-                      choice.name,
-                    )}
+                    checked={
+                      localStorage?.organization?.events?.teachme?.choices?.includes(
+                        choice.name
+                      )
+                    }
                   />
-                  <label htmlFor={choice.name}>{choice.name}</label>
-                </div>
-              ),
+
+                  <span>{choice.name}</span>
+                </label>
+              )
             )}
-            <DisplayError
-              id="teachme"
-              state={state}
-              State={validationUtils.State}
-            />
+
           </div>
 
-          <p>
-            What topics would you be enthusiastic to personally teach for a
-            teachme session?
-          </p>
-          <div>
+          <DisplayError
+            id="teachme"
+            state={state}
+            State={validationUtils.State}
+          />
+
+          {/* TEXT FIELDS */}
+
+          <div className="space-y-2">
+
+            <p className="question-text">
+              What topics would you be enthusiastic to personally teach?
+            </p>
+
             <input
               type="text"
-              className={"text-field"}
+              className="text-field"
               name="enthusiast"
               onChange={handleChange}
               value={
                 localStorage?.organization?.events?.teachme?.enthusiast || ""
               }
             />
+
             <DisplayError
               name="enthusiast"
               id="enthusiast"
               state={state}
               State={validationUtils.State}
             />
+
           </div>
 
-          <p>What topics do you want to see for future teachme sessions?</p>
-          <div>
+          <div className="space-y-2">
+
+            <p className="question-text">
+              What topics do you want to see in future teachme sessions?
+            </p>
+
             <input
               type="text"
-              className={"text-field"}
+              className="text-field"
               name="future"
               onChange={handleChange}
-              value={localStorage?.organization?.events?.teachme?.future || ""}
+              value={
+                localStorage?.organization?.events?.teachme?.future || ""
+              }
             />
+
             <DisplayError
               name="future"
               id="future"
               state={state}
               State={validationUtils.State}
             />
+
           </div>
         </div>
 
@@ -190,6 +250,7 @@ export default function Events() {
           details={[form, "organization.events"]}
           nextPage="organization-related/committee"
         />
+
       </div>
     </div>
   );

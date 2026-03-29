@@ -19,7 +19,7 @@ function validationReducer(state, action) {
   // console.log(state, action)
   switch (action.type) {
     case "CHANGE":
-      console.log(action)
+      // console.log(action)
       return setUpdate(state, action.path, action.result); // result computed outside
     case "SUBMIT":
       return setUpdate(state, action.path, action.result); // same

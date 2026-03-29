@@ -63,177 +63,204 @@ export default function Concerns() {
       ),
     });
   };
-
   return (
-    <div className="form">
+    <div className="form space-y-8">
       <Header
         page={page}
         title={"Organization-related | Committee-specific Concerns"}
       />
 
-      {Object.keys(contents.organization.concerns).map(
-        (committee) => (
-          <section key={committee} className="form-section">
-            <h2 className="section-title capitalize">
-              {committee}-specific Concerns
-            </h2>
+      {Object.keys(contents.organization.concerns).map((committee) => (
+        <section key={committee} className="form-section space-y-6">
+          <h2 className="committee-title">{committee}-specific Concerns</h2>
 
-            <div className="space-y-6">
-              {contents.organization.concerns[
-                committee
-              ].map((item, key) => (
-                <div key={key} className="space-y-2">
-                  {item?.question && (
-                    <p className="question-text">{item.question}</p>
-                  )}
-                  {item?.description && (
-                    <p className="description-text">{item.description}</p>
-                  )}
+          {contents.organization.concerns[committee].map((item, key) => (
+            <div key={key} className="space-y-3">
+              {item?.question && (
+                <p className="question-text">{item.question}</p>
+              )}
 
-                  {/* FACETOFACE */}
-                  {item?.id === "facetoface" ? (
-                    <div className="space-y-3">
-                      <div className="radio-section flex-col">
-                        {item.answer.options.map((option, index) => (
-                          <label key={index} className="radio-label">
-                            <input
-                              type="radio"
-                              name={option.name}
-                              id={option.id}
-                              value={option.id}
-                              onChange={(e) => handleChange(e, committee)}
-                              checked={
-                                localStorage?.organization?.committee?.[
-                                  committee
-                                ]?.facetoface?.answer === option.id
-                              }
-                            />
-                            <span className="text-sm">{option.title}</span>
-                          </label>
-                        ))}
-                        <DisplayError
-                          id="answer"
-                          state={state?.[committee]?.facetoface}
-                          State={validationUtils.State}
-                        />
-                      </div>
-                      <Field label={item.comments.placeholder}>
-                        <input
-                          type="text"
-                          className={validationUtils.onBorderError(
-                            "comment",
-                            state?.[committee]?.facetoface,
-                          )}
-                          name="comment"
-                          placeholder={item.comments.placeholder}
-                          value={
-                            localStorage?.organization?.committee?.[committee]
-                              ?.facetoface?.comment || ""
+              {item?.description && (
+                <p className="description-text">{item.description}</p>
+              )}
+
+              {/* FACETOFACE */}
+              {item?.id === "facetoface" ? (
+                <div className="space-y-4">
+                  <div className="radio-grid">
+                    {item.answer.options.map((option, index) => {
+                      const selected =
+                        localStorage?.organization?.committee?.[committee]
+                          ?.facetoface?.answer === option.id;
+
+                      return (
+                        <label
+                          key={index}
+                          className={
+                            selected ? "radio-label-selected" : "radio-label"
                           }
-                          onChange={(e) => handleChange(e, committee)}
-                        />
-                        <DisplayError
-                          id="comment"
-                          state={state?.[committee]?.facetoface}
-                          State={validationUtils.State}
-                        />
-                      </Field>
-                    </div>
-                  ) : item?.type === "text" ? (
-                    <Field label="">
-                      <input
-                        type="text"
-                        className={validationUtils.onBorderError(
-                          item.id,
-                          state?.[committee],
-                        )}
-                        placeholder={item.placeholder || ""}
-                        name={item.id}
-                        value={
-                          localStorage?.organization?.committee?.[committee]?.[
-                            item.id
-                          ] || ""
-                        }
-                        onChange={(e) => handleChange(e, committee)}
-                      />
-                      <DisplayError
-                        id={item.id}
-                        state={state?.[committee]}
-                        State={validationUtils.State}
-                      />
-                    </Field>
-                  ) : item?.type === "file" ? (
-                    <div className="flex flex-col gap-1">
-                      {item.notes && <p className="notes-text">{item.notes}</p>}
-                      <input
-                        type="file"
-                        name={item.id}
-                        onChange={(e) => handleChange(e, committee)}
-                        className="file-input"
-                      />
-                      <DisplayError
-                        id={item.id}
-                        state={state?.[committee]}
-                        State={validationUtils.State}
-                      />
-                    </div>
-                  ) : item?.type === "radio" ? (
-                    <div className="space-y-2">
-                      <div className="radio-section flex-col">
-                        {item.options.map((option, index) => (
-                          <label key={index} className="radio-label">
-                            <input
-                              type="radio"
-                              name={option.name}
-                              id={option.id}
-                              onChange={(e) => handleChange(e, committee)}
-                              checked={
-                                localStorage?.organization?.committee?.[
-                                  committee
-                                ]?.[option.name] === option.id
-                              }
-                            />
-                            <span className="text-sm">{option.title}</span>
-                          </label>
-                        ))}
-                      </div>
-                      <DisplayError
-                        id={item.id}
-                        state={state?.[committee]}
-                        State={validationUtils.State}
-                      />
-                    </div>
-                  ) : item?.type === "checkbox" ? (
-                    <div className="space-y-2">
-                      <div className="flex flex-col gap-2">
-                        {item.options.map((option, index) => (
-                          <label key={index} className="radio-label">
-                            <input
-                              type="checkbox"
-                              name={item.id}
-                              id={option.id}
-                              onChange={(e) => handleChange(e, committee)}
-                              checked={localStorage?.organization?.committee?.[
-                                committee
-                              ]?.[item.id]?.includes(option.id)}
-                            />
-                            <span className="text-sm">{option.title}</span>
-                          </label>
-                        ))}
-                      </div>
-                      <DisplayError
-                        id={item.id}
-                        state={state?.[committee]}
-                        State={validationUtils.State}
-                      />
-                    </div>
-                  ) : null}
+                        >
+                          <input
+                            type="radio"
+                            name={option.name}
+                            id={option.id}
+                            value={option.id}
+                            onChange={(e) => handleChange(e, committee)}
+                            checked={selected}
+                          />
+
+                          <span>{option.title}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+
+                  <DisplayError
+                    id="answer"
+                    state={state?.[committee]?.facetoface}
+                    State={validationUtils.State}
+                  />
+
+                  <Field label={item.comments.placeholder}>
+                    <input
+                      type="text"
+                      className={validationUtils.onBorderError(
+                        "comment",
+                        state?.[committee]?.facetoface,
+                      )}
+                      name="comment"
+                      placeholder={item.comments.placeholder}
+                      value={
+                        localStorage?.organization?.committee?.[committee]
+                          ?.facetoface?.comment || ""
+                      }
+                      onChange={(e) => handleChange(e, committee)}
+                    />
+
+                    <DisplayError
+                      id="comment"
+                      state={state?.[committee]?.facetoface}
+                      State={validationUtils.State}
+                    />
+                  </Field>
                 </div>
-              ))}
+              ) : item?.type === "text" ? (
+                <Field label="">
+                  <input
+                    type="text"
+                    className={validationUtils.onBorderError(
+                      item.id,
+                      state?.[committee],
+                    )}
+                    placeholder={item.placeholder || ""}
+                    name={item.id}
+                    value={
+                      localStorage?.organization?.committee?.[committee]?.[
+                        item.id
+                      ] || ""
+                    }
+                    onChange={(e) => handleChange(e, committee)}
+                  />
+
+                  <DisplayError
+                    id={item.id}
+                    state={state?.[committee]}
+                    State={validationUtils.State}
+                  />
+                </Field>
+              ) : item?.type === "file" ? (
+                <div className="space-y-2">
+                  {item.notes && <p className="notes-text">{item.notes}</p>}
+
+                  <input
+                    type="file"
+                    name={item.id}
+                    onChange={(e) => handleChange(e, committee)}
+                    className="file-input"
+                  />
+
+                  <DisplayError
+                    id={item.id}
+                    state={state?.[committee]}
+                    State={validationUtils.State}
+                  />
+                </div>
+              ) : item?.type === "radio" ? (
+                <div className="space-y-3">
+                  <div className="radio-grid">
+                    {item.options.map((option, index) => {
+                      const selected =
+                        localStorage?.organization?.committee?.[committee]?.[
+                          option.name
+                        ] === option.id;
+
+                      return (
+                        <label
+                          key={index}
+                          className={
+                            selected ? "radio-label-selected" : "radio-label"
+                          }
+                        >
+                          <input
+                            type="radio"
+                            name={option.name}
+                            id={option.id}
+                            onChange={(e) => handleChange(e, committee)}
+                            checked={selected}
+                          />
+
+                          <span>{option.title}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+
+                  <DisplayError
+                    id={item.id}
+                    state={state?.[committee]}
+                    State={validationUtils.State}
+                  />
+                </div>
+              ) : item?.type === "checkbox" ? (
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-3">
+                    {item.options.map((option, index) => {
+                      const selected = localStorage?.organization?.committee?.[
+                        committee
+                      ]?.[item.id]?.includes(option.id);
+
+                      return (
+                        <label
+                          key={index}
+                          className={
+                            selected ? "radio-label-selected" : "radio-label"
+                          }
+                        >
+                          <input
+                            type="checkbox"
+                            name={item.id}
+                            id={option.id}
+                            onChange={(e) => handleChange(e, committee)}
+                            checked={selected}
+                          />
+
+                          <span>{option.title}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+
+                  <DisplayError
+                    id={item.id}
+                    state={state?.[committee]}
+                    State={validationUtils.State}
+                  />
+                </div>
+              ) : null}
             </div>
-          </section>
-        ),
-      )}
+          ))}
+        </section>
+      ))}
 
       <Footer
         validateForm={validationUtils.validateForm}

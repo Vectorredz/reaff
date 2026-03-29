@@ -50,7 +50,9 @@ export default function CreateAccount() {
                 defaultValue=""
                 onChange={(e) => setEmail(e.target.value)}
               >
-                <option value="" disabled>Select your email</option>
+                <option value="" disabled>
+                  Select your email
+                </option>
                 {localStorage?.personalInfo?.primaryEmail && (
                   <option value={localStorage.personalInfo.primaryEmail}>
                     {localStorage.personalInfo.primaryEmail} (Primary)

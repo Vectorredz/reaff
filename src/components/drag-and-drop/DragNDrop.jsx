@@ -26,6 +26,15 @@ export default function DragNDrop({
   const [dragging, setDragging] = useState(null); // ← track current
 
   useEffect(() => {
+    console.log('selected', selected);
+  }, [selected]);
+
+  useEffect(() => {
+        console.log('available', available);
+
+  }, [available])
+
+  useEffect(() => {
     form.updateField({
       path: `organization.preferences.committeeRank`,
       value: selected,
@@ -42,9 +51,9 @@ export default function DragNDrop({
     });
   }, [selected]);
 
-  useEffect(() => {
-    console.log(form.values.organization.preferences);
-  }, [form.values]);
+  // useEffect(() => {
+  //   console.log(form.values.organization.preferences);
+  // }, [form.values]);
 
   return (
     <DragDropProvider
@@ -56,7 +65,7 @@ export default function DragNDrop({
             ? [...prev, dragging]
             : [...prev],
         );
-        console.log(source?.id, target?.id, dragging);
+        // console.log(source?.id, target?.id, dragging);
         setAvailable((prev) => prev.filter((item) => item !== dragging));
       }}
       onDragOver={(e) => {
@@ -77,7 +86,7 @@ export default function DragNDrop({
           } else if (source?.id != target?.id && selected.length > 0) {
             const src = selected?.indexOf(source?.id);
             const dst = selected?.indexOf(target?.id);
-            console.log(src, dst);
+            // console.log(src, dst);
             const copySelect = [...selected];
             // if (src === -1) {
             //   copySelect.splice(dst, 1, source?.id);
@@ -85,11 +94,11 @@ export default function DragNDrop({
             setSelected(copySelect);
             // }
           }
-        setSelected((prev) =>
-          !prev.includes(dragging) && target?.id === "droppable"
-            ? [...prev, dragging]
-            : [...prev],
-        );
+        // setSelected((prev) =>
+        //   !prev.includes(dragging) && target?.id === "droppable"
+        //     ? [...prev, dragging]
+        //     : [...prev],
+        // );
         setAvailable((prev) => prev.filter((item) => item !== dragging));
       }}
       onDragStart={(e) => {
@@ -108,14 +117,17 @@ export default function DragNDrop({
           ))}
         </Droppable>
         <div>
-          {(
-            <button onClick={(e) => {
-                e.preventDefault()
-                window.location.reload()
-                }} className="btn-primary">
+          {
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.reload();
+              }}
+              className="btn-primary"
+            >
               Save rankings
             </button>
-          )}
+          }
         </div>
         <DisplayError
           id={"committeeRank"}

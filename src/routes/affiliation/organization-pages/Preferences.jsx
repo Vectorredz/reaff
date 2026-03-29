@@ -14,13 +14,22 @@ export default function Preferences() {
     useOutletContext();
 
   const tops = [1, 2, 3];
-  const committee = ['Logistics', 'Membership', 'Publicity', 'Public Relations', 'Operations', 'Educations', 'Marketing', 'Records']
+  const committee = [
+    "Logistics",
+    "Membership",
+    "Publicity",
+    "Public Relations",
+    "Operations",
+    "Educations",
+    "Marketing",
+    "Records",
+  ];
 
   const state = form.validationState?.organization?.preferences;
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
+  // useEffect(() => {
+  //   console.log(state);
+  // }, [state]);
 
   useEffect(() => {
     setPage(4);
@@ -59,7 +68,13 @@ export default function Preferences() {
 
         <div className="form-section">
           <div>
-            <DragNDrop form={form} state={state} validationUtils={validationUtils} committee={committee} localStorage={localStorage}></DragNDrop>
+            <DragNDrop
+              form={form}
+              state={state}
+              validationUtils={validationUtils}
+              committee={committee}
+              localStorage={localStorage}
+            ></DragNDrop>
             {/* <App></App> */}
           </div>
         </div>

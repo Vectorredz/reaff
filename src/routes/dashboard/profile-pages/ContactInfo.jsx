@@ -1,7 +1,25 @@
 import Field from "../../../components/Field.jsx";
+import { useState } from "react";
+import { useEffect } from "react";
+export default function ContactInfo({ form, user, updateAnswersData}) {
+  const handleChange = (e) => {
+    const { value } = e.target
+    updateContactForm(value)
+  }
 
-export default function ContactInfo({ form }) {
-  const member = form?.data[0]
+  // useEffect(() => {console.log(user, updateAnswersData)}, [user, updateAnswersData])
+
+  const [contactForm, updateContactForm] = useState(form?.phone)
+
+  const handleUpdate = async () => {
+    const result  = await updateAnswersData(user, contactForm)
+    console.log(result)
+  }
+
+  useEffect(() => {
+   handleUpdate()
+  }, [contactForm])
+
   return (
     <div className="form">
       <div>
@@ -9,16 +27,19 @@ export default function ContactInfo({ form }) {
       </div>
       <section className="form-section ">
         <Field flex="row" label="Mobile Phone:">
-          <p>{member?.phone}</p>
+          <input 
+            value={contactForm ?? form?.phone} 
+            onChange={(e) => handleChange(e)}>
+          </input>
         </Field>
         <Field flex="row" label="Telephone:">
-          <p>{`${member?.telephone}`}</p>
+          <input value={`${form?.telephone}`}></input>
         </Field>
         <Field flex="row" label="Primary Email Address:">
-          <p>{`${member?.primaryEmail}`}</p>
+          <p>{`${form?.primary_email}`}</p>
         </Field>
         <Field flex="row" label="UP Email Address:">
-          <p>{`${member?.upEmail}`}</p>
+          <p>{`${form?.up_email}`}</p>
         </Field>
       </section>
     </div>

@@ -189,7 +189,7 @@ export const UtilitiesContextProvider = ({ children }) => {
     assessment: {
       activePerformance: {
         meta: {
-          required: true,
+          required: false,
         },
         task: {
           title: "Task performance",
@@ -230,7 +230,7 @@ export const UtilitiesContextProvider = ({ children }) => {
       },
       projectPerformance: {
         meta: {
-          required: true,
+          required: false,
         },
         time: {
           title: "Time commitment",
@@ -274,7 +274,12 @@ export const UtilitiesContextProvider = ({ children }) => {
       committee: {
         lastSem: {
           title: "Committee involvement last semester",
-          type: "text",
+          type: "select",
+          required: true,
+        },
+        position: {
+          title: "position involvement last semester",
+          type: "select",
           required: true,
         },
         improvement: {
@@ -594,7 +599,10 @@ export const UtilitiesContextProvider = ({ children }) => {
       if (!fieldSchema.required) return;
       // console.log(key, value, fieldSchema, path)
       const result = handleState(form, key, value, path);
-      if (result.status !== State.VALID) complete = false;
+      if (result.status !== State.VALID) {
+        complete = false;
+        console.log(key, value)
+      }
       if (result.status === State.EMPTY) result.status = State.ERROR;
       form.dispatch({ type: "SUBMIT", path, result });
     };

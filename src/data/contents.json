@@ -148,8 +148,58 @@
       "fields": [
         {
           "id": "lastSem",
-          "type": "text",
-          "question": "Committee Last Semester"
+          "type": "select",
+          "question": "Committee Last Semester",
+          "options": 
+            [
+              { "title": "Logistics", "id": "logistics", "name": "logistics" },
+              {
+                "title": "Membership",
+                "id": "membership",
+                "name": "membership"
+              },
+              { "title": "Publicity", "id": "publicity", "name": "publicity" },
+              {
+                "title": "Public Relations",
+                "id": "public-relations",
+                "name": "public-relations"
+              },
+              {
+                "title": "Operations",
+                "id": "operations",
+                "name": "operations"
+              },
+              {
+                "title": "Educations",
+                "id": "educations",
+                "name": "educations"
+              },
+              { "title": "Marketing", "id": "marketing", "name": "marketing" },
+              { "title": "Records", "id": "records", "name": "records" }
+            
+          ]
+        },
+        {
+          "id": "position",
+          "type": "select",
+          "question": "What was your position in your last committee?",
+          "options": [
+            {
+              "title": "Head",
+              "id": "head",
+              "name": "head"
+            },
+            {
+              "title": "Vice-head",
+              "id": "vice-head",
+              "name": "vice-head"
+            },
+            {
+              "title": "Member",
+              "id": "member",
+              "name": "member"
+            }
+          ]
         },
         {
           "id": "improvement",

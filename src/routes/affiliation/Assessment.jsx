@@ -20,6 +20,10 @@ export default function Assessment() {
     setPage(3);
   }, []);
 
+  useEffect(() => {
+    console.log(form.values.assessment);
+  }, [form.values]);
+
   const allError = (item) =>
     Object.keys(decoderMap.assessment?.[item])
       .filter((key) => key !== "meta")
@@ -35,7 +39,7 @@ export default function Assessment() {
   const forceStateUpdate = (key) => {
     if (
       allError(key) &&
-      state?.[key]?.meta.status != validationUtils.State.ERROR
+      state?.[key]?.meta?.status != validationUtils.State.ERROR
     ) {
       form.dispatch({
         type: "FORCE",
@@ -47,7 +51,7 @@ export default function Assessment() {
       });
     } else if (
       allValid(key) &&
-      state?.[key]?.meta.status != validationUtils.State.VALID
+      state?.[key]?.meta?.status != validationUtils.State.VALID
     ) {
       form.dispatch({
         type: "FORCE",
@@ -161,6 +165,75 @@ export default function Assessment() {
     <div className="form-frame">
       <div className="form">
         <Header page={page} title={sa.title} />
+
+        {/* COMMITTEE ASSESSMENT */}
+        <section className="form-section">
+          <h2 className="section-title">{sa.committeeAssessment.title}</h2>
+          <div className="question-grid">
+            {sa.committeeAssessment.fields.map((field) => (
+              <div
+                key={field.id}
+                className={`space-y-2 ${field.type === "textarea" ? "col-span-2" : ""}`}
+              >
+                <p className="question-text">{field.question}</p>
+                {field.description && (
+                  <p className="description-text">{field.description}</p>
+                )}
+                {field.type === "textarea" ? (
+                  <textarea
+                    className={validationUtils.onBorderError(
+                      field.id,
+                      state?.committee,
+                    )}
+                    value={
+                      localStorage?.assessment?.committee?.[field.id] || ""
+                    }
+                    onChange={(e) => handleChange(e, `committee.${field.id}`)}
+                    placeholder="Your answer..."
+                  />
+                ) : field.type === "select" ? (
+                  <select
+                    id={field.id}
+                    type="select"
+                    className={validationUtils.onBorderError(
+                      field.id,
+                      state?.committee,
+                    )}
+                    value={
+                      localStorage?.assessment?.committee?.[field.id] || ""
+                    }
+                    onChange={(e) => handleChange(e, `committee.${field.id}`)}
+                  >
+                    <option value="" disabled>
+                      Select your answer
+                    </option>
+                    {field?.options.map((opt) => (
+                      <option key={opt.id}>{opt.title}</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    className={validationUtils.onBorderError(
+                      field.id,
+                      state?.committee,
+                    )}
+                    value={
+                      localStorage?.assessment?.committee?.[field.id] || ""
+                    }
+                    onChange={(e) => handleChange(e, `committee.${field.id}`)}
+                    placeholder="Your answer..."
+                  />
+                )}
+                <DisplayError
+                  id={field.id}
+                  state={state?.committee}
+                  State={validationUtils.State}
+                ></DisplayError>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* COMMITTEE EVALUATION */}
         <section className="form-section">
@@ -283,55 +356,6 @@ export default function Assessment() {
                 <DisplayError
                   id={field.id}
                   state={state}
-                  State={validationUtils.State}
-                ></DisplayError>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* COMMITTEE ASSESSMENT */}
-        <section className="form-section">
-          <h2 className="section-title">{sa.committeeAssessment.title}</h2>
-          <div className="question-grid">
-            {sa.committeeAssessment.fields.map((field) => (
-              <div
-                key={field.id}
-                className={`space-y-2 ${field.type === "textarea" ? "col-span-2" : ""}`}
-              >
-                <p className="question-text">{field.question}</p>
-                {field.description && (
-                  <p className="description-text">{field.description}</p>
-                )}
-                {field.type === "textarea" ? (
-                  <textarea
-                    className={validationUtils.onBorderError(
-                      field.id,
-                      state?.committee,
-                    )}
-                    value={
-                      localStorage?.assessment?.committee?.[field.id] || ""
-                    }
-                    onChange={(e) => handleChange(e, `committee.${field.id}`)}
-                    placeholder="Your answer..."
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    className={validationUtils.onBorderError(
-                      field.id,
-                      state?.committee,
-                    )}
-                    value={
-                      localStorage?.assessment?.committee?.[field.id] || ""
-                    }
-                    onChange={(e) => handleChange(e, `committee.${field.id}`)}
-                    placeholder="Your answer..."
-                  />
-                )}
-                <DisplayError
-                  id={field.id}
-                  state={state?.committee}
                   State={validationUtils.State}
                 ></DisplayError>
               </div>

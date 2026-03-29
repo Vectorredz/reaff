@@ -20,7 +20,7 @@ export const DatabaseContextProvider = ({ children }) => {
       suffix: personal.suffix,
 
       current_address: personal.currentAddress,
-      birthday: null,
+      birthday: personal.birthday,
       gender: personal.gender,
 
       student_number: personal.studentNumber,
@@ -56,6 +56,15 @@ export const DatabaseContextProvider = ({ children }) => {
     return { success: data, error };
   };
 
+  const updateAnswersData = async (userId, updateVal) => {
+    const { data, error } = await supabase
+      .from("members")
+      .update({ phone: updateVal })
+      .eq("id", userId)
+      .select();
+
+    return { data, error };
+  };
   const fetchMemberProfile = async () =>
     await supabase.from("members").select("*");
 
@@ -90,6 +99,7 @@ export const DatabaseContextProvider = ({ children }) => {
         fetchFormTemplate,
         insertMemberData,
         insertAnswersData,
+        updateAnswersData,
         fetchMemberProfile,
         fetchMemberAnswers,
         fetchMemberEmail,

@@ -60,10 +60,10 @@ function Signup() {
 
   useEffect(() => {
     function recurseFileTree(data, node, state) {
-      if (typeof data[node] !== "object") return { status: "", error: "" };
-      if (data[node].length === 0) return { status: "", error: "" };
-      for (const child of Object.keys(data[node])) {
-        state[child] = recurseFileTree(data[node], child, (state[child] = {}));
+      if (typeof data?.[node] !== "object") return { status: "", error: "" };
+      if (data?.[node]?.length === 0) return { status: "", error: "" };
+      for (const child of Object.keys(data?.[node])) {
+        state[child] = recurseFileTree(data?.[node], child, (state[child] = {}));
       }
       return state;
     }
