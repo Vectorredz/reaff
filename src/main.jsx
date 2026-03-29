@@ -7,6 +7,7 @@ import { DatabaseContextProvider } from "./contexts/DatabaseContext.jsx";
 import { UtilitiesContextProvider } from "./contexts/UtilitiesContext.jsx";
 import "./styles/index.css";
 import routes from "./routes.jsx";
+import { FormContextProvider } from "./contexts/FormContext.jsx";
 
 const router = createBrowserRouter(routes);
 
@@ -21,7 +22,10 @@ createRoot(document.getElementById("root")).render(
     <UtilitiesContextProvider>
       <AuthContextProvider>
         <DatabaseContextProvider>
-          <RouterProvider router={router} />
+          <FormContextProvider formTemplate={null}>
+            {" "}
+            <RouterProvider router={router} />
+          </FormContextProvider>{" "}
         </DatabaseContextProvider>
       </AuthContextProvider>
     </UtilitiesContextProvider>

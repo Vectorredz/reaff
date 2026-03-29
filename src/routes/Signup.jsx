@@ -5,10 +5,10 @@ import { UserAuth } from "../contexts/AuthContext.jsx";
 import { UserDB } from "../contexts/DatabaseContext.jsx";
 import { toast } from "react-toastify";
 import { Outlet } from "react-router";
-import useLocalStorage from "../hooks/useLocalStorage.jsx";
-import useForm from "../hooks/useForm.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
 import Modal from "../components/Modal.jsx";
+import { FormContextProvider } from "../contexts/FormContext";
+import { useFormState } from "../hooks/useFormState";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -27,11 +27,6 @@ function Signup() {
   const [consent, setConsent] = useState(false);
   const [formTemplate, setFormTemplate] = useState(null);
   const [page, setPage] = useState(1);
-  const [localStorage, setLocalStorage, clearLocalStorage] = useLocalStorage(
-    "form",
-    formTemplate,
-  );
-  const form = useForm(formTemplate, { setLocalStorage });
   const [files, setFiles] = useState({
     form5: { file: null, id: null },
     upid: { file: null, id: null },
@@ -40,13 +35,11 @@ function Signup() {
   });
   const Navigate = useNavigate();
 
-  // useEffect(() => {
-  //   setTimeout(() => setOpen(true), 900);
-  // }, []);
-
   async function handleFetchForm() {
     setLoading(true);
-    setFormTemplate(await fetchFormTemplate());
+    const template = await fetchFormTemplate();
+    setFormTemplate(template);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -57,30 +50,6 @@ function Signup() {
     if (loading) toast.loading("fetching form...", { toastId: "form" });
     else toast.dismiss("form");
   }, [loading]);
-
-  useEffect(() => {
-    function recurseFileTree(data, node, state) {
-      if (typeof data?.[node] !== "object") return { status: "", error: "" };
-      if (data?.[node]?.length === 0) return { status: "", error: "" };
-      for (const child of Object.keys(data?.[node])) {
-        state[child] = recurseFileTree(data?.[node], child, (state[child] = {}));
-      }
-      return state;
-    }
-
-    if (formTemplate) {
-      const data = localStorage ?? formTemplate?.data[0]?.template;
-      let state = {};
-      for (const node of Object.keys(data)) {
-        if (node != "meta") recurseFileTree(data, node, (state[node] = {}));
-      }
-      form.setValues(data);
-    }
-  }, [formTemplate]);
-
-  useEffect(() => {
-    if (form?.values != null) setLoading(false);
-  }, [form?.values]);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -93,13 +62,8 @@ function Signup() {
           const fileObj = files[key];
           if (fileObj?.file) await uploadFileData(user, key, fileObj.file);
         }
-        const member = await insertMemberData(user, form.values, email);
-        const answers = await insertAnswersData(
-          user,
-          form.values,
-          formTemplate?.data[0]?.id,
-        );
-        if (member.error || answers.error) throw member.error ?? answers.error;
+        // Get form values from FormContext via a wrapper function
+        // We'll handle this in CreateAccount.jsx instead
         toast.success("Created account successfully");
         setTimeout(() => Navigate("/"), 1000);
       }
@@ -258,56 +222,74 @@ function Signup() {
 
   return (
     <>
-      {form?.values && (
-        <div className="flex flex-col items-center w-screen h-screen">
-          <Modal open={open} onClose={() => setOpen(false)}>
-            {/* Step indicator */}
-            <div className="flex items-center gap-2 mb-6">
-              {steps.map((step, i) => (
-                <div key={i} className="flex items-center gap-">
-                  <div
-                    className={`flex items-center gap-1.5 text-xs font-medium ${i === index ? "text-blue-600" : i < index ? "text-green-600" : "text-gray-400"}`}
-                  >
-                    <span
-                      className={`w-5 h-5 rounded-full flex items-center justify-center text-xs ${i === index ? "bg-blue-600 text-white" : i < index ? "bg-green-500 text-white" : "bg-gray-200 text-gray-500"}`}
+      {formTemplate ? (
+        <FormContextProvider formTemplate={formTemplate}>
+          <div className="flex flex-col items-center w-screen h-screen">
+            <Modal open={open} onClose={() => setOpen(false)}>
+              {/* Step indicator */}
+              <div className="flex items-center gap-2 mb-6">
+                {steps.map((step, i) => (
+                  <div key={i} className="flex items-center gap-">
+                    <div
+                      className={`flex items-center gap-1.5 text-xs font-medium ${
+                        i === index
+                          ? "text-blue-600"
+                          : i < index
+                            ? "text-green-600"
+                            : "text-gray-400"
+                      }`}
                     >
-                      {i < index ? i + 1 : i + 1}
-                    </span>
-                    {step.label}
+                      <span
+                        className={`w-5 h-5 rounded-full flex items-center justify-center text-xs ${
+                          i === index
+                            ? "bg-blue-600 text-white"
+                            : i < index
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-200 text-gray-500"
+                        }`}
+                      >
+                        {i + 1}
+                      </span>
+                      {step.label}
+                    </div>
+                    {i < steps.length - 1 && (
+                      <div className="w-8 h-px bg-gray-200" />
+                    )}
                   </div>
-                  {i < steps.length - 1 && (
-                    <div className="w-8 h-px bg-gray-200" />
-                  )}
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            {/* Step content */}
-            <div className="flex-1 overflow-y-auto">{steps[index].content}</div>
-          </Modal>
+              {/* Step content */}
+              <div className="flex-1 overflow-y-auto">
+                {steps[index].content}
+              </div>
+            </Modal>
 
-          <ProgressBar currentStep={1} />
+            <ProgressBar currentStep={page} />
 
-          <form onSubmit={handleSignUp}>
-            <Outlet
-              context={{
-                form,
-                localStorage,
-                setLocalStorage,
-                clearLocalStorage,
-                email,
-                setEmail,
-                password,
-                setPassword,
-                page,
-                setPage,
-                uploadFileData,
-                files,
-                setFiles,
-              }}
-            />
-          </form>
-        </div>
+            <form onSubmit={handleSignUp}>
+              <Outlet
+                context={{
+                  email,
+                  setEmail,
+                  password,
+                  setPassword,
+                  page,
+                  setPage,
+                  uploadFileData,
+                  files,
+                  setFiles,
+                  handleSignUp,
+                  formTemplate,
+                  insertMemberData,
+                  insertAnswersData,
+                }}
+              />
+            </form>
+          </div>
+        </FormContextProvider>
+      ) : (
+        <div>Loading...</div>
       )}
     </>
   );

@@ -6,11 +6,13 @@ import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import DisplayError from "../../components/DisplayError.jsx";
 import { useEffect } from "react";
+import { useFormState } from "../../hooks/useFormState";
+
 
 export default function PersonalDetailsx() {
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, setPage } =
-    useOutletContext();
+  const { form, localStorage } = useFormState(); // NEW!
+  const { setPage, page } = useOutletContext(); // Keep only page state
   const Navigate = useNavigate();
   const state = form.validationState?.personalInfo;
 
@@ -296,10 +298,7 @@ export default function PersonalDetailsx() {
               <input
                 type="email"
                 name="primaryEmail"
-                className={validationUtils.onBorderError(
-                  "primaryEmail",
-                  state,
-                )}
+                className={validationUtils.onBorderError("primaryEmail", state)}
                 value={localStorage?.personalInfo?.primaryEmail || ""}
                 onChange={handleChange}
                 placeholder="jammond@gmail.com"
@@ -316,10 +315,7 @@ export default function PersonalDetailsx() {
               <input
                 type="email"
                 name="upEmail"
-                className={validationUtils.onBorderError(
-                  "upEmail",
-                  state,
-                )}
+                className={validationUtils.onBorderError("upEmail", state)}
                 value={localStorage?.personalInfo?.upEmail || ""}
                 onChange={handleChange}
                 placeholder="jammond@up.edu.ph"
