@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import useForm from "../hooks/useForm";
 import useLocalStorage from "../hooks/useLocalStorage";
 
-export const FormContext = createContext();
+const FormContext = createContext();
 
 export const FormContextProvider = ({ children, formTemplate }) => {
   const [localStorage, setLocalStorage, clearLocalStorage] = useLocalStorage(
@@ -25,4 +25,9 @@ export const FormContextProvider = ({ children, formTemplate }) => {
     </FormContext.Provider>
   );
 };
+
+
+export const UserContext = () => {
+  return useContext(FormContext);
+}
 

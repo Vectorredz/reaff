@@ -23,9 +23,8 @@ createRoot(document.getElementById("root")).render(
       <AuthContextProvider>
         <DatabaseContextProvider>
           <FormContextProvider formTemplate={null}>
-            {" "}
             <RouterProvider router={router} />
-          </FormContextProvider>{" "}
+          </FormContextProvider>
         </DatabaseContextProvider>
       </AuthContextProvider>
     </UtilitiesContextProvider>

@@ -7,8 +7,7 @@ import { toast } from "react-toastify";
 import { Outlet } from "react-router";
 import ProgressBar from "../components/ProgressBar.jsx";
 import Modal from "../components/Modal.jsx";
-import { FormContextProvider } from "../contexts/FormContext";
-import { useFormState } from "../hooks/useFormState";
+import { FormContextProvider } from "../contexts/FormContext.jsx";
 
 function Signup() {
   const [email, setEmail] = useState("");

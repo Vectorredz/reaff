@@ -6,12 +6,12 @@ import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import DisplayError from "../../components/DisplayError.jsx";
 import { useEffect } from "react";
-import { useFormState } from "../../hooks/useFormState";
-
+import { UserContext } from "../../contexts/FormContext.jsx";
 
 export default function PersonalDetailsx() {
   const { validationUtils } = UtilsDB();
-  const { form, localStorage } = useFormState(); // NEW!
+  const { form, localStorage, setLocalStorage, clearLocalStorage } =
+    UserContext();
   const { setPage, page } = useOutletContext(); // Keep only page state
   const Navigate = useNavigate();
   const state = form.validationState?.personalInfo;
