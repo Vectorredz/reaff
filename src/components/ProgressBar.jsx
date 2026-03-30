@@ -47,7 +47,7 @@ export default function ProgressBar({ currentStep, loading }) {
                   <div
                     className={`
                       flex h-11 w-11 items-center justify-center rounded-full
-                      text-sm font-semibold transition-all duration-200
+                      text-sm font-semibold transition-all duration-400
                       ${
                         isActive
                           ? "bg-blue-600 text-white scale-110 ring-4 ring-blue-100"

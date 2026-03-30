@@ -5,11 +5,13 @@ import Footer from "../../../components/Footer.jsx";
 import { UtilsDB } from "../../../contexts/UtilitiesContext.jsx";
 import DisplayError from "../../../components/DisplayError.jsx";
 import { useEffect } from "react";
-
+import { UserContext } from "../../../contexts/FormContext.jsx";
 export default function Events() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, setPage } = useOutletContext();
+  const { page, setPage } = useOutletContext();
+  const { form, localStorage, setLocalStorage, clearLocalStorage } =
+    UserContext();
 
   const state = form.validationState?.organization?.events;
 
@@ -51,7 +53,7 @@ export default function Events() {
         result: validationUtils.handleState(name, newValue, "organization"),
       });
     } else {
-      console.log('newval', name, newValue, value)
+      console.log("newval", name, newValue, value);
       form.updateField({
         path: `organization.events.${name}`,
         value: newValue,
@@ -68,7 +70,6 @@ export default function Events() {
 
   return (
     <div className="form space-y-8">
-
       <div className="space-y-4">
         <Header page={page} title={"Organization-related | Events"} />
 
@@ -86,10 +87,8 @@ export default function Events() {
       </div>
 
       <div className="space-y-6">
-
         {contents.organization.eventsPage.interests.map((interest) => (
           <div key={interest.id} className="form-section space-y-4">
-
             <div>
               <h2 className="section-title">{interest.question}</h2>
               <p className="description-text">{interest.description}</p>
@@ -97,18 +96,16 @@ export default function Events() {
 
             {/* RADIO OPTIONS */}
             <div className="grid grid-cols-3 gap-3">
-
-              {["yes", "no", "maybe"].map((option) => { 
+              {["yes", "no", "maybe"].map((option) => {
                 const selected =
-                  localStorage?.organization?.events[interest.id] === `${interest.id}-${option}`;
+                  localStorage?.organization?.events[interest.id] ===
+                  `${interest.id}-${option}`;
                 return (
                   <div key={option}>
                     <label
                       htmlFor={`${interest.id}-${option}`}
                       className={
-                        selected
-                          ? "radio-label-selected"
-                          : "radio-label"
+                        selected ? "radio-label-selected" : "radio-label"
                       }
                     >
                       <input
@@ -122,11 +119,9 @@ export default function Events() {
 
                       <span className="capitalize">{option}</span>
                     </label>
-
                   </div>
                 );
               })}
-
             </div>
 
             <DisplayError
@@ -140,7 +135,6 @@ export default function Events() {
         {/* TEACHME SECTION */}
 
         <div className="form-section space-y-5">
-
           <div>
             <h2 className="section-title">
               {contents.organization.eventsPage.teachme.title}
@@ -158,7 +152,6 @@ export default function Events() {
           {/* CHECKBOX GRID */}
 
           <div className="grid grid-cols-2 gap-3">
-
             {contents.organization.eventsPage.teachme.choices.map(
               (choice, index) => (
                 <label
@@ -171,18 +164,15 @@ export default function Events() {
                     name="choices"
                     id={choice.name}
                     onChange={handleChange}
-                    checked={
-                      localStorage?.organization?.events?.teachme?.choices?.includes(
-                        choice.name
-                      )
-                    }
+                    checked={localStorage?.organization?.events?.teachme?.choices?.includes(
+                      choice.name,
+                    )}
                   />
 
                   <span>{choice.name}</span>
                 </label>
-              )
+              ),
             )}
-
           </div>
 
           <DisplayError
@@ -194,7 +184,6 @@ export default function Events() {
           {/* TEXT FIELDS */}
 
           <div className="space-y-2">
-
             <p className="question-text">
               What topics would you be enthusiastic to personally teach?
             </p>
@@ -215,11 +204,9 @@ export default function Events() {
               state={state}
               State={validationUtils.State}
             />
-
           </div>
 
           <div className="space-y-2">
-
             <p className="question-text">
               What topics do you want to see in future teachme sessions?
             </p>
@@ -229,9 +216,7 @@ export default function Events() {
               className="text-field"
               name="future"
               onChange={handleChange}
-              value={
-                localStorage?.organization?.events?.teachme?.future || ""
-              }
+              value={localStorage?.organization?.events?.teachme?.future || ""}
             />
 
             <DisplayError
@@ -240,7 +225,6 @@ export default function Events() {
               state={state}
               State={validationUtils.State}
             />
-
           </div>
         </div>
 
@@ -249,8 +233,8 @@ export default function Events() {
           clearLocalStorage={clearLocalStorage}
           details={[form, "organization.events"]}
           nextPage="organization-related/committee"
+          prevPage="organization-related/preferences"
         />
-
       </div>
     </div>
   );

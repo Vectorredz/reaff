@@ -6,7 +6,7 @@ const DatabaseContext = createContext();
 
 export const DatabaseContextProvider = ({ children }) => {
   const fetchFormTemplate = async () => {
-    return await supabase.from("forms").select("*").eq("semester", "2526B");
+    return await supabase.from("forms").select("*").eq("semester", "2526B").single();
   };
 
   const insertMemberData = async (user, form, authEmail) => {
@@ -52,7 +52,6 @@ export const DatabaseContextProvider = ({ children }) => {
       form_id: form_id,
       answers: form,
     });
-    console.log(form);
     return { success: data, error };
   };
 
@@ -72,7 +71,6 @@ export const DatabaseContextProvider = ({ children }) => {
     await supabase.from("submissions").select("*");
 
   const uploadFileData = async (user, type, file) => {
-    console.log(`members/member-${user.id}/${type}/${file.name}`);
     const { data, error } = await supabase.storage
       .from("acm-files")
       .upload(`members/member-${user.id}/${type}/${file.name}`, file);

@@ -10,15 +10,12 @@ import { UserContext } from "../../contexts/FormContext.jsx";
 
 export default function PersonalDetailsx() {
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, setLocalStorage, clearLocalStorage } =
-    UserContext();
+  const { form, localStorage, clearLocalStorage } = UserContext();
   const { setPage, page } = useOutletContext(); // Keep only page state
-  const Navigate = useNavigate();
   const state = form.validationState?.personalInfo;
-
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    console.log(e.target);
     const newValue = type === "checkbox" ? checked : value;
     form.updateField({
       path: `personalInfo.${name}`,
@@ -40,13 +37,6 @@ export default function PersonalDetailsx() {
   useEffect(() => {
     setPage(1);
   }, []);
-
-  useEffect(() => {
-    console.log(form.validationState);
-  }, [form.validationState]);
-  useEffect(() => {
-    console.log(form.values);
-  }, [form.values]);
 
   return (
     <div className="form-frame">
@@ -469,6 +459,7 @@ export default function PersonalDetailsx() {
           validateForm={validationUtils.validateForm}
           clearLocalStorage={clearLocalStorage}
           details={[form, "personalInfo"]}
+          prevPage={null}
           nextPage="commitments"
         />
       </div>

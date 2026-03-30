@@ -6,34 +6,41 @@ import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import contents from "../../data/contents.json";
 import DisplayError from "../../components/DisplayError.jsx";
-
+import { UserContext } from "../../contexts/FormContext.jsx";
 const sa = contents.assessment;
 
 export default function Assessment() {
-  const { decoderMap, validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, setPage } =
-    useOutletContext();
+  const { formSchemas, validationUtils } = UtilsDB();
+  const { page, setPage } = useOutletContext();
+  const { form, localStorage, setLocalStorage, clearLocalStorage } = UserContext();
+  
   const Navigate = useNavigate();
-  const state = form.validationState.assessment;
+  const state = form?.validationState.assessment;
+
+  
 
   useEffect(() => {
     setPage(3);
   }, []);
 
   useEffect(() => {
-    console.log(form.values.assessment);
-  }, [form.values]);
+    console.log(state);
+  }, [state]);
+
+  useEffect(() => {
+    console.log(form?.values.assessment);
+  }, [form?.values]);
 
   const allError = (item) =>
-    Object.keys(decoderMap.assessment?.[item])
+    Object.keys(formSchemas.assessment?.[item])
       .filter((key) => key !== "meta")
-      .map((key) => form.validationState.assessment?.[item]?.[key]?.status)
+      .map((key) => form?.validationState.assessment?.[item]?.[key]?.status)
       .every((status) => status === "ERROR");
 
   const allValid = (item) =>
-    Object.keys(decoderMap.assessment?.[item])
+    Object.keys(formSchemas.assessment?.[item])
       .filter((key) => key !== "meta")
-      .map((key) => form.validationState.assessment?.[item]?.[key]?.status)
+      .map((key) => form?.validationState.assessment?.[item]?.[key]?.status)
       .every((status) => status === "VALID");
 
   const forceStateUpdate = (key) => {
@@ -41,7 +48,7 @@ export default function Assessment() {
       allError(key) &&
       state?.[key]?.meta?.status != validationUtils.State.ERROR
     ) {
-      form.dispatch({
+      form?.dispatch({
         type: "FORCE",
         path: `assessment.${[key]}.meta`,
         result: {
@@ -53,7 +60,7 @@ export default function Assessment() {
       allValid(key) &&
       state?.[key]?.meta?.status != validationUtils.State.VALID
     ) {
-      form.dispatch({
+      form?.dispatch({
         type: "FORCE",
         path: `assessment.${[key]}.meta`,
         result: {
@@ -65,12 +72,12 @@ export default function Assessment() {
   };
 
   const handleRating = (section, id, value) => {
-    form.updateField({
+    form?.updateField({
       path: `assessment.${section}.${id}`,
       value,
       type: "text",
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `assessment.${section}.${id}`,
       result: {
@@ -82,13 +89,13 @@ export default function Assessment() {
 
   const handleChange = (e, path) => {
     const { value, type, id } = e.target;
-    form.updateField({
+    form?.updateField({
       path: `assessment.${path}`,
       value: value,
       id: id,
       type: type,
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `assessment.${path}`,
       result: {
@@ -99,12 +106,12 @@ export default function Assessment() {
   };
 
   const handleCheckbox = (id) => {
-    form.updateField({
+    form?.updateField({
       path: `assessment.projects`,
       value: id,
       type: "checkbox",
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `assessment.projects`,
       result: {
@@ -115,10 +122,10 @@ export default function Assessment() {
   };
 
   useEffect(() => {
-    console.log(form.validationState.assessment);
+    console.log(form?.validationState.assessment);
     forceStateUpdate("activePerformance");
     forceStateUpdate("projectPerformance");
-  }, [form.validationState.assessment]);
+  }, [form?.validationState.assessment]);
 
   const RatingTable = ({ items, section, scaleLabels }) => (
     <div className="overflow-x-auto">
@@ -368,6 +375,7 @@ export default function Assessment() {
           clearLocalStorage={clearLocalStorage}
           details={[form, "assessment"]}
           nextPage="organization-related"
+          prevPage={"commitments"}
         />
       </div>
     </div>

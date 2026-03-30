@@ -47,7 +47,7 @@ const routes = [
       { index: true, element: <PersonalDetails /> },
       { path: "personal-details/", element: <PersonalDetails /> },
       { path: "commitments/", element: <Commitments /> },
-      { path: "self-assessment/", element: <Assessment /> },
+      { path: "assessment/", element: <Assessment /> },
       {
         path: "organization-related/",
         element: <Organization />,

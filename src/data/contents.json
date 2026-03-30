@@ -65,7 +65,7 @@
     }
   },
   "assessment": {
-    "title": "Org and Self-Assessment",
+    "title": "Org and assessment",
     "description": "For the org's betterment",
     "committeeEvaluation": {
       "title": "Self evaluation as a committee member",
@@ -150,33 +150,31 @@
           "id": "lastSem",
           "type": "select",
           "question": "Committee Last Semester",
-          "options": 
-            [
-              { "title": "Logistics", "id": "logistics", "name": "logistics" },
-              {
-                "title": "Membership",
-                "id": "membership",
-                "name": "membership"
-              },
-              { "title": "Publicity", "id": "publicity", "name": "publicity" },
-              {
-                "title": "Public Relations",
-                "id": "public-relations",
-                "name": "public-relations"
-              },
-              {
-                "title": "Operations",
-                "id": "operations",
-                "name": "operations"
-              },
-              {
-                "title": "Educations",
-                "id": "educations",
-                "name": "educations"
-              },
-              { "title": "Marketing", "id": "marketing", "name": "marketing" },
-              { "title": "Records", "id": "records", "name": "records" }
-            
+          "options": [
+            { "title": "Logistics", "id": "logistics", "name": "logistics" },
+            {
+              "title": "Membership",
+              "id": "membership",
+              "name": "membership"
+            },
+            { "title": "Publicity", "id": "publicity", "name": "publicity" },
+            {
+              "title": "Public Relations",
+              "id": "public-relations",
+              "name": "public-relations"
+            },
+            {
+              "title": "Operations",
+              "id": "operations",
+              "name": "operations"
+            },
+            {
+              "title": "Educations",
+              "id": "educations",
+              "name": "educations"
+            },
+            { "title": "Marketing", "id": "marketing", "name": "marketing" },
+            { "title": "Records", "id": "records", "name": "records" }
           ]
         },
         {

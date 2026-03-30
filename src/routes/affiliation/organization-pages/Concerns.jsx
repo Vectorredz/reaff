@@ -6,19 +6,13 @@ import Footer from "../../../components/Footer.jsx";
 import { useEffect } from "react";
 import DisplayError from "../../../components/DisplayError.jsx";
 import Field from "../../../components/Field.jsx";
+import { UserContext } from "../../../contexts/FormContext.jsx";
 
 export default function Concerns() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const {
-    form,
-    localStorage,
-    clearLocalStorage,
-    page,
-    setPage,
-    files,
-    setFiles,
-  } = useOutletContext();
+  const { form, localStorage, clearLocalStorage } = UserContext();
+  const { page, setPage, files, setFiles } = useOutletContext();
 
   const state = form.validationState?.organization?.committee;
 
@@ -47,13 +41,13 @@ export default function Concerns() {
       ? `organization.committee.${committee}.facetoface.${name === "facetoface" ? "answer" : "comment"}`
       : `organization.committee.${committee}.${name}`;
 
-    form.updateField({
+    form?.updateField({
       path,
       value: type === "radio" || type === "checkbox" ? id : value,
       id,
       type,
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path,
       result: validationUtils.handleState(
@@ -267,6 +261,7 @@ export default function Concerns() {
         clearLocalStorage={clearLocalStorage}
         details={[form, "organization.committee"]}
         nextPage="/create-account"
+        prevPage="organization-related/events"
       />
     </div>
   );

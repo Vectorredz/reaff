@@ -6,12 +6,12 @@ import Footer from "../../../components/Footer.jsx";
 import DisplayError from "../../../components/DisplayError.jsx";
 import DragNDrop from "../../../components/drag-and-drop/DragNDrop.jsx";
 // import App from "../../../components/drag-and-drop/Sortable.jsx";
-
+import { UserContext } from "../../../contexts/FormContext.jsx";
 export default function Preferences() {
   const Navigate = useNavigate();
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, setPage } =
-    useOutletContext();
+  const { page, setPage } = useOutletContext();
+  const { form, localStorage, clearLocalStorage } = UserContext();
 
   const tops = [1, 2, 3];
   const committee = [
@@ -25,7 +25,7 @@ export default function Preferences() {
     "Records",
   ];
 
-  const state = form.validationState?.organization?.preferences;
+  const state = form?.validationState?.organization?.preferences;
 
   // useEffect(() => {
   //   console.log(state);
@@ -37,12 +37,12 @@ export default function Preferences() {
 
   const handleChange = (e) => {
     const { name, value, id } = e.target;
-    form.updateField({
+    form?.updateField({
       path: `organization.preferences.${id}.${name}`,
       value,
       type: "text",
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `organization.preferences.${id}.${name}`,
       result: validationUtils.handleState(name, value, "organization"),
@@ -143,6 +143,7 @@ export default function Preferences() {
         clearLocalStorage={clearLocalStorage}
         details={[form, "organization.preferences"]}
         nextPage="organization-related/events"
+        prevPage={"assessment"}
       />
     </div>
   );

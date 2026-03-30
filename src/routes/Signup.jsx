@@ -20,7 +20,6 @@ function Signup() {
     insertAnswersData,
     uploadFileData,
   } = UserDB();
-
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -108,13 +107,11 @@ function Signup() {
               ))}
             </ol>
           </div>
-
           <p className="description-text">
             Committing reaffirmation means agreeing with all of the above
             responsibilities. This form is to be done <strong>once only</strong>{" "}
             and will take 15–20 minutes.
           </p>
-
           <button
             className="btn-primary self-start"
             onClick={() => setIndex(1)}
@@ -218,11 +215,12 @@ function Signup() {
       ),
     },
   ];
-
   return (
     <>
       {formTemplate ? (
-        <FormContextProvider formTemplate={formTemplate}>
+        <FormContextProvider
+          formTemplate={formTemplate.data.template}
+        >
           <div className="flex flex-col items-center w-screen h-screen">
             <Modal open={open} onClose={() => setOpen(false)}>
               {/* Step indicator */}
