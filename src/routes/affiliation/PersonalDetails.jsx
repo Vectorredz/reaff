@@ -1,5 +1,5 @@
 import "../../styles/components.css";
-import { useOutletContext, useNavigate } from "react-router";
+import { useOutletContext } from "react-router";
 import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import Field from "../../components/Field.jsx";
 import Header from "../../components/Header.jsx";
@@ -11,7 +11,7 @@ import { UserContext } from "../../contexts/FormContext.jsx";
 export default function PersonalDetailsx() {
   const { validationUtils } = UtilsDB();
   const { form, localStorage, clearLocalStorage } = UserContext();
-  const { setPage, page } = useOutletContext(); // Keep only page state
+  const { setPage, page, setOpen } = useOutletContext(); // Keep only page state
   const state = form.validationState?.personalInfo;
   
   const handleChange = (e) => {
@@ -36,6 +36,7 @@ export default function PersonalDetailsx() {
 
   useEffect(() => {
     setPage(1);
+    // setTimeout(() => setOpen(true), 500);
   }, []);
 
   return (
