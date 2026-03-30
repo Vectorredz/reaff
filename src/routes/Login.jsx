@@ -7,7 +7,7 @@ import { UserDB } from "../contexts/DatabaseContext";
 function Login() {
   const [studentNum, setStudentNum] = useState("");
   const [password, setPassword] = useState("");
-  const { session, initialized, signInUser, signInUserWithGoogle } = UserAuth();
+  const { session, initialized, signInUser } = UserAuth();
   const { fetchMemberEmail } = UserDB();
   const Navigate = useNavigate();
 
@@ -43,14 +43,14 @@ function Login() {
     }
   };
 
-  const handleGoogleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await signInUserWithGoogle();
-    } catch (err) {
-      console.error("login error", err);
-    }
-  };
+  // const handleGoogleLogin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await signInUserWithGoogle();
+  //   } catch (err) {
+  //     console.error("login error", err);
+  //   }
+  // };
 
   useEffect(() => {
     if (session) {

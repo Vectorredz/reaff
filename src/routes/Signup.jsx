@@ -74,11 +74,11 @@ function Signup() {
         const answerResults = await insertAnswersData(
           user,
           form?.values,
-          formTemplate?.data?.id,
+          formTemplate?.id,
         );
         if (answerResults.error) throw answerResults.error;
 
-        toast.success("Successfully created the")
+        toast.success("Successfully created account.");
 
         setTimeout(() => Navigate("/"), 1000);
       }
@@ -88,8 +88,10 @@ function Signup() {
         toast.error("An account with same student number already exists.");
         const res = await removeUser(user);
         console.log(res);
+      } else {
+        toast.error(error.message);
+        console.error(error.message);
       }
-      console.error(error.message);
     }
   };
 
