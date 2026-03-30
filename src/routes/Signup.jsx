@@ -7,19 +7,20 @@ import { toast } from "react-toastify";
 import { Outlet } from "react-router";
 import ProgressBar from "../components/ProgressBar.jsx";
 import Modal from "../components/Modal.jsx";
-import { FormContextProvider } from "../contexts/FormContext.jsx";
+import { FormContextProvider, UserContext } from "../contexts/FormContext.jsx";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signUpNewUser } = UserAuth();
+  const { signUpNewUser, removeUser } = UserAuth();
   const {
     fetchFormTemplate,
     insertMemberData,
     insertAnswersData,
     uploadFileData,
   } = UserDB();
+  const { form } = UserContext();
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -35,8 +36,15 @@ function Signup() {
 
   async function handleFetchForm() {
     setLoading(true);
-    const template = await fetchFormTemplate();
-    setFormTemplate(template);
+    const { data, error } = await fetchFormTemplate();
+    if (error) {
+      toast.error("Failed to fetch form template.");
+      console.error("Error fetching form template:", error);
+      setLoading(false);
+      return;
+    }
+    toast.loading("fetching form...", { toastId: "form" });
+    setFormTemplate(data);
     setLoading(false);
   }
 
@@ -51,23 +59,39 @@ function Signup() {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    let user = null;
     try {
       const userResult = await signUpNewUser(email, password);
       if (userResult.error) throw userResult.error;
       if (!userResult.error && userResult.data && userResult.success) {
-        const user = userResult.data.user;
+        user = userResult?.data?.user;
         for (const key in files) {
           const fileObj = files[key];
           if (fileObj?.file) await uploadFileData(user, key, fileObj.file);
         }
-        // Get form values from FormContext via a wrapper function
-        // We'll handle this in CreateAccount.jsx instead
-        toast.success("Created account successfully");
+        const memberResults = await insertMemberData(user, form?.values, email);
+        if (memberResults.error) throw memberResults.error;
+        const answerResults = await insertAnswersData(
+          user,
+          form?.values,
+          formTemplate?.id,
+        );
+        if (answerResults.error) throw answerResults.error;
+
+        toast.success("Successfully created account.");
+
         setTimeout(() => Navigate("/"), 1000);
       }
     } catch (error) {
-      toast.error(error.message);
-      console.error(error.message);
+      console.log(error);
+      if (error?.code === "23505") {
+        toast.error("An account with same student number already exists.");
+        const res = await removeUser(user);
+        console.log(res);
+      } else {
+        toast.error(error.message);
+        console.error(error.message);
+      }
     }
   };
 
@@ -217,10 +241,8 @@ function Signup() {
   ];
   return (
     <>
-      {formTemplate ? (
-        <FormContextProvider
-          formTemplate={formTemplate.data.template}
-        >
+      {formTemplate && (
+        <FormContextProvider formTemplate={formTemplate?.template}>
           <div className="flex flex-col items-center w-screen h-screen">
             <Modal open={open} onClose={() => setOpen(false)}>
               {/* Step indicator */}
@@ -273,6 +295,8 @@ function Signup() {
                   setPassword,
                   page,
                   setPage,
+                  setOpen,
+                  open,
                   uploadFileData,
                   files,
                   setFiles,
@@ -285,8 +309,6 @@ function Signup() {
             </form>
           </div>
         </FormContextProvider>
-      ) : (
-        <div>Loading...</div>
       )}
     </>
   );

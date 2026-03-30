@@ -7,8 +7,8 @@ import { UserDB } from "../contexts/DatabaseContext";
 function Login() {
   const [studentNum, setStudentNum] = useState("");
   const [password, setPassword] = useState("");
-  const { session, initialized, signInUser, signInUserWithGoogle } = UserAuth();
-  const { fetchMemberEmail, fetchMemberProfile } = UserDB();
+  const { session, initialized, signInUser } = UserAuth();
+  const { fetchMemberEmail } = UserDB();
   const Navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -16,19 +16,19 @@ function Login() {
     try {
       const emailResult = await fetchMemberEmail(studentNum);
       if (emailResult.error) {
-        toast.error(emailResult.error?.message);
-      } 
-      else {
-        const result = await signInUser(
-          emailResult?.data,
-          password,
+        toast.error(
+          emailResult.error?.code === "PGRST116"
+            ? "Student number doesn't exist."
+            : emailResult.error?.message,
         );
+      } else {
+        const result = await signInUser(emailResult?.data, password);
 
         if (result.error) {
           toast.error(
-            result.error.message === "missing email or phone"
-              ? "Invalid password"
-              : "error",
+            result.error?.code === "invalid_credentials"
+              ? "Invalid password."
+              : result.error.message,
           );
         } else {
           toast.success("Login successful!");
@@ -43,14 +43,14 @@ function Login() {
     }
   };
 
-  const handleGoogleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await signInUserWithGoogle();
-    } catch (err) {
-      console.error("login error", err);
-    }
-  };
+  // const handleGoogleLogin = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await signInUserWithGoogle();
+  //   } catch (err) {
+  //     console.error("login error", err);
+  //   }
+  // };
 
   useEffect(() => {
     if (session) {
@@ -99,17 +99,24 @@ function Login() {
           <button type="submit" className="btn-primary">
             Sign in
           </button>
+           <div className="flex justify-end">
+             <Link to="/signup" className="text-sm text-(--color-blue) hover:underline">
+                Forgot password?
+              </Link>
+           </div>
 
-          <p className="text-sm text-gray-600">
-            Not yet affiliated with ACM?{" "}
-            <Link to="/signup" className="text-(--color-blue) hover:underline">
-              Signup
-            </Link>
-          </p>
+         
 
           <div className="divider">OR</div>
 
-          <button
+          <div className="flex justify-center">
+            <p className="text-sm text-gray-600">Not yet affiliated with ACM?   <Link to="/signup" className="text-(--color-blue) hover:underline">
+              Signup.
+            </Link></p>
+          </div>
+        
+
+          {/* <button
             type="button"
             onClick={handleGoogleLogin}
             className="btn-outline"
@@ -118,7 +125,7 @@ function Login() {
               <img src="google.png" className="w-5" alt="" />
               <p>Continue with Google</p>
             </div>
-          </button>
+          </button> */}
         </form>
 
         <div className="auth-right">

@@ -3,11 +3,11 @@ import { useOutletContext } from "react-router";
 import { useEffect } from "react";
 import Field from "../../components/Field.jsx";
 import Header from "../../components/Header.jsx";
-
+import { UserContext } from "../../contexts/FormContext.jsx";
 export default function CreateAccount() {
-  const { setEmail, setPassword, page, setPage, localStorage } =
+  const { setEmail, setPassword, page, setPage, } =
     useOutletContext();
-
+  const { localStorage } = UserContext();
   useEffect(() => setPage(6), []);
 
   return (

@@ -6,7 +6,8 @@ const DatabaseContext = createContext();
 
 export const DatabaseContextProvider = ({ children }) => {
   const fetchFormTemplate = async () => {
-    return await supabase.from("forms").select("*").eq("semester", "2526B").single();
+   const { data, error } = await supabase.from("forms").select("*").eq("semester", "2526B").single();
+    return { data, error }
   };
 
   const insertMemberData = async (user, form, authEmail) => {
@@ -84,9 +85,6 @@ export const DatabaseContextProvider = ({ children }) => {
       .eq("student_number", studentNum)
       .single();
 
-    if (error?.code === "PGRST116") {
-      return { data: null, error: { message: "Student number not found." } };
-    }
     if (error) return { data: null, error };
     return { data: data.auth_email, error: null };
   };
