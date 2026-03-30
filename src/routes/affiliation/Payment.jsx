@@ -5,8 +5,10 @@ import { UtilsDB } from "../../contexts/UtilitiesContext"
 import Header from "../../components/Header";
 import contents from "../../data/contents.json";
 import Footer from "../../components/Footer";
+import { UserContext } from "../../contexts/FormContext";
 export default function Payment() {
-  const { form, page, setPage, clearLocalStorage } = useOutletContext();
+  const {  page, setPage  } = useOutletContext();
+  const { form,  clearLocalStorage } = UserContext();
   const { validationUtils } = UtilsDB();
   useEffect(() => {
     setPage(5);
@@ -51,6 +53,7 @@ export default function Payment() {
           clearLocalStorage={clearLocalStorage}
           details={[form, "payment"]}
           nextPage="create-account"
+          prevPage="organization-related/concerns"
         ></Footer>
       </div>
     </div>

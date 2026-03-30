@@ -13,8 +13,6 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // fetch the email from the student number
-
     try {
       const emailResult = await fetchMemberEmail(studentNum);
       if (emailResult.error) {

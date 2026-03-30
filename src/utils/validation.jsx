@@ -1,4 +1,4 @@
-import { formSchemas } from '../data/formSchemas';
+import { formSchemas } from "../data/formSchemas";
 
 // Export State constant
 export const State = Object.freeze({
@@ -45,7 +45,6 @@ export const validateForm = (form, subpath) => {
     const result = handleState(form, key, value, path);
     if (result.status !== State.VALID) {
       complete = false;
-      console.log(key, value);
     }
     if (result.status === State.EMPTY) result.status = State.ERROR;
     form.dispatch({ type: "SUBMIT", path, result });
@@ -53,10 +52,10 @@ export const validateForm = (form, subpath) => {
 
   Object.entries(state).forEach(([key, item]) => {
     if (key === "title") return;
-
     if ("required" in item) {
       validateField(key, values?.[key], item, `${subpath}.${key}`);
     } else {
+      console.log("test", item);
       Object.entries(item).forEach(([childKey, childItem]) => {
         if (key === "title" || typeof childItem !== "object") return;
         if ("required" in childItem) {

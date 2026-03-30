@@ -10,7 +10,7 @@ export const FormContextProvider = ({ children, formTemplate }) => {
     formTemplate
   );
 
-  const form = useForm(formTemplate, { setLocalStorage });
+  const form = useForm(localStorage ?? formTemplate, { setLocalStorage });
 
   return (
     <FormContext.Provider

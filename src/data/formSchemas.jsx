@@ -183,7 +183,7 @@ export const formSchemas = {
     assessment: {
       activePerformance: {
         meta: {
-          required: false,
+          required: true,
         },
         task: {
           title: "Task performance",
@@ -224,7 +224,7 @@ export const formSchemas = {
       },
       projectPerformance: {
         meta: {
-          required: false,
+          required: true,
         },
         time: {
           title: "Time commitment",
@@ -248,6 +248,7 @@ export const formSchemas = {
           title: "Meeting attendance",
           type: "radio",
           error: "Must select one option.",
+          required: true,
         },
       },
       best: {

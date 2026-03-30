@@ -80,12 +80,14 @@ export default function CreateAccount() {
         </section>
 
         <div className="flex justify-between items-center pt-6 border-t border-gray-200">
-          <button type="submit" className="btn-primary">
-            Create Account
-          </button>
+          
+          
           <p className="description-text">
             Please review your form before submitting.
           </p>
+          <button type="submit" className="btn-primary">
+            Create Account
+          </button>
         </div>
       </div>
     </div>

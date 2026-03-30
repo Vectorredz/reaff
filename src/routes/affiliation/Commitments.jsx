@@ -1,5 +1,4 @@
-import { useOutletContext, useNavigate } from "react-router";
-import { useState, useRef, useEffect, useReducer } from "react";
+import { useRef, useEffect, use } from "react";
 import { UtilsDB } from "../../contexts/UtilitiesContext.jsx";
 import "../../styles/components.css";
 import Add from "../../components/Add.jsx";
@@ -7,26 +6,30 @@ import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.jsx";
 import contents from "../../data/contents.json";
 import DisplayError from "../../components/DisplayError.jsx";
+import { UserContext } from "../../contexts/FormContext.jsx";
+import { useOutletContext } from "react-router";
 export default function Commitments() {
   const { validationUtils } = UtilsDB();
-  const { form, localStorage, clearLocalStorage, page, setPage } =
-    useOutletContext();
-  const state = form.validationState?.commitments;
+  const { form, localStorage, clearLocalStorage } = UserContext();
+  const { setPage, page } = useOutletContext(); // Keep only page state
+  const state = form?.validationState?.commitments;
   const upRef = useRef(null);
   const nonUpRef = useRef(null);
-  const Navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("Current commitments state:", form?.values?.commitments);
+  }, [form?.values]);
 
   const handleAddOrg = (e, org, ref) => {
     e.preventDefault();
-    console.log(org);
     if (ref.current.value !== "") {
-      form.updateField({
+      form?.updateField({
         path: `commitments.${org}`,
         value: ref.current.value,
         type: "array",
       });
     }
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `commitments.${org}`,
       result: validationUtils.handleState(
@@ -42,13 +45,13 @@ export default function Commitments() {
     const { name, value, type, checked, id } = e.target;
     const newValue = type === "checkbox" ? checked : value;
     if (name === "addText") return;
-    form.updateField({
+    form?.updateField({
       path: `commitments.${name}`,
       value: newValue,
       id,
       type,
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `commitments.${name}`,
       result: validationUtils.handleState(name, newValue, "commitments"),
@@ -57,12 +60,12 @@ export default function Commitments() {
 
   const handleConcernChange = (e) => {
     const { name, value } = e.target;
-    form.updateField({
+    form?.updateField({
       path: `commitments.concerns.${name}`,
       value,
       type: "text",
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `commitments.concerns.${name}`,
       result: validationUtils.handleState(name, value, "commitments"),
@@ -126,7 +129,7 @@ export default function Commitments() {
 
               <div className="flex flex-wrap gap-2 rounded-md bg-gray-50 p-3 min-h-[64px]">
                 {localStorage?.commitments?.up?.length ? (
-                  localStorage.commitments.up.map((org, i) => (
+                  localStorage?.commitments?.up?.map((org, i) => (
                     <span key={i} className="fill-button">
                       {org}
                     </span>
@@ -158,7 +161,7 @@ export default function Commitments() {
 
               <div className="flex flex-wrap gap-2 rounded-md bg-gray-50 p-3 min-h-[64px]">
                 {localStorage?.commitments?.nonup?.length ? (
-                  localStorage.commitments.nonup.map((org, i) => (
+                  localStorage?.commitments?.nonup?.map((org, i) => (
                     <span key={i} className="fill-button">
                       {org}
                     </span>
@@ -237,9 +240,10 @@ export default function Commitments() {
             ["returningMember", "activeMember"].includes(
               form?.values?.commitments?.membership,
             )
-              ? "self-assessment"
+              ? "assessment"
               : "organization-related"
           }
+          prevPage={"personal-details"}
         />
       </div>
     </div>
