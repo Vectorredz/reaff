@@ -1,0 +1,69 @@
+members: {
+    id: int PK
+    name: text
+}
+
+submissions: {
+    id: int PK
+    user_id: FK -> members.id
+    form.id: FK -> forms.id
+    answers: json
+}
+
+forms: {
+    id: int PK
+    semester: text
+    template: jsonb   
+}
+
+1 Louise 
+2 Jben
+
+1 1 23 answers 
+2 2 24 answers
+
+23 A template1 
+24 A template2 
+
+------------------------------------------------------------
+
+What usually changes in terms of content questionnaire not input:
+
+- assessments >> evaluation
+- organization-related >> events   
+- payment  
+
+
+------------------------------------------------------------
+
+if membership.returning:
+    // makes use of the same form template
+    do {
+        - match the uuid to members uid entry
+        - update the personalInfo -> form.personalInfo
+        - do the remainder of the forms
+    }
+   
+else:
+    do {
+        - do the signup method
+    }
+
+------------------------------------------------------------
+
+UPDATING MEMBER_PROFILE (SAME SEM)
+
+updataeble:
+    - member information
+
+on editing:
+    whenever we update the member information, it only reflects on the member table. the edits will reflect on the next reaff.
+
+UPDATING MEMBER_PROFILE (NEW SEM)
+
+updateable:
+    - member information
+    - reaffilation information
+
+on editing: 
+    editing member information reflects only on the members table. edits from reaffilation informatin will edit on the answers table.

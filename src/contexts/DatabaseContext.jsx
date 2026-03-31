@@ -6,8 +6,12 @@ const DatabaseContext = createContext();
 
 export const DatabaseContextProvider = ({ children }) => {
   const fetchFormTemplate = async () => {
-   const { data, error } = await supabase.from("forms").select("*").eq("semester", "2526B").single();
-    return { data, error }
+    const { data, error } = await supabase
+      .from("forms")
+      .select("*")
+      .eq("semester", "2526B")
+      .single();
+    return { data, error };
   };
 
   const insertMemberData = async (user, form, authEmail) => {
@@ -56,15 +60,25 @@ export const DatabaseContextProvider = ({ children }) => {
     return { success: data, error };
   };
 
-  const updateAnswersData = async (userId, updateVal) => {
-    const { data, error } = await supabase
-      .from("members")
-      .update({ phone: updateVal })
-      .eq("id", userId)
-      .select();
-
-    return { data, error };
+  const updateAnswersData = async (uid, updated_path, new_val) => {
+    console.log(uid, updated_path, new_val);
+    let { data, error } = await supabase.rpc("update_answers", {
+      new_val,
+      uid,
+      updated_path,
+    });
+    console.log(data);
+    return { success: data, error };
   };
+
+  const updateMembersData = async (uid, key, new_val) => {
+    const { error } = await supabase
+      .from("members")
+      .update({ [key]: new_val })
+      .eq("id", uid);
+    return { error }
+  };
+
   const fetchMemberProfile = async () =>
     await supabase.from("members").select("*");
 
@@ -96,6 +110,7 @@ export const DatabaseContextProvider = ({ children }) => {
         insertMemberData,
         insertAnswersData,
         updateAnswersData,
+        updateMembersData,
         fetchMemberProfile,
         fetchMemberAnswers,
         fetchMemberEmail,
