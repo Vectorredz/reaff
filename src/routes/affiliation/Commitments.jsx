@@ -252,7 +252,7 @@ export default function Commitments() {
           details={[form, "commitments"]}
           nextPage={
             ["returningMember", "activeMember"].includes(
-              form?.values?.commitments?.membership,
+              form?.values?.commitments?.membership.value,
             )
               ? "assessment"
               : "organization-related"

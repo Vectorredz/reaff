@@ -3,15 +3,15 @@ import Field from "../../../components/Field.jsx";
 import useMemberForm from "../../../hooks/useMemberForm.jsx";
 export default function PersonalData({ uid, form }) {
   let personal = {
-    birthday: "Birthday",
-    gender: "Gender",
-    student_number: "Student Number",
-    college: "College",
-    degree_program: "Degree Program",
-    year: "Year Level",
-    expected_grad_year: "Expected Graduation Year",
-    highschool: "High School",
-    current_address: "Current Address",
+    birthday: "Birthday: ",
+    gender: "Gender: ",
+    student_number: "Student Number: ",
+    college: "College: ",
+    degree_program: "Degree Program: ",
+    year: "Year Level: ",
+    expected_grad_year: "Expected Graduation Year: ",
+    highschool: "High School: ",
+    current_address: "Current Address: ",
   };
 
   const [memberForm, updateMemberForm] = useMemberForm(form, uid);

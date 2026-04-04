@@ -6,10 +6,10 @@ import useMemberForm from "../../../hooks/useMemberForm.jsx";
 export default function ContactInfo({ form, uid }) {
 
   let contacts = {
-    phone: "Mobile Phone",
-    telephone: "Telephone",
-    primary_email: "Primary Email Address",
-    up_email: "UP Email Address",
+    phone: "Mobile Phone: ",
+    telephone: "Telephone: ",
+    primary_email: "Primary Email Address: ",
+    up_email: "UP Email Address: ",
   };
 
   const [memberForm, updateMemberForm] = useMemberForm(form, uid);

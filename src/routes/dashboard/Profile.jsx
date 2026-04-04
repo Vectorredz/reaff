@@ -6,6 +6,8 @@ import PersonalData from "./memberInformation/PersonalData";
 import ContactInfo from "./memberInformation/ContactInfo";
 import CommitmentsData from "./reaffiliationInformation/CommitmentsData";
 import UpdateForm from "../../components/UpdateForm";
+import AssessmentData from "./reaffiliationInformation/AssessmentData";
+import OrganizationData from "./reaffiliationInformation/OrganizationInfo";
 
 export default function Profile() {
   const [profileData, setProfileData] = useState(null);
@@ -52,6 +54,13 @@ export default function Profile() {
           <PersonalData form={profileData} uid={uid}/>
           <ContactInfo form={profileData} uid={uid}/>
         </div>
+        <div className="border rounded-md p-5">
+          <h2 className="font text-lg">Reaffiliation Information</h2>
+          <CommitmentsData form={memberData} uid={uid}/>
+          <AssessmentData form={memberData} uid={uid}/>
+          <OrganizationData form={memberData} uid={uid}/>
+        </div>
+
         <UpdateForm/>
       </div>
     </div>
