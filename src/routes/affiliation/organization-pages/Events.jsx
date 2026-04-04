@@ -98,7 +98,7 @@ export default function Events() {
             <div className="grid grid-cols-3 gap-3">
               {["yes", "no", "maybe"].map((option) => {
                 const selected =
-                  localStorage?.organization?.events[interest.id] ===
+                  localStorage?.organization?.events[interest.id]?.value ===
                   `${interest.id}-${option}`;
                 return (
                   <div key={option}>
@@ -164,7 +164,7 @@ export default function Events() {
                     name="choices"
                     id={choice.name}
                     onChange={handleChange}
-                    checked={localStorage?.organization?.events?.teachme?.choices?.includes(
+                    checked={localStorage?.organization?.events?.teachme?.choices?.value?.includes(
                       choice.name,
                     )}
                   />
@@ -194,7 +194,7 @@ export default function Events() {
               name="enthusiast"
               onChange={handleChange}
               value={
-                localStorage?.organization?.events?.teachme?.enthusiast || ""
+                localStorage?.organization?.events?.teachme?.enthusiast?.value || ""
               }
             />
 
@@ -216,7 +216,7 @@ export default function Events() {
               className="text-field"
               name="future"
               onChange={handleChange}
-              value={localStorage?.organization?.events?.teachme?.future || ""}
+              value={localStorage?.organization?.events?.teachme?.future?.value || ""}
             />
 
             <DisplayError

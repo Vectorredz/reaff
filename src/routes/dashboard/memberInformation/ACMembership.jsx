@@ -2,12 +2,10 @@ import { format } from "date-fns/fp";
 import { useEffect, useState } from "react";
 
 export default function ACMembership({ form }) {
-  // useEffect((console.log(form)), [])
 
   let assessment = form?.assessment;
   let commitments = form?.commitments;
 
-  console.log(form);
 
   return (
     <div className="form">
@@ -23,14 +21,14 @@ export default function ACMembership({ form }) {
           </div>
           <div>
             <p>
-              {commitments?.membership === "activeMember"
+              {commitments?.membership?.value === "activeMember"
                 ? "Active Member"
-                : commitments?.membership === "inactiveMember"
+                : commitments?.membership?.value === "inactiveMember"
                   ? "Inactive Member"
                   : "New Member"}
             </p>
-            <p>{assessment?.committee?.lastSem}</p>
-            <p>{assessment?.committee?.position}</p>
+            <p>{assessment?.committee?.lastSem?.value}</p>
+            <p>{assessment?.committee?.position?.value}</p>
           </div>
         </div>
       </div>

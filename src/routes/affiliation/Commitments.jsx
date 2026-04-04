@@ -33,6 +33,7 @@ export default function Commitments() {
       type: "CHANGE",
       path: `commitments.${org}`,
       result: validationUtils.handleState(
+        form,
         org,
         ref.current.value,
         "commitments",
@@ -54,7 +55,12 @@ export default function Commitments() {
     form?.dispatch({
       type: "CHANGE",
       path: `commitments.${name}`,
-      result: validationUtils.handleState(name, newValue, "commitments"),
+      result: validationUtils.handleState(
+        form,
+        name,
+        newValue,
+        `commitments.${name}`,
+      ),
     });
   };
 
@@ -68,7 +74,11 @@ export default function Commitments() {
     form?.dispatch({
       type: "CHANGE",
       path: `commitments.concerns.${name}`,
-      result: validationUtils.handleState(name, value, "commitments"),
+      result: validationUtils.handleState(
+        form,
+        value,
+        `commitments.concerns.${name}`,
+      ),
     });
   };
 
@@ -95,7 +105,7 @@ export default function Commitments() {
                   key={key}
                   htmlFor={opt.id}
                   className={
-                    localStorage?.commitments?.membership === opt.id
+                    localStorage?.commitments?.membership?.value === opt.id
                       ? "radio-label-selected"
                       : "radio-label"
                   }
@@ -104,7 +114,9 @@ export default function Commitments() {
                     type={opt.type}
                     name="membership"
                     id={opt.id}
-                    checked={localStorage?.commitments?.membership === opt.id}
+                    checked={
+                      localStorage?.commitments?.membership?.value === opt.id
+                    }
                     onChange={handleChange}
                   />
                   <span className="text-sm">{opt.title}</span>
@@ -128,8 +140,8 @@ export default function Commitments() {
               <h2 className="section-title">Organizations within UP</h2>
 
               <div className="flex flex-wrap gap-2 rounded-md bg-gray-50 p-3 min-h-[64px]">
-                {localStorage?.commitments?.up?.length ? (
-                  localStorage?.commitments?.up?.map((org, i) => (
+                {localStorage?.commitments?.up?.value?.length ? (
+                  localStorage?.commitments?.up?.value?.map((org, i) => (
                     <span key={i} className="fill-button">
                       {org}
                     </span>
@@ -160,8 +172,8 @@ export default function Commitments() {
               <h2 className="section-title">Organizations outside UP</h2>
 
               <div className="flex flex-wrap gap-2 rounded-md bg-gray-50 p-3 min-h-[64px]">
-                {localStorage?.commitments?.nonup?.length ? (
-                  localStorage?.commitments?.nonup?.map((org, i) => (
+                {localStorage?.commitments?.nonup?.value?.length ? (
+                  localStorage?.commitments?.nonup?.value?.map((org, i) => (
                     <span key={i} className="fill-button">
                       {org}
                     </span>
@@ -195,7 +207,7 @@ export default function Commitments() {
           <input
             type="text"
             name="priorities"
-            value={localStorage?.commitments?.priorities || ""}
+            value={localStorage?.commitments?.priorities?.value || ""}
             placeholder={contents.commitments.priorities.placeholder}
             onChange={handleChange}
             className="text-field"
@@ -220,7 +232,9 @@ export default function Commitments() {
                   <h3 className="text-sm font-medium">{item.title}</h3>
                   <textarea
                     name={item.id}
-                    value={localStorage?.commitments?.concerns[key] || ""}
+                    value={
+                      localStorage?.commitments?.concerns[key]?.value || ""
+                    }
                     onChange={handleConcernChange} // ← use this one
                     className="text-field min-h-[96px]"
                     placeholder="Elaborate your concern..."

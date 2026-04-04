@@ -28,7 +28,7 @@ export default function CreateAccount() {
             <div>
               <p className="notes-text">Primary email</p>
               <p className="text-sm font-medium text-blue-700">
-                {localStorage?.personalInfo?.primaryEmail || (
+                {localStorage?.personalInfo?.primaryEmail?.value || (
                   <span className="text-red-400">Not filled in yet</span>
                 )}
               </p>
@@ -36,7 +36,7 @@ export default function CreateAccount() {
             <div>
               <p className="notes-text">UP email</p>
               <p className="text-sm font-medium text-blue-700">
-                {localStorage?.personalInfo?.upEmail || (
+                {localStorage?.personalInfo?.upEmail?.value || (
                   <span className="text-red-400">Not filled in yet </span>
                 )}
               </p>
@@ -53,14 +53,14 @@ export default function CreateAccount() {
                 <option value="" disabled>
                   Select your email
                 </option>
-                {localStorage?.personalInfo?.primaryEmail && (
-                  <option value={localStorage.personalInfo.primaryEmail}>
-                    {localStorage.personalInfo.primaryEmail} (Primary)
+                {localStorage?.personalInfo?.primaryEmail?.value && (
+                  <option value={localStorage.personalInfo.primaryEmail?.value}>
+                    {localStorage.personalInfo.primaryEmail?.value} (Primary)
                   </option>
                 )}
-                {localStorage?.personalInfo?.upEmail && (
-                  <option value={localStorage.personalInfo.upEmail}>
-                    {localStorage.personalInfo.upEmail} (UP Email)
+                {localStorage?.personalInfo?.upEmail?.value && (
+                  <option value={localStorage.personalInfo.upEmail?.value}>
+                    {localStorage.personalInfo.upEmail?.value} (UP Email)
                   </option>
                 )}
               </select>

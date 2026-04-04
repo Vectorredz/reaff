@@ -1,143 +1,627 @@
-  {
-    "meta": {
-      "semester": "2526B",
-      "templateName": "UP ACM Reaff Form 2nd Sem AY 25-26"
+{
+  "meta": {
+    "semester": "2526B",
+    "templateName": "UP ACM Reaff Form 2nd Sem AY 25-26"
+  },
+  "assessment": {
+    "best": {
+      "type": "text",
+      "label": "Best Experience",
+      "value": "",
+      "required": true
     },
-    "personalInfo": {
-      "firstName": "",
-      "middleName": "",
-      "lastName": "",
-      "suffix": "",
-      "currentAddress": "",
-      "birthday": "",
-      "gender": "",
-      "studentNumber": "",
-      "year": "",
-      "degreeProgram": "",
-      "college": "",
-      "expectedGradYear": "",
-      "highschool": "",
-      "primaryEmail": "",
-      "upEmail": "",
-      "phone": "",
-      "telephone": "",
-      "emergencyName": "",
-      "emergencyRelation": "",
-      "emergencyPhone": "",
-      "mbti": "",
-      "discord": "",
-      "facebook": ""
+    "vision": {
+      "type": "text",
+      "label": "Vision",
+      "value": "",
+      "required": true
     },
-    "commitments": {
-      "membership": "",
-      "up": [],
-      "nonup": [],
-      "priorities": "",
-      "concerns": {
-        "acad": "",
-        "health": "",
-        "personal": "",
-        "other": ""
+    "improve": {
+      "type": "text",
+      "label": "Areas for Improvement",
+      "value": "",
+      "required": true
+    },
+    "projects": {
+      "type": "checkbox",
+      "label": "Projects",
+      "value": [],
+      "required": true
+    },
+    "committee": {
+      "lastSem": {
+        "type": "select",
+        "label": "Last Semester Committee",
+        "value": "",
+        "required": true
+      },
+      "feedback": {
+        "type": "text",
+        "label": "Feedback",
+        "value": "",
+        "required": true
+      },
+      "position": {
+        "type": "select",
+        "label": "Position",
+        "value": "",
+        "required": true
+      },
+      "improvement": {
+        "type": "text",
+        "label": "Improvement",
+        "value": "",
+        "required": true
       }
     },
-    "assessment": {
-      "activePerformance": {
-        "task": "",
-        "events": "",
-        "meetings": "",
-        "assembly": ""
+    "elaboration": {
+      "type": "text",
+      "label": "Elaboration",
+      "value": "",
+      "required": true
+    },
+    "activePerformance": {
+      "task": {
+        "type": "radio",
+        "label": "Task Performance",
+        "value": "",
+        "required": true
       },
-      "elaboration": "",
-      "projects": [],
-      "projectPerformance": {
-        "time": "",
-        "task": "",
-        "communication": "",
-        "meetings": ""
+      "events": {
+        "type": "radio",
+        "label": "Event Participation",
+        "value": "",
+        "required": true
       },
-      "best": "",
-      "improve": "",
-      "vision": "",
-      "committee": {
-        "lastSem": "",
-        "position": "",
-        "improvement": "",
-        "feedback": ""
+      "assembly": {
+        "type": "radio",
+        "label": "Assembly Attendance",
+        "value": "",
+        "required": true
+      },
+      "meetings": {
+        "type": "radio",
+        "label": "Meeting Attendance",
+        "value": "",
+        "required": true
+      }
+    },
+    "projectPerformance": {
+      "task": {
+        "type": "radio",
+        "label": "Task Performance",
+        "value": "",
+        "required": true
+      },
+      "time": {
+        "type": "radio",
+        "label": "Time Commitment",
+        "value": "",
+        "required": true
+      },
+      "meetings": {
+        "type": "radio",
+        "label": "Meeting Attendance",
+        "value": "",
+        "required": true
+      },
+      "communication": {
+        "type": "radio",
+        "label": "Communication",
+        "value": "",
+        "required": true
+      }
+    }
+  },
+  "commitments": {
+    "up": {
+      "type": "text",
+      "label": "UP Organizations",
+      "value": [],
+      "required": false
+    },
+    "nonup": {
+      "type": "text",
+      "label": "Non-UP Commitments",
+      "value": [],
+      "required": false
+    },
+    "concerns": {
+      "acad": {
+        "type": "text",
+        "label": "Academic",
+        "value": "",
+        "required": false
+      },
+      "other": {
+        "type": "text",
+        "label": "Other",
+        "value": "",
+        "required": false
+      },
+      "health": {
+        "type": "text",
+        "label": "Health",
+        "value": "",
+        "required": false
+      },
+      "personal": {
+        "type": "text",
+        "label": "Personal",
+        "value": "",
+        "required": false
+      }
+    },
+    "membership": {
+      "type": "radio",
+      "label": "Membership",
+      "value": "",
+      "required": true
+    },
+    "priorities": {
+      "type": "text",
+      "label": "Priorities",
+      "value": "",
+      "required": false
+    }
+  },
+  "organization": {
+    "events": {
+      "eap": {
+        "type": "radio",
+        "label": "Easy as Py",
+        "value": "",
+        "required": true
+      },
+      "webdev": {
+        "type": "radio",
+        "label": "Web Development",
+        "value": "",
+        "required": true
+      },
+      "acmfest": {
+        "type": "radio",
+        "label": "ACM Fest",
+        "value": "",
+        "required": true
+      },
+      "teachme": {
+        "future": {
+          "type": "text",
+          "label": "Future",
+          "value": "",
+          "required": false
+        },
+        "choices": {
+          "type": "checkbox",
+          "label": "Choices",
+          "value": [],
+          "required": true
+        },
+        "enthusiast": {
+          "type": "text",
+          "label": "Enthusiast",
+          "value": "",
+          "required": false
+        }
+      },
+      "clouddev": {
+        "type": "radio",
+        "label": "Cloud Development",
+        "value": "",
+        "required": true
+      },
+      "operations": {
+        "type": "radio",
+        "label": "Operations",
+        "value": "",
+        "required": true
+      },
+      "algolympics": {
+        "type": "radio",
+        "label": "Algolympics",
+        "value": "",
+        "required": true
+      }
+    },
+    "preferences": {
+      "top1": {
+        "reason": {
+          "type": "text",
+          "label": "Top 1 Reason",
+          "value": "",
+          "required": true
+        },
+        "expectation": {
+          "type": "text",
+          "label": "Top 1 Expectation",
+          "value": "",
+          "required": true
+        }
+      },
+      "top2": {
+        "reason": {
+          "type": "text",
+          "label": "Top 2 Reason",
+          "value": "",
+          "required": true
+        },
+        "expectation": {
+          "type": "text",
+          "label": "Top 2 Expectation",
+          "value": "",
+          "required": true
+        }
+      },
+      "top3": {
+        "reason": {
+          "type": "text",
+          "label": "Top 3 Reason",
+          "value": "",
+          "required": true
+        },
+        "expectation": {
+          "type": "text",
+          "label": "Top 3 Expectation",
+          "value": "",
+          "required": true
+        }
+      },
+      "committeeRank": {
+        "type": "checkbox",
+        "label": "Committee Rankings",
+        "value": [],
+        "required": true
       }
     },
 
-    "organization": {
-      "preferences": {
-        "committeeRank": [],
-        "top1": {
-          "reason": "",
-          "expectation": ""
+    "committee": {
+      "logistics": {
+        "title": "Logistics",
+        "download": {
+          "title": "",
+          "type": "text",
+          "required": true,
+          "value": ""
         },
-        "top2": {
-          "reason": "",
-          "expectation": ""
+        "upload": {
+          "title": "",
+          "type": "text",
+          "required": true,
+          "value": ""
         },
-        "top3": {
-          "reason": "",
-          "expectation": ""
+        "gadgets": {
+          "title": "",
+          "type": "checkbox",
+          "error": "Must select atleast one option",
+          "required": true,
+          "value": []
         }
       },
-      "events": {
-        "acmfest": "",
-        "eap": "",
-        "algolympics": "",
-        "webdev": "",
-        "clouddev": "",
-        "operations": "",
-        "teachme": {
-          "choices": [],
-          "enthusiast": "",
-          "future": ""
+      "publicRelations": {
+        "title": "Public Relations",
+        "partnership": {
+          "id": "partnership",
+          "title": "Computing related questions",
+          "required": true,
+          "type": "checkbox",
+          "value": []
+        },
+        "posts": {
+          "id": "posts",
+          "type": "radio",
+          "required": true,
+          "value": ""
         }
       },
-      "committee": {
-        "membership": {
-          "buddy": "",
-          "acmeets": [],
-          "sportsfest": "",
-          "facetoface": {
-            "answer": "",
-            "comment": ""
+      "publicity": {
+        "title": "Publicity",
+        "picture": {
+          "type": "file",
+          "required": false,
+          "value": ""
+        },
+        "birthday": {
+          "type": "radio",
+          "required": true,
+          "value": ""
+        }
+      },
+      "marketing": {
+        "title": "Marketing",
+        "type": "checkbox",
+        "infoDisclose": {
+          "title": "Information disclosure consent",
+          "type": "radio",
+          "id": "infoDisclose",
+          "error": "This field is required.",
+          "required": true,
+          "value": ""
+        },
+        "resume": {
+          "title": "Resume/CV",
+          "type": "file",
+          "id": "resume",
+          "error": "This field is required.",
+          "required": false,
+          "value": ""
+        },
+        "companyf2f": {
+          "title": "Company face-to-face",
+          "type": "radio",
+          "id": "companyf2f",
+          "error": "This field is required.",
+          "required": true,
+          "value": ""
+        }
+      },
+      "records": {
+        "title": "Records",
+        "automaton": {
+          "title": "",
+          "type": "radio",
+          "error": "Must select one option.",
+          "required": true,
+          "value": ""
+        },
+        "form5": {
+          "title": "",
+          "type": "file",
+          "error": "Must upload a file.",
+          "required": false,
+          "value": ""
+        },
+        "upid": {
+          "title": "",
+          "type": "file",
+          "error": "Must upload a file.",
+          "required": false,
+          "value": ""
+        }
+      },
+      "membership": {
+        "title": "Membership",
+        "buddy": {
+          "title": "Buddy",
+          "type": "radio",
+          "error": "This field is required.",
+          "required": true,
+          "value": ""
+        },
+        "tambay": {
+          "title": "Tambay",
+          "type": "text",
+          "error": "This field is required.",
+          "required": true,
+          "value": ""
+        },
+        "acmeets": {
+          "title": "ACMeets",
+          "type": "text",
+          "error": "This field is required.",
+          "required": true,
+          "value": ""
+        },
+        "sportsfests": {
+          "title": "Sportsfests",
+          "type": "radio",
+          "error": "This field is required.",
+          "required": true,
+          "value": ""
+        },
+        "facetoface": {
+          "title": "Face to face",
+          "answer": {
+            "type": "radio",
+            "error": "This field is required",
+            "required": true,
+            "value": ""
           },
-          "gpu": "",
-          "skill": "",
-          "tambay": "",
-          "games": []
+          "comments": {
+            "type": "text",
+            "error": "This field is required",
+            "required": true,
+            "value": ""
+          }
         },
-        "records": {
-          "automaton": "",
-          "form5": "",
-          "upid": ""
+        "gpu": {
+          "title": "GPU",
+          "type": "radio",
+          "error": "This field is required",
+          "required": true,
+          "value": ""
         },
-        "logistics": {
-          "download": "",
-          "upload": "",
-          "gadgets": [],
-          "computer": ""
+        "skill": {
+          "title": "",
+          "type": "text",
+          "required": true,
+          "value": ""
         },
-        "education": {
-          "academicLoad": "",
-          "pendingClasses": [],
-          "expectedClasses": []
+        "games": {
+          "title": "",
+          "type": "text",
+          "required": true,
+          "value": ""
+        }
+      },
+      "education": {
+        "title": "Education",
+        "academicLoad": {
+          "type": "text",
+          "required": true,
+          "value": ""
         },
-        "publicity": {
-          "picture": "",
-          "birthday": ""
+        "pendingClasses": {
+          "type": "text",
+          "required": true,
+          "value": ""
         },
-        "marketing": {
-          "infoDisclose": "",
-          "resume": "",
-          "companyf2f": ""
-        },
-        "publicRelations": {
-          "partnership": [],
-          "posts": ""
+        "expectedClasses": {
+          "type": "text",
+          "required": true,
+          "value": ""
         }
       }
     }
+  },
+
+  "personalInfo": {
+    "mbti": {
+      "type": "text",
+      "label": "MBTI",
+      "value": "",
+      "required": false
+    },
+    "year": {
+      "type": "text",
+      "label": "Year",
+      "value": "",
+      "required": true
+    },
+    "phone": {
+      "type": "tel",
+      "error": "Format: 09XX XXX XXXX",
+      "label": "Phone number",
+      "value": "",
+      "pattern": "^[0-9]{4}\\s[0-9]{3}\\s[0-9]{4}$",
+      "required": true
+    },
+    "gender": {
+      "type": "text",
+      "label": "Gender",
+      "value": "",
+      "required": true
+    },
+    "suffix": {
+      "type": "text",
+      "label": "Suffix",
+      "value": "",
+      "required": false
+    },
+    "college": {
+      "type": "text",
+      "label": "College",
+      "value": "",
+      "required": true
+    },
+    "discord": {
+      "type": "text",
+      "label": "Discord",
+      "value": "",
+      "required": false
+    },
+    "upEmail": {
+      "type": "email",
+      "error": "Must be a valid UP email.",
+      "label": "UP email",
+      "value": "",
+      "pattern": "^[A-Z0-9._%+-]+@up\\.edu\\.ph$",
+      "required": true
+    },
+    "birthday": {
+      "type": "date",
+      "label": "Birthday",
+      "value": "",
+      "required": true
+    },
+    "facebook": {
+      "type": "text",
+      "label": "Facebook",
+      "value": "",
+      "required": false
+    },
+    "lastName": {
+      "type": "text",
+      "label": "Last name",
+      "value": "",
+      "required": true
+    },
+    "firstName": {
+      "code": "first_name",
+      "type": "text",
+      "label": "First name",
+      "value": "",
+      "required": true
+    },
+    "telephone": {
+      "type": "tel",
+      "label": "Telephone",
+      "value": "",
+      "required": false
+    },
+    "highschool": {
+      "type": "text",
+      "label": "Highschool",
+      "value": "",
+      "required": false
+    },
+    "middleName": {
+      "type": "text",
+      "label": "Middle name",
+      "value": "",
+      "required": false
+    },
+    "primaryEmail": {
+      "type": "email",
+      "error": "Must be a valid email.",
+      "label": "Primary email",
+      "value": "",
+      "pattern": "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.+com$",
+      "required": true
+    },
+    "degreeProgram": {
+      "type": "text",
+      "label": "Degree program",
+      "value": "",
+      "required": true
+    },
+    "emergencyName": {
+      "type": "text",
+      "label": "Emergency contact name",
+      "value": "",
+      "required": true
+    },
+    "studentNumber": {
+      "type": "text",
+      "error": "Format: 20XX-XXXXX",
+      "label": "Student number",
+      "value": "",
+      "pattern": "^[0-9]{4,}-[0-9]{5,}$",
+      "required": true
+    },
+    "currentAddress": {
+      "type": "text",
+      "label": "Current address",
+      "value": "",
+      "required": true
+    },
+    "emergencyPhone": {
+      "type": "tel",
+      "error": "Format: 09XX XXX XXXX",
+      "label": "Emergency contact phone",
+      "value": "",
+      "pattern": "^[0-9]{4}\\s[0-9]{3}\\s[0-9]{4}$",
+      "required": true
+    },
+    "expectedGradYear": {
+      "type": "text",
+      "label": "Expected graduation year",
+      "value": "",
+      "required": true
+    },
+    "emergencyRelation": {
+      "type": "text",
+      "label": "Emergency contact relation",
+      "value": "",
+      "required": true
+    }
+  },
+  "payment": {
+    "qr": {
+      "type": "text",
+      "label": "QR Code",
+      "value": "",
+      "required": false
+    }
   }
+}

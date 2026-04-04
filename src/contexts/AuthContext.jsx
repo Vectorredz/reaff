@@ -4,6 +4,8 @@ import { supabase } from "../supabaseClient.jsx";
 
 const AuthContext = createContext();
 
+
+
 export const AuthContextProvider = ({ children }) => {
   const [initialized, setInitialized] = useState(false);
   const [session, setSession] = useState(undefined);
@@ -28,6 +30,28 @@ export const AuthContextProvider = ({ children }) => {
     });
     return await res.json();
   };
+
+  const getUser = async () => {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    // console.log(<ses></ses>sion)
+    // console.log(Session.access_token)
+
+    const res = await fetch("http://localhost:3000/user/getId", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session.access_token}`
+      }
+    });
+    
+    return res.json()
+
+
+  };
+
+  // const getUser = async ()
 
   const signInUser = async (email, password) => {
     try {
@@ -94,6 +118,7 @@ export const AuthContextProvider = ({ children }) => {
         initialized,
         signUpNewUser,
         signInUser,
+        getUser,
         signOutUser,
         removeUser,
         signInUserWithGoogle,

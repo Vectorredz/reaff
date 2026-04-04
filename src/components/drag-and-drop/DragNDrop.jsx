@@ -35,18 +35,18 @@ export default function DragNDrop({
   }, [available])
 
   useEffect(() => {
-    form.updateField({
+    form?.updateField({
       path: `organization.preferences.committeeRank`,
       value: selected,
       type: "array",
     });
-    form.dispatch({
+    form?.dispatch({
       type: "CHANGE",
       path: `organization.preferences.committeeRank`,
-      result: validationUtils.handleState(
-        "committeeRank",
+      result: validationUtils?.handleState(
+        form,
         selected,
-        `organization`,
+        `organization.preferences.committeeRank`
       ),
     });
   }, [selected]);

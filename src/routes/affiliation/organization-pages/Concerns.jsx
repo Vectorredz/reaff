@@ -85,7 +85,7 @@ export default function Concerns() {
                     {item.answer.options.map((option, index) => {
                       const selected =
                         localStorage?.organization?.committee?.[committee]
-                          ?.facetoface?.answer === option.id;
+                          ?.facetoface?.answer?.value === option.id;
 
                       return (
                         <label
@@ -126,7 +126,7 @@ export default function Concerns() {
                       placeholder={item.comments.placeholder}
                       value={
                         localStorage?.organization?.committee?.[committee]
-                          ?.facetoface?.comment || ""
+                          ?.facetoface?.comment?.value || ""
                       }
                       onChange={(e) => handleChange(e, committee)}
                     />
@@ -151,7 +151,7 @@ export default function Concerns() {
                     value={
                       localStorage?.organization?.committee?.[committee]?.[
                         item.id
-                      ] || ""
+                      ]?.value || ""
                     }
                     onChange={(e) => handleChange(e, committee)}
                   />
@@ -186,7 +186,7 @@ export default function Concerns() {
                       const selected =
                         localStorage?.organization?.committee?.[committee]?.[
                           option.name
-                        ] === option.id;
+                        ]?.value === option.id;
 
                       return (
                         <label
@@ -221,7 +221,7 @@ export default function Concerns() {
                     {item.options.map((option, index) => {
                       const selected = localStorage?.organization?.committee?.[
                         committee
-                      ]?.[item.id]?.includes(option.id);
+                      ]?.[item.id]?.value?.includes(option.id);
 
                       return (
                         <label

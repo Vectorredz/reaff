@@ -10,9 +10,9 @@ import { UserContext } from "../../contexts/FormContext.jsx";
 const sa = contents.assessment;
 
 export default function Assessment() {
-  const { formSchemas, validationUtils } = UtilsDB();
+  const { validationUtils } = UtilsDB();
   const { page, setPage } = useOutletContext();
-  const { form, localStorage, setLocalStorage, clearLocalStorage } = UserContext();
+  const { form, localStorage, clearLocalStorage } = UserContext();
   
   const Navigate = useNavigate();
   const state = form?.validationState.assessment;
@@ -32,13 +32,13 @@ export default function Assessment() {
   }, [form?.values]);
 
   const allError = (item) =>
-    Object.keys(formSchemas.assessment?.[item])
+    Object.keys(form?.values?.assessment?.[item])
       .filter((key) => key !== "meta")
       .map((key) => form?.validationState.assessment?.[item]?.[key]?.status)
       .every((status) => status === "ERROR");
 
   const allValid = (item) =>
-    Object.keys(formSchemas.assessment?.[item])
+    Object.keys(form?.values?.assessment?.[item])
       .filter((key) => key !== "meta")
       .map((key) => form?.validationState.assessment?.[item]?.[key]?.status)
       .every((status) => status === "VALID");
@@ -154,7 +154,7 @@ export default function Assessment() {
                     name={`${section}-${item.id}`}
                     value={s}
                     checked={
-                      localStorage?.assessment?.[section]?.[item.id] === s
+                      localStorage?.assessment?.[section]?.[item.id]?.value === s
                     }
                     onChange={() => handleRating(section, item.id, s)}
                     className="accent-blue-600"
@@ -193,7 +193,7 @@ export default function Assessment() {
                       state?.committee,
                     )}
                     value={
-                      localStorage?.assessment?.committee?.[field.id] || ""
+                      localStorage?.assessment?.committee?.[field.id]?.value || ""
                     }
                     onChange={(e) => handleChange(e, `committee.${field.id}`)}
                     placeholder="Your answer..."
@@ -207,7 +207,7 @@ export default function Assessment() {
                       state?.committee,
                     )}
                     value={
-                      localStorage?.assessment?.committee?.[field.id] || ""
+                      localStorage?.assessment?.committee?.[field.id]?.value || ""
                     }
                     onChange={(e) => handleChange(e, `committee.${field.id}`)}
                   >
@@ -226,7 +226,7 @@ export default function Assessment() {
                       state?.committee,
                     )}
                     value={
-                      localStorage?.assessment?.committee?.[field.id] || ""
+                      localStorage?.assessment?.committee?.[field.id]?.value || ""
                     }
                     onChange={(e) => handleChange(e, `committee.${field.id}`)}
                     placeholder="Your answer..."
@@ -274,7 +274,7 @@ export default function Assessment() {
           </p>
           <textarea
             className={validationUtils.onBorderError("elaboration", state)}
-            value={localStorage?.assessment?.elaboration || ""}
+            value={localStorage?.assessment?.elaboration?.value || ""}
             onChange={(e) => handleChange(e, "elaboration")}
             placeholder="Feel free to elaborate..."
           />
@@ -300,7 +300,7 @@ export default function Assessment() {
               <label
                 key={opt.id}
                 className={
-                  localStorage?.assessment?.projects?.includes(opt.id)
+                  localStorage?.assessment?.projects?.value?.includes(opt.id)
                     ? "radio-label-selected"
                     : "radio-label"
                 }
@@ -309,7 +309,7 @@ export default function Assessment() {
                   type="checkbox"
                   className="accent-blue-600"
                   checked={
-                    localStorage?.assessment?.projects?.includes(opt.id) ||
+                    localStorage?.assessment?.projects?.value?.includes(opt.id) ||
                     false
                   }
                   onChange={() => handleCheckbox(opt.id)}
@@ -356,7 +356,7 @@ export default function Assessment() {
                 )}
                 <textarea
                   className={validationUtils.onBorderError(field.id, state)}
-                  value={localStorage?.assessment?.[field.id] || ""}
+                  value={localStorage?.assessment?.[field.id]?.value || ""}
                   onChange={(e) => handleChange(e, field.id)}
                   placeholder="Your answer..."
                 />

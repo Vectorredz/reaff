@@ -11,7 +11,7 @@ import { UserContext } from "../../contexts/FormContext.jsx";
 export default function PersonalDetailsx() {
   const { validationUtils } = UtilsDB();
   const { form, localStorage, clearLocalStorage } = UserContext();
-  const { setPage, page, setOpen } = useOutletContext(); // Keep only page state
+  const { setPage, page } = useOutletContext(); // Keep only page state
   const state = form.validationState?.personalInfo;
   
   const handleChange = (e) => {
@@ -26,8 +26,7 @@ export default function PersonalDetailsx() {
       type: "CHANGE",
       path: `personalInfo.${name}`,
       result: validationUtils.handleState(
-        state,
-        name,
+        form,
         newValue,
         `personalInfo.${name}`,
       ),
@@ -53,7 +52,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="firstName"
                 className={validationUtils.onBorderError("firstName", state)}
-                value={localStorage?.personalInfo?.firstName || ""}
+                value={localStorage?.personalInfo?.firstName?.value || ""}
                 onChange={handleChange}
                 placeholder="Jammond"
                 required
@@ -70,7 +69,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="middleName"
                 className={validationUtils.onBorderError("middleName", state)}
-                value={localStorage?.personalInfo?.middleName || ""}
+                value={localStorage?.personalInfo?.middleName?.value || ""}
                 onChange={handleChange}
                 placeholder="Diamondback"
                 required
@@ -87,7 +86,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="lastName"
                 className={validationUtils.onBorderError("lastName", state)}
-                value={localStorage?.personalInfo?.lastName || ""}
+                value={localStorage?.personalInfo?.lastName?.value || ""}
                 onChange={handleChange}
                 placeholder="Terrapin"
                 required
@@ -104,7 +103,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="suffix"
                 className="suffix-field"
-                value={localStorage?.personalInfo?.suffix || ""}
+                value={localStorage?.personalInfo?.suffix?.value || ""}
                 onChange={handleChange}
                 placeholder="Jr."
               />
@@ -116,7 +115,7 @@ export default function PersonalDetailsx() {
               type="text"
               name="currentAddress"
               className={validationUtils.onBorderError("currentAddress", state)}
-              value={localStorage?.personalInfo?.currentAddress || ""}
+              value={localStorage?.personalInfo?.currentAddress?.value || ""}
               onChange={handleChange}
               placeholder="1234 Elm St., Barangay, City, Province, ZIP"
               required
@@ -134,7 +133,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="gender"
                 className={validationUtils.onBorderError("gender", state)}
-                value={localStorage?.personalInfo?.gender || ""}
+                value={localStorage?.personalInfo?.gender?.value || ""}
                 onChange={handleChange}
                 placeholder="Male/Female/Other"
                 required
@@ -151,7 +150,7 @@ export default function PersonalDetailsx() {
                 type="date"
                 name="birthday"
                 className={validationUtils.onBorderError("birthday", state)}
-                value={localStorage?.personalInfo?.birthday || ""}
+                value={localStorage?.personalInfo?.birthday?.value || ""}
                 onChange={handleChange}
                 required
               />
@@ -176,7 +175,7 @@ export default function PersonalDetailsx() {
                   "studentNumber",
                   state,
                 )}
-                value={localStorage?.personalInfo?.studentNumber || ""}
+                value={localStorage?.personalInfo?.studentNumber?.value || ""}
                 onChange={handleChange}
                 placeholder="20XX-XXXXX"
                 required
@@ -192,7 +191,7 @@ export default function PersonalDetailsx() {
               <input
                 name="highschool"
                 className={validationUtils.onBorderError("highschool", state)}
-                value={localStorage?.personalInfo?.highschool || ""}
+                value={localStorage?.personalInfo?.highschool?.value || ""}
                 onChange={handleChange}
                 placeholder="University of Santo Tomas Highschool"
               />
@@ -210,7 +209,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="year"
                 className={validationUtils.onBorderError("year", state)}
-                value={localStorage?.personalInfo?.year || ""}
+                value={localStorage?.personalInfo?.year?.value || ""}
                 onChange={handleChange}
                 placeholder="First Year"
                 required
@@ -230,7 +229,7 @@ export default function PersonalDetailsx() {
                   "expectedGradYear",
                   state,
                 )}
-                value={localStorage?.personalInfo?.expectedGradYear || ""}
+                value={localStorage?.personalInfo?.expectedGradYear?.value || ""}
                 onChange={handleChange}
                 placeholder="20XX"
                 required
@@ -247,7 +246,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="college"
                 className={validationUtils.onBorderError("college", state)}
-                value={localStorage?.personalInfo?.college || ""}
+                value={localStorage?.personalInfo?.college?.value || ""}
                 onChange={handleChange}
                 placeholder="College of Engineering"
                 required
@@ -267,7 +266,7 @@ export default function PersonalDetailsx() {
                   "degreeProgram",
                   state,
                 )}
-                value={localStorage?.personalInfo?.degreeProgram || ""}
+                value={localStorage?.personalInfo?.degreeProgram?.value || ""}
                 onChange={handleChange}
                 placeholder="BS/BA"
                 required
@@ -290,7 +289,7 @@ export default function PersonalDetailsx() {
                 type="email"
                 name="primaryEmail"
                 className={validationUtils.onBorderError("primaryEmail", state)}
-                value={localStorage?.personalInfo?.primaryEmail || ""}
+                value={localStorage?.personalInfo?.primaryEmail?.value || ""}
                 onChange={handleChange}
                 placeholder="jammond@gmail.com"
                 required
@@ -307,7 +306,7 @@ export default function PersonalDetailsx() {
                 type="email"
                 name="upEmail"
                 className={validationUtils.onBorderError("upEmail", state)}
-                value={localStorage?.personalInfo?.upEmail || ""}
+                value={localStorage?.personalInfo?.upEmail?.value || ""}
                 onChange={handleChange}
                 placeholder="jammond@up.edu.ph"
                 required
@@ -326,7 +325,7 @@ export default function PersonalDetailsx() {
                 type="tel"
                 name="phone"
                 className={validationUtils.onBorderError("phone", state)}
-                value={localStorage?.personalInfo?.phone || ""}
+                value={localStorage?.personalInfo?.phone?.value || ""}
                 onChange={handleChange}
                 placeholder="09XX XXX XXXX"
                 required
@@ -343,7 +342,7 @@ export default function PersonalDetailsx() {
                 type="tel"
                 name="telephone"
                 className="text-field"
-                value={localStorage?.personalInfo?.telephone || ""}
+                value={localStorage?.personalInfo?.telephone?.value || ""}
                 onChange={handleChange}
                 placeholder="09XX XXX XXXX"
               />
@@ -363,7 +362,7 @@ export default function PersonalDetailsx() {
                   "emergencyName",
                   state,
                 )}
-                value={localStorage?.personalInfo?.emergencyName || ""}
+                value={localStorage?.personalInfo?.emergencyName?.value || ""}
                 onChange={handleChange}
                 placeholder="Jammond's Mom"
                 required
@@ -383,7 +382,7 @@ export default function PersonalDetailsx() {
                   "emergencyRelation",
                   state,
                 )}
-                value={localStorage?.personalInfo?.emergencyRelation || ""}
+                value={localStorage?.personalInfo?.emergencyRelation?.value || ""}
                 onChange={handleChange}
                 placeholder="Mother"
                 required
@@ -403,7 +402,7 @@ export default function PersonalDetailsx() {
                   "emergencyPhone",
                   state,
                 )}
-                value={localStorage?.personalInfo?.emergencyPhone || ""}
+                value={localStorage?.personalInfo?.emergencyPhone?.value || ""}
                 onChange={handleChange}
                 placeholder="09XX XXX XXXX"
                 required
@@ -426,7 +425,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="mbti"
                 className="text-field"
-                value={localStorage?.personalInfo?.mbti || ""}
+                value={localStorage?.personalInfo?.mbti?.value || ""}
                 onChange={handleChange}
                 placeholder="INTJ"
               />
@@ -437,7 +436,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="discord"
                 className="text-field"
-                value={localStorage?.personalInfo?.discord || ""}
+                value={localStorage?.personalInfo?.discord?.value || ""}
                 onChange={handleChange}
                 placeholder="#jammond"
               />
@@ -448,7 +447,7 @@ export default function PersonalDetailsx() {
                 type="text"
                 name="facebook"
                 className="text-field"
-                value={localStorage?.personalInfo?.facebook || ""}
+                value={localStorage?.personalInfo?.facebook?.value || ""}
                 onChange={handleChange}
                 placeholder="https://www.facebook.com/jammond/"
               />
