@@ -86,12 +86,12 @@ function Signup() {
       console.log(error);
       if (error?.code === "23505") {
         toast.error("An account with same student number already exists.");
-        const res = await removeUser(user);
-        console.log(res);
       } else {
         toast.error(error.message);
         console.error(error.message);
       }
+      const res = await removeUser(user);
+      console.log('Removing account', res);
     }
   };
 

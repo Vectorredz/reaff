@@ -45,7 +45,10 @@ export default function Preferences() {
     form?.dispatch({
       type: "CHANGE",
       path: `organization.preferences.${id}.${name}`,
-      result: validationUtils.handleState(name, value, "organization"),
+      result: validationUtils.handleState(
+        name, 
+        value, 
+        `organization.preferences.${id}.${name}`),
     });
   };
 
@@ -97,7 +100,7 @@ export default function Preferences() {
                 placeholder="Experience, skills, motivation, or what you can contribute"
                 value={
                   localStorage?.organization?.preferences[`top${top}`]
-                    ?.reason || ""
+                    ?.reason?.value || ""
                 }
                 onChange={handleChange}
                 required
@@ -123,7 +126,7 @@ export default function Preferences() {
                 placeholder="Experience, skills, motivation, or what you can contribute"
                 value={
                   localStorage?.organization?.preferences[`top${top}`]
-                    ?.expectation || ""
+                    ?.expectation?.value || ""
                 }
                 onChange={handleChange}
                 required

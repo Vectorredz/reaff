@@ -1,5 +1,4 @@
-import { useOutlet, useOutletContext } from "react-router";
-import { useNavigate } from "react-router";
+import { useOutletContext } from "react-router";
 import { useEffect } from "react";
 import { UtilsDB } from "../../contexts/UtilitiesContext"
 import Header from "../../components/Header";
@@ -49,9 +48,9 @@ export default function Payment() {
           <div></div>
         </section>
         <Footer
-          validateForm={validationUtils.validateForm}
+          validateForm={validationUtils?.validateForm}
           clearLocalStorage={clearLocalStorage}
-          details={[form, "payment"]}
+          details={[form, "payment.qr"]}
           nextPage="create-account"
           prevPage="organization-related/concerns"
         ></Footer>

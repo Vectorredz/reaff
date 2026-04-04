@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import Field from "../../../components/Field.jsx";
 import { UserDB } from "../../../contexts/DatabaseContext.jsx";
 import useMemberForm from "../../../hooks/useMemberForm.jsx";
 
-export default function ContactInfo({ form, user }) {
+export default function ContactInfo({ form, uid }) {
 
   let contacts = {
     phone: "Mobile Phone",
@@ -11,7 +12,8 @@ export default function ContactInfo({ form, user }) {
     up_email: "UP Email Address",
   };
 
-  const [memberForm, updateMemberForm] = useMemberForm(form, user);
+  const [memberForm, updateMemberForm] = useMemberForm(form, uid);
+
 
   return (
     <div className="form">

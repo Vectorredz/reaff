@@ -1,6 +1,3 @@
-import { formSchemas } from "../data/formSchemas";
-
-// Export State constant
 export const State = Object.freeze({
   EMPTY: "EMPTY",
   VALID: "VALID",
@@ -13,18 +10,18 @@ export const onBorderError = (key, state) =>
   state?.[key]?.status === State.ERROR ? "text-field-error" : "text-field";
 
 // Export handleState function
-export const handleState = (state, key, value, path, ref = null) => {
-  const item = path?.split(".").reduce((acc, key) => acc?.[key], formSchemas);
+export const handleState = (form, value, path, ref = null) => {
+  const item = path?.split(".").reduce((acc, key) => acc?.[key], form?.values);
   if (ref === "") {
     return { status: State.EMPTY, error: "Must be nonempty value." };
   } else if (ref) {
     return { status: State.VALID, error: "" };
   }
-
+  const regExp = new RegExp(item?.pattern, "i");
   if (!value || value.length <= 0) {
     return { status: State.EMPTY, error: "This field is required." };
   }
-  if (item?.pattern && !item.pattern.test(value)) {
+  if (!regExp.test(value)) {
     return { status: State.ERROR, error: item.error };
   }
   return { status: State.VALID, error: "" };
@@ -32,36 +29,40 @@ export const handleState = (state, key, value, path, ref = null) => {
 
 // Export validateForm function
 export const validateForm = (form, subpath) => {
+  console.log(form, subpath);
   let complete = true;
-  const state = subpath
-    .split(".")
-    .reduce((acc, key) => acc?.[key], formSchemas);
-  const values = subpath
-    .split(".")
-    .reduce((acc, key) => acc?.[key], form.values);
 
-  const validateField = (key, value, fieldSchema, path) => {
+  const formSchemas = subpath
+    .split(".")
+    .reduce((acc, key) => acc?.[key], form?.values);
+
+  const validateField = (value, fieldSchema, path) => {
     if (!fieldSchema.required) return;
-    const result = handleState(form, key, value, path);
+
+    const result = handleState(form, value, path);
+
     if (result.status !== State.VALID) {
       complete = false;
     }
     if (result.status === State.EMPTY) result.status = State.ERROR;
-    form.dispatch({ type: "SUBMIT", path, result });
+    form.dispatch({ type: "SUBMIT", path: path, result: result });
   };
 
-  Object.entries(state).forEach(([key, item]) => {
+
+
+  Object.entries(formSchemas).forEach(([key, item]) => {
+    console.log(key, item)
     if (key === "title") return;
-    if ("required" in item) {
-      validateField(key, values?.[key], item, `${subpath}.${key}`);
+
+    if (typeof(item) === "object" && "required" in item) {
+      validateField(formSchemas?.[key]?.value, item, `${subpath}.${key}`);
     } else {
-      console.log("test", item);
+
       Object.entries(item).forEach(([childKey, childItem]) => {
         if (key === "title" || typeof childItem !== "object") return;
         if ("required" in childItem) {
           validateField(
-            childKey,
-            values?.[key]?.[childKey],
+            formSchemas?.[key]?.[childKey]?.value,
             childItem,
             `${subpath}.${key}.${childKey}`,
           );
@@ -69,6 +70,9 @@ export const validateForm = (form, subpath) => {
       });
     }
   });
+
+
+
   console.log(complete);
 
   return complete;

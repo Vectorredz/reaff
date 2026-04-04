@@ -19,34 +19,34 @@ export const DatabaseContextProvider = ({ children }) => {
     const { data, error } = await supabase.from("members").insert({
       id: user.id, // MUST match auth.users.id
 
-      first_name: personal.firstName,
-      middle_name: personal.middleName,
-      last_name: personal.lastName,
-      suffix: personal.suffix,
+      first_name: personal.firstName.value,
+      middle_name: personal.middleName.value,
+      last_name: personal.lastName.value,
+      suffix: personal.suffix.value,
 
-      current_address: personal.currentAddress,
-      birthday: personal.birthday,
-      gender: personal.gender,
+      current_address: personal.currentAddress.value,
+      birthday: personal.birthday.value,
+      gender: personal.gender.value,
 
-      student_number: personal.studentNumber,
-      college: personal.college,
-      degree_program: personal.degreeProgram,
-      year: personal.year,
-      expected_grad_year: personal.expectedGradYear,
-      highschool: personal.highschool,
+      student_number: personal.studentNumber.value,
+      college: personal.college.value,
+      degree_program: personal.degreeProgram.value,
+      year: personal.year.value,
+      expected_grad_year: personal.expectedGradYear.value,
+      highschool: personal.highschool.value,
 
-      primary_email: personal.primaryEmail,
-      up_email: personal.upEmail,
+      primary_email: personal.primaryEmail.value,
+      up_email: personal.upEmail.value,
       auth_email: authEmail,
-      phone: personal.phone,
-      telephone: personal.telephone,
-      emergency_name: personal.emergencyName,
-      emergency_relation: personal.emergencyRelation,
-      emergency_phone: personal.emergencyPhone,
+      phone: personal.phone.value,
+      telephone: personal.telephone.value,
+      emergency_name: personal.emergencyName.value,
+      emergency_relation: personal.emergencyRelation.value,
+      emergency_phone: personal.emergencyPhone.value,
 
-      mbti: personal.mbti,
-      discord: personal.discord,
-      facebook: personal.facebook,
+      mbti: personal.mbti.value,
+      discord: personal.discord.value,
+      facebook: personal.facebook.value,
     });
     return { success: data, error };
   };
@@ -59,6 +59,7 @@ export const DatabaseContextProvider = ({ children }) => {
     });
     return { success: data, error };
   };
+
 
   const updateAnswersData = async (uid, updated_path, new_val) => {
     console.log(uid, updated_path, new_val);
@@ -76,14 +77,14 @@ export const DatabaseContextProvider = ({ children }) => {
       .from("members")
       .update({ [key]: new_val })
       .eq("id", uid);
-    return { error }
+    return { error };
   };
 
-  const fetchMemberProfile = async () =>
-    await supabase.from("members").select("*");
+  const fetchMemberProfile = async (uid) =>
+    await supabase.from("members").select("*").eq("id", uid).single();
 
-  const fetchMemberAnswers = async () =>
-    await supabase.from("submissions").select("*");
+  const fetchMemberAnswers = async (uid) =>
+    await supabase.from("submissions").select("*").eq("user_id", uid).single();
 
   const uploadFileData = async (user, type, file) => {
     const { data, error } = await supabase.storage

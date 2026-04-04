@@ -1,5 +1,4 @@
 import { createContext, useContext } from "react";
-import { formSchemas } from "../data/formSchemas";
 import {
   State,
   onBorderError,
@@ -19,7 +18,7 @@ export const UtilitiesContextProvider = ({ children }) => {
 
   return (
     <UtilitiesContext.Provider value={{ 
-      formSchemas, validationUtils }}>
+      validationUtils }}>
       {children}
     </UtilitiesContext.Provider>
   );

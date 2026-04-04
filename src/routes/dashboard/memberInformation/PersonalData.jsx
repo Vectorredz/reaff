@@ -1,7 +1,7 @@
 import { use } from "react";
 import Field from "../../../components/Field.jsx";
 import useMemberForm from "../../../hooks/useMemberForm.jsx";
-export default function PersonalData({ user, form }) {
+export default function PersonalData({ uid, form }) {
   let personal = {
     birthday: "Birthday",
     gender: "Gender",
@@ -14,7 +14,7 @@ export default function PersonalData({ user, form }) {
     current_address: "Current Address",
   };
 
-  const [memberForm, updateMemberForm] = useMemberForm(form, user);
+  const [memberForm, updateMemberForm] = useMemberForm(form, uid);
 
   return (
     <div className="form space-y-6">
